@@ -9,6 +9,6 @@ mvn clean package
 ``` 
 5.After packaging run:
 ```
-6.java -jar target/converter-0.0.1-SNAPSHOT.jar^C
+java -jar target/converter-0.0.1-SNAPSHOT.jar^C
 ```
 7. Register a new user and sign in to convert currencies.
