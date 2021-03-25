@@ -6,6 +6,7 @@ import com.example.converter.entity.cbr.ValCurs;
 import com.example.converter.repository.CbrRepo;
 import com.example.converter.repository.DtoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,8 @@ public class DtoService {
     private CbrRepo cbrRepo;
     private DtoRepo dtoRepo;
     private RestTemplate template=new RestTemplate();
+    @Value(("${cbr.url}"))
+    private String URL;
 
     @Autowired
     public DtoService(CbrRepo cbrRepo, DtoRepo dtoRepo) {
@@ -73,7 +76,7 @@ public class DtoService {
         if (cbrRepo.findAll().isEmpty()){
 
             ValCurs valCurs = template.getForObject(
-                    "http://www.cbr.ru/scripts/XML_daily.asp", ValCurs.class);
+                     URL, ValCurs.class);
             List<Currency> currencies = valCurs.getCurrencies();
             currencies.forEach(c -> {
                 c.setDate((valCurs.getDate()));
@@ -94,7 +97,7 @@ public class DtoService {
 
     private void insertNewCurrenciesWithNewDate(){
         ValCurs valCurs = template.getForObject(
-                "http://www.cbr.ru/scripts/XML_daily.asp", ValCurs.class);
+                URL, ValCurs.class);
         List<Currency> currencies = valCurs.getCurrencies();
         if (!valCurs.getDate().isEqual(cbrRepo.findFirstByOrderByDateDesc().getDate())){
 
