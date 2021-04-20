@@ -1,0 +1,46 @@
+version: '3.1'
+services:
+  liquibase:
+
+    depends_on:
+      - mypg
+    container_name: liquibase
+#    build:
+#      ./liquibase
+#You can uncomment and remove liquibase dockerfile
+    environment:
+      LIQUIBASE_USERNAME: postgres
+      LIQUIBASE_PASSWORD: postgres
+      LIQUIBASE_DATABASE: postgres
+      LIQUIBASE_DRIVER: org.postgresql.Driver
+      LIQUIBASE_URL: "jdbc:postgresql://mypg:5432/postgres"
+      LIQUIBASE_CHANGELOGFILE: /liquibase/changelog/changelog.xml
+    image: liquibase/liquibase
+    volumes:
+      - /src/main/resources/db:/liquibase/changelog
+    command: update
+  converter:
+    container_name: converter
+
+    image: converter
+    build:
+      ./
+    ports:
+    - "8080:8080"
+    depends_on:
+      - liquibase
+  mypg:
+    image: postgres
+    container_name: mypg
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: postgres
+    #Saves data after container's removal
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+#volumes:
+#  data: { }
