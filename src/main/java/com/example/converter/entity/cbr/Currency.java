@@ -1,8 +1,7 @@
 package com.example.converter.entity.cbr;
 
 import com.example.converter.entity.cbr.xmlAdapter.BigDecimalXmlAdapter;
-import lombok.Data;
-import lombok.ToString;
+
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
@@ -10,8 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
-@ToString
+
 @XmlRootElement(name = "Valute")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
@@ -40,4 +38,81 @@ public class Currency {
     @XmlElement(name = "Value")
     private BigDecimal value;
 
+    public int getId_pk() {
+        return id_pk;
+    }
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "id_pk=" + id_pk +
+                ", date=" + date +
+                ", id='" + id + '\'' +
+                ", numCode=" + numCode +
+                ", charCode='" + charCode + '\'' +
+                ", nominal=" + nominal +
+                ", name='" + name + '\'' +
+                ", value=" + value +
+                '}';
+    }
+
+    public void setId_pk(int id_pk) {
+        this.id_pk = id_pk;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getNumCode() {
+        return numCode;
+    }
+
+    public void setNumCode(int numCode) {
+        this.numCode = numCode;
+    }
+
+    public String getCharCode() {
+        return charCode;
+    }
+
+    public void setCharCode(String charCode) {
+        this.charCode = charCode;
+    }
+
+    public Integer getNominal() {
+        return nominal;
+    }
+
+    public void setNominal(Integer nominal) {
+        this.nominal = nominal;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
 }
