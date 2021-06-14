@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService  {
+public class UserService implements UserDetailsService  {
 
     private UserRepo userRepository;
     private BCryptPasswordEncoder encoder;
@@ -31,12 +31,12 @@ public class UserService  {
         this.roleRepo = roleRepo;
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        User user=userRepository.findByUsername(s);
-//        return  new org.springframework.security.core.userdetails.User(user.getUsername(),
-//                user.getPassword(),mapRolesToAuth(user.getRoles()));
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user=userRepository.findByUsername(s);
+        return  new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(),mapRolesToAuth(user.getRoles()));
+    }
 
     public boolean checkUser(String username) {
         return  (userRepository.existsUserByUsername(username)) ;

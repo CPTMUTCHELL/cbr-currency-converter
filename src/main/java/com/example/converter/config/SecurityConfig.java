@@ -1,6 +1,6 @@
 package com.example.converter.config;
 
-import com.example.converter.service.Service;
+
 import com.example.converter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private Service userService;
+    private UserService userService;
 
 
 
