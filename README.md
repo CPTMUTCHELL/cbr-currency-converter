@@ -13,9 +13,12 @@ java -jar target/converter-0.0.1-SNAPSHOT.jar
 ```
 6. Register a new user and sign in to convert currencies.
 
+
 Docker:
 1. Go to downloaded project folder, open cmd, run:
 ```
 docker-compose up --build
 ``` 
-Data will be saved in root directory (./postgres-data). wait-for-it.sh taken from https://github.com/vishnubob/wait-for-it
+Data will be saved in root directory (./postgres-data). 
+
+wait-for-it.sh is taken from https://github.com/vishnubob/wait-for-it
