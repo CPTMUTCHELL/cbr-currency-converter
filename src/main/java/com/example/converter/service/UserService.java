@@ -5,6 +5,7 @@ import com.example.converter.entity.user.User;
 import com.example.converter.repository.RoleRepo;
 import com.example.converter.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +22,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService  {
 
-    private UserRepo userRepository;
-    private BCryptPasswordEncoder encoder;
-    private RoleRepo roleRepo;
+    private final UserRepo userRepository;
+    private final BCryptPasswordEncoder encoder;
+    private final RoleRepo roleRepo;
+    // Lazy init to avoid cycling. Docker container doesn't have cglib to cope with cycling.
+    //Not empty constructor might have complex logic, so Spring has to initialize the beans
+    @Lazy
     @Autowired
     public UserService(UserRepo userRepository, BCryptPasswordEncoder encoder, RoleRepo roleRepo) {
         this.userRepository = userRepository;

@@ -3,9 +3,11 @@ services:
   flyway:
     container_name: flyway
     build:
-      ./flyway
-    volumes:
-      - ./src/main/resources/db:/flyway/sql
+      context: .
+      dockerfile: ./flyway/Dockerfile
+    #Copy is used instead
+#    volumes:
+#      - ./src/main/resources/db:/flyway/sql
     depends_on:
       - db
 
@@ -17,6 +19,7 @@ services:
     - 8080:8080
     depends_on:
       - flyway
+    command: bash -c "./wait-for-it.sh db:5432 -t 0 && java -jar /usr/app/converter-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker"
   db:
     build:
       ./postgres
@@ -25,9 +28,3 @@ services:
     container_name: db
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    #Saves data after container's removal
-#    volumes:
-#      - ./postgres-data:/var/lib/postgresql/data
-
-#volumes:
-#  data: { }
