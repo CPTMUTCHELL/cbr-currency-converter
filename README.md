@@ -18,4 +18,4 @@ Docker:
 ```
 docker-compose up --build
 ``` 
-Data will be saved in root directory (./postgres-data)
+Data will be saved in root directory (./postgres-data). wait-for-it.sh taken from https://github.com/vishnubob/wait-for-it
