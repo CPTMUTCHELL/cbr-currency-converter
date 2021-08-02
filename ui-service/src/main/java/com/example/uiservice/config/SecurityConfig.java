@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/ui/registration","/ui/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/ui/login").loginProcessingUrl("http://localhost:8081/auth/login").defaultSuccessUrl("/ui/converter",true)
+                .formLogin().loginProcessingUrl("http://localhost:8081/auth/login").defaultSuccessUrl("/ui/converter",true)
                 .permitAll()
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

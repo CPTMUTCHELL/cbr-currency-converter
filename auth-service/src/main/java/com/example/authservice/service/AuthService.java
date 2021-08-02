@@ -1,9 +1,9 @@
-package com.example.converter.service;
+package com.example.authservice.service;
 
-import com.example.converter.entity.user.Role;
-import com.example.converter.entity.user.User;
-import com.example.converter.repository.RoleRepo;
-import com.example.converter.repository.UserRepo;
+import com.example.authservice.repository.RoleRepo;
+import com.example.authservice.repository.UserRepo;
+import com.example.entity.Role;
+import com.example.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,16 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserDetailsService  {
-
+public class AuthService implements UserDetailsService {
     private final UserRepo userRepository;
     private final BCryptPasswordEncoder encoder;
     private final RoleRepo roleRepo;
-    // Lazy init to avoid cycling. Docker container doesn't have cglib to cope with cycling.
-    //Not empty constructor might have complex logic, so Spring has to initialize the beans
     @Lazy
     @Autowired
-    public UserService(UserRepo userRepository, BCryptPasswordEncoder encoder, RoleRepo roleRepo) {
+    public AuthService(UserRepo userRepository, BCryptPasswordEncoder encoder, RoleRepo roleRepo) {
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.roleRepo = roleRepo;
@@ -37,9 +34,12 @@ public class UserService implements UserDetailsService  {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
         User user=userRepository.findByUsername(s);
-        return  new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),mapRolesToAuth(user.getRoles()));
+
+        org.springframework.security.core.userdetails.User user1 = new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(), mapRolesToAuth(user.getRoles()));
+        return user1;
     }
 
     public boolean checkUser(String username) {
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService  {
     }
     public User save(User user){
         List<Role> roles=new ArrayList<>();
-        roles.add(roleRepo.getOne(1));
+        roles.add(roleRepo.findById(1).get());
         user.setRoles(roles);
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -57,6 +57,4 @@ public class UserService implements UserDetailsService  {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
-
-
 }
