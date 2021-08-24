@@ -31,6 +31,9 @@ public class AuthService implements UserDetailsService {
         this.encoder = encoder;
         this.roleRepo = roleRepo;
     }
+    public User getUser(String username){
+        return userRepository.findByUsername(username );
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

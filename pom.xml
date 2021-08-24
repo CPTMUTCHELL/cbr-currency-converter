@@ -14,7 +14,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>auth-service</module>
-<!--        <module>ui-service</module>-->
+        <module>convert-service</module>
+        <module>history-service</module>
     </modules>
     <properties>
         <java.version>15</java.version>
@@ -26,8 +27,9 @@
 
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.18.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,7 +43,15 @@
             <optional>true</optional>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 
     </dependencies>
 
