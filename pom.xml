@@ -15,7 +15,7 @@
     <modules>
         <module>auth-service</module>
         <module>convert-service</module>
-        <module>history-service</module>
+        <module>entity</module>
     </modules>
     <properties>
         <java.version>15</java.version>
@@ -47,11 +47,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
+
 
     </dependencies>
 

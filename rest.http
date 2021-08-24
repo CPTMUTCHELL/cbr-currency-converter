@@ -1,0 +1,17 @@
+POST http://localhost:8081/auth/login
+
+{
+    "username":"why1",
+    "password":"why1"
+}
+
+###
+POST http://localhost:8082/converter/convert
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4MTkzODN9.MTZCKRI6mXhxSzgNONP9sEAq_Xcgu5L4XDTfIlQVRMs
+Content-Type: application/json
+
+{
+    "baseCurrency": "RUB",
+    "quantityToConvert": 300,
+    "targetCurrency": "USD"
+}

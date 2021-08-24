@@ -6,10 +6,17 @@ import com.example.entity.cbr.Currency;
 import com.example.entity.cbr.ValCurs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,20 +28,19 @@ public class ConvertService {
     private RestTemplate template=new RestTemplate();
     @Value(("${cbr.url}"))
     private String URL;
+    private final String historyURL="http://localhost:8083/history/save";
     @Autowired
     public ConvertService(CbrRepo cbrRepo) {
         this.cbrRepo = cbrRepo;
 
     }
 
-//    private void saveDto(PresentationDto dto) {
-//        dtoRepo.save(dto);
-//    }
+
     private LocalDate getLatestDateFromDb(){
         return cbrRepo.findFirstByOrderByDateDesc().getDate();
     }
 
-    public PresentationDto convert(PresentationDto dto) {
+    public ResponseEntity<PresentationDto> convert(PresentationDto dto,String token) {
 
         BigDecimal res;
         Currency target;
@@ -59,9 +65,16 @@ public class ConvertService {
                 +  findCurrencyByCharCodeAndDate(dto.getBaseCurrency(),getLatestDateFromDb()).getName()+")");
         dto.setTargetCurrency(dto.getTargetCurrency()+"("
                 + findCurrencyByCharCodeAndDate(dto.getTargetCurrency(), getLatestDateFromDb()).getName()+")");
-//        saveDto(dto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
+        HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
+        ResponseEntity<PresentationDto> result = template.exchange(historyURL, HttpMethod.POST, entityReq, PresentationDto.class);
+
+
+        //        saveDto(dto);
 //        return res;
-        return dto;
+        return result;
     }
 
     public List<Currency> getCurrencies() {

@@ -3,6 +3,7 @@ package com.example.convertservice.controller;
 import com.example.convertservice.service.ConvertService;
 import com.example.entity.PresentationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +25,11 @@ public class ConverterController {
 //        return "converterPage";
 //    }
     @PostMapping("/convert")
-    public ResponseEntity<PresentationDto> convert(@RequestBody PresentationDto presentationDto
-                                  ){
-        PresentationDto converted = convertService.convert(presentationDto);
+    public ResponseEntity<PresentationDto> convert(@RequestHeader("Authorization") String token,@RequestBody PresentationDto presentationDto
+                                                   ){
+        ResponseEntity< PresentationDto> converted = convertService.convert(presentationDto,token);
 
-        return new ResponseEntity<>(converted, HttpStatus.CREATED);
+        return converted;
 
     }
 

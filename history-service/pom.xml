@@ -7,9 +7,9 @@
         <artifactId>converter</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>convert-service</artifactId>
+    <artifactId>history-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>convert-service</name>
+    <name>history-service</name>
     <properties>
         <java.version>${java.version}</java.version>
     </properties>
@@ -29,16 +29,12 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <groupId>com.example</groupId>
+            <artifactId>entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-        <groupId>com.example</groupId>
-        <artifactId>entity</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </dependency>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>auth-service</artifactId>

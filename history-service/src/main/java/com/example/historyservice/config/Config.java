@@ -1,8 +1,7 @@
-package com.example.convertservice.config;
+package com.example.historyservice.config;
 
 
 import com.example.authservice.config.CustomAuthorizationFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +12,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-@RequiredArgsConstructor
 public class Config extends WebSecurityConfigurerAdapter {
 
 

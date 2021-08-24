@@ -15,7 +15,11 @@
         <java.version>${java.version}</java.version>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+        </dependency>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>entity</artifactId>
