@@ -41,7 +41,7 @@ public class ConvertService {
     }
 
     public ResponseEntity<PresentationDto> convert(PresentationDto dto,String token) {
-
+        if (cbrRepo.findAll().isEmpty())   insertIfEmpty();
         BigDecimal res;
         Currency target;
         Currency base;
@@ -80,15 +80,7 @@ public class ConvertService {
     public List<Currency> getCurrencies() {
         if (cbrRepo.findAll().isEmpty()){
 
-            ValCurs valCurs = template.getForObject(
-                    URL, ValCurs.class);
-            List<Currency> currencies = valCurs.getCurrencies();
-            currencies.forEach(c -> {
-                c.setDate((valCurs.getDate()));
-                save(c);
-
-            });
-            save(createRub());
+         insertIfEmpty();
         }
 
         return cbrRepo.findAll();
@@ -97,7 +89,17 @@ public class ConvertService {
     private void save(Currency currency) {
         cbrRepo.save(currency);
     }
+    private void insertIfEmpty(){
+        ValCurs valCurs = template.getForObject(
+                URL, ValCurs.class);
+        List<Currency> currencies = valCurs.getCurrencies();
+        currencies.forEach(c -> {
+            c.setDate((valCurs.getDate()));
+            save(c);
 
+        });
+        save(createRub());
+    }
 
 
     private void insertNewCurrenciesWithNewDate(){
@@ -139,13 +141,6 @@ public class ConvertService {
         return quantity.multiply(base.getValue())
                 .divide(BigDecimal.valueOf(base.getNominal()), 3);
     }
-//    public Page<PresentationDto> findPaginated(Specification<PresentationDto> spec,
-//                                               int pageNumber, int pageSize,
-//                                               String sortField, String direction){
-//        Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
-//                Sort.by(sortField).descending();
-//        Pageable pageable= PageRequest.of(pageNumber-1,pageSize,sort);
-//        return dtoRepo.findAll(spec,pageable);
-//    }
+
 
 }

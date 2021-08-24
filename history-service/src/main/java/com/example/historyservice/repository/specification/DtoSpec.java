@@ -1,4 +1,4 @@
-package com.example.historyservice.specification;
+package com.example.historyservice.repository.specification;
 
 import com.example.entity.PresentationDto;
 import org.springframework.data.jpa.domain.Specification;

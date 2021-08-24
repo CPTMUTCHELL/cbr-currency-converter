@@ -1,17 +1,36 @@
+POST http://localhost:8081/auth/registration
+Content-Type: application/json
+
+{
+    "username":"why1",
+    "password":"why1"
+}
+//{
+//  "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4MzQzMzJ9.gs510LTyxcGryj_KVSJgEpz6w4p6Rw6lEd1pxrjqQnQ",
+//  "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4MzQzMzJ9.Wz5A6TAfw3JlevHb_ibCrab0Y_LJcn325rzTXOIQsZA"
+//}
+###
 POST http://localhost:8081/auth/login
 
 {
     "username":"why1",
     "password":"why1"
 }
+###
+GET http://localhost:8081/auth/token
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4MzQzMzJ9.Wz5A6TAfw3JlevHb_ibCrab0Y_LJcn325rzTXOIQsZA
+
 
 ###
 POST http://localhost:8082/converter/convert
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4MTkzODN9.MTZCKRI6mXhxSzgNONP9sEAq_Xcgu5L4XDTfIlQVRMs
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4NDEyODF9.ZVIy_wSiXZn5ndIzis565aQj_ye-GaoO0_WSnzN9-2E
 Content-Type: application/json
 
 {
-    "baseCurrency": "RUB",
-    "quantityToConvert": 300,
-    "targetCurrency": "USD"
+    "baseCurrency": "USD",
+    "quantityToConvert": 20,
+    "targetCurrency": "EUR"
 }
+###
+GET http://localhost:8083/history
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4NDEyODF9.ZVIy_wSiXZn5ndIzis565aQj_ye-GaoO0_WSnzN9-2E

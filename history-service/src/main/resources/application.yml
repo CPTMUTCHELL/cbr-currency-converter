@@ -1,15 +1,15 @@
 spring:
   flyway:
-    url: jdbc:postgresql://localhost:5432/converter_db
+    url: jdbc:postgresql://localhost:5432/history_db
     user: postgres
     password: postgres
-    locations: classpath:db
+    locations: classpath:historydb
 
   datasource:
     password: postgres
     username: postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/converter_db
+    url: jdbc:postgresql://localhost:5432/history_db
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

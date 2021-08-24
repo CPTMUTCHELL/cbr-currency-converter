@@ -4,7 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/converter_db
     user: postgres
     password: postgres
-    locations: classpath:db
+    locations: classpath:converterdb
 
   datasource:
     password: postgres

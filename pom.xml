@@ -16,6 +16,7 @@
         <module>auth-service</module>
         <module>convert-service</module>
         <module>entity</module>
+        <module>history-service</module>
     </modules>
     <properties>
         <java.version>15</java.version>
@@ -48,7 +49,10 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
