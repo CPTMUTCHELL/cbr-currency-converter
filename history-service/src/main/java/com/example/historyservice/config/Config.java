@@ -2,6 +2,7 @@ package com.example.historyservice.config;
 
 
 import com.example.authservice.config.CustomAuthorizationFilter;
+import com.example.authservice.config.SecurityConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

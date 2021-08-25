@@ -5,6 +5,7 @@ import com.example.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,13 +20,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableSpringConfigured
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthFilter filter = new CustomAuthFilter(authenticationManagerBean());
+        CustomAuthFilter filter = new CustomAuthFilter(authenticationManagerBean(),getProperties());
        filter.setFilterProcessesUrl("/auth/login");
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -57,5 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    @Bean
+    public  Properties getProperties(){
+        return new Properties();
+    }
+
 
 }

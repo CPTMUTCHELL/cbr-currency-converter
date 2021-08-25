@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-userdb
+spec:
+  selector:
+    matchLabels:
+      app: postgres-userdb
+  serviceName: user-db
+  template:
+    metadata:
+      labels:
+        app: postgres-userdb
+    spec:
+
+      containers:
+        - name: userdb
+          image: postgres
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: user_db
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-user-db-storage
+              subPath: postgres
+      volumes:
+        - name: postgres-user-db-storage
+          persistentVolumeClaim:
+            claimName: postgres-user-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-db
+spec:
+  selector:
+    app: postgres-userdb
+  ports:
+    - port: 5432
+      targetPort: 5432

@@ -16,3 +16,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+jwt:
+  secret: secret
+  authTokenExpire: 1200000
+  refreshTokenExpire: 30000000
