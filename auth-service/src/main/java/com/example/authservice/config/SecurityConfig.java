@@ -2,6 +2,9 @@ package com.example.authservice.config;
 
 
 import com.example.authservice.service.AuthService;
+import com.example.filter.CustomAuthFilter;
+import com.example.filter.CustomAuthorizationFilter;
+import com.example.filter.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
     @Bean
-    public  Properties getProperties(){
+    public Properties getProperties(){
         return new Properties();
     }
 

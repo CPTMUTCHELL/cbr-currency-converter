@@ -1,10 +1,8 @@
 package com.example.historyservice.config;
 
 
-import com.example.authservice.config.CustomAuthorizationFilter;
-import com.example.authservice.config.SecurityConfig;
+import com.example.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

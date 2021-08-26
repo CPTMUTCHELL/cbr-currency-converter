@@ -1,4 +1,4 @@
-package com.example.authservice.config;
+package com.example.filter;
 
 public class UserCredentials {
     private String username, password;
