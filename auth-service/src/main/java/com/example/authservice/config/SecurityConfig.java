@@ -2,10 +2,12 @@ package com.example.authservice.config;
 
 
 import com.example.authservice.service.AuthService;
+
 import com.example.filter.CustomAuthFilter;
 import com.example.filter.CustomAuthorizationFilter;
 import com.example.filter.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
@@ -27,7 +29,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthService userService;
-
+    @Value(("${jwt.secret}"))
+    private  String secret;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthFilter filter = new CustomAuthFilter(authenticationManagerBean(),getProperties());
@@ -40,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(filter)
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
 
 

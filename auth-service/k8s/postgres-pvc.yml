@@ -1,0 +1,12 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-user-db-pvc
+  labels:
+    app: postgres
+spec:
+  resources:
+    requests:
+      storage: 50Mi
+  accessModes:
+    - ReadWriteOnce

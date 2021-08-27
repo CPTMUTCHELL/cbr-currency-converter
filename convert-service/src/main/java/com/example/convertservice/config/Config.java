@@ -3,6 +3,7 @@ package com.example.convertservice.config;
 
 import com.example.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class Config extends WebSecurityConfigurerAdapter {
-
+    @Value(("${jwt.secret}"))
+    private  String secret;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,7 +28,7 @@ public class Config extends WebSecurityConfigurerAdapter {
 
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
 
 

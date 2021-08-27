@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 public class Properties {
     @Value(("${jwt.secret}"))
     private  String secret;
-    @Value(("${jwt.authTokenExpire}"))
+    @Value(("${jwt.auth.token.expire}"))
     private  String authTokenExpire;
-    @Value(("${jwt.refreshTokenExpire}"))
+    @Value(("${jwt.refresh.token.expire}"))
     private  String refreshTokenExpire;
 }
