@@ -28,7 +28,8 @@ public class ConvertService {
     private RestTemplate template=new RestTemplate();
     @Value(("${cbr.url}"))
     private String URL;
-    private final String historyURL="http://history-service:8083/history/save";
+    @Value(("${history.url}"))
+    private String historyURL;
     @Autowired
     public ConvertService(CbrRepo cbrRepo) {
         this.cbrRepo = cbrRepo;
@@ -68,7 +69,7 @@ public class ConvertService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
-        ResponseEntity<PresentationDto> result = template.exchange(historyURL, HttpMethod.POST, entityReq, PresentationDto.class);
+        ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
 
         //        saveDto(dto);
 //        return res;
