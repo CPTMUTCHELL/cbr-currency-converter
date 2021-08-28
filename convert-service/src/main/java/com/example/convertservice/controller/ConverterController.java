@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,13 +26,11 @@ public class ConverterController {
 //        return "converterPage";
 //    }
     @PostMapping("/convert")
-    public ResponseEntity<PresentationDto> convert(@RequestHeader("Authorization") String token,@RequestBody PresentationDto presentationDto
-                                                   ){
-        System.out.println(presentationDto);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<PresentationDto> convert(@RequestHeader("Authorization") String token,
+                                                   @RequestBody PresentationDto presentationDto){
         ResponseEntity< PresentationDto> converted = convertService.convert(presentationDto,token);
-
         return converted;
 
     }
-
 }

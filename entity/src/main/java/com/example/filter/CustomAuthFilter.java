@@ -56,7 +56,7 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
                 .withClaim("roles",user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refreshToken = JWT.create().withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(properties.getAuthTokenExpire())))
+                .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(properties.getRefreshTokenExpire())))
                 .withIssuer(request.getRequestURI())
                 .sign(algorithm);
 //        response.setHeader("accessToken",token);

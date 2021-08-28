@@ -22,19 +22,20 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PresentationDto> saveToHistory(@RequestBody PresentationDto presentationDto){
        return new ResponseEntity<>(historyService.saveDto(presentationDto), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/show")
+    @PreAuthorize("hasAuthority('USER')")
     private ResponseEntity<List<PresentationDto>> showHistory(Model model,
                                @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
                                @RequestParam(required = false) String baseCurrency,
                                @RequestParam(required = false) String targetCurrency){
         return findPaginated(1,model, "date","desc",date,baseCurrency,targetCurrency);
     }
-    @GetMapping("/{pageNumber}")
+    @GetMapping("show/{pageNumber}")
     public ResponseEntity<List<PresentationDto>> findPaginated(@PathVariable int pageNumber, Model model,
                                                                @RequestParam (required = false,defaultValue = "date") String sortField,
                                                                @RequestParam (required = false,defaultValue = "desc") String dir,
