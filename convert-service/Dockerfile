@@ -15,6 +15,5 @@ RUN --mount=type=cache,target=/root/.m2 mvn -f /usr/pom.xml clean package
 #RUN mvn -f /usr/pom.xml clean package
 FROM openjdk:15-alpine
 RUN apk add --no-cache bash
-
-COPY --from=build /usr/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar /usr/auth/auth-service-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","/usr/auth/auth-service-0.0.1-SNAPSHOT.jar"]
+COPY --from=build /usr/convert-service/target/convert-service-0.0.1-SNAPSHOT.jar /usr/convert/convert-service-0.0.1-SNAPSHOT.jar
+CMD ["java","-jar","/usr/convert/convert-service-0.0.1-SNAPSHOT.jar"]

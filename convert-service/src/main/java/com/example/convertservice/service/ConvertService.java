@@ -28,7 +28,7 @@ public class ConvertService {
     private RestTemplate template=new RestTemplate();
     @Value(("${cbr.url}"))
     private String URL;
-    private final String historyURL="http://localhost:8083/history/save";
+    private final String historyURL="http://history-service:8083/history/save";
     @Autowired
     public ConvertService(CbrRepo cbrRepo) {
         this.cbrRepo = cbrRepo;
@@ -67,10 +67,8 @@ public class ConvertService {
                 + findCurrencyByCharCodeAndDate(dto.getTargetCurrency(), getLatestDateFromDb()).getName()+")");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
-
         HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
         ResponseEntity<PresentationDto> result = template.exchange(historyURL, HttpMethod.POST, entityReq, PresentationDto.class);
-
 
         //        saveDto(dto);
 //        return res;

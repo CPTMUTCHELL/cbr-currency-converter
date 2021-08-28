@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-converterdb-job
+spec:
+  template:
+    metadata:
+      labels:
+          app: flyway
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: flyway-converterdb
+          image: cptmutchell/flyway-converterdb:v1
+          command: ["flyway", "migrate"]

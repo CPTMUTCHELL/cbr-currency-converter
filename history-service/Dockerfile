@@ -16,5 +16,5 @@ RUN --mount=type=cache,target=/root/.m2 mvn -f /usr/pom.xml clean package
 FROM openjdk:15-alpine
 RUN apk add --no-cache bash
 
-COPY --from=build /usr/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar /usr/auth/auth-service-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","/usr/auth/auth-service-0.0.1-SNAPSHOT.jar"]
+COPY --from=build /usr/history-service/target/history-service-0.0.1-SNAPSHOT.jar /usr/history/history-service-0.0.1-SNAPSHOT.jar
+CMD ["java","-jar","/usr/history/history-service-0.0.1-SNAPSHOT.jar"]

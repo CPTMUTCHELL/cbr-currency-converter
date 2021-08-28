@@ -2,6 +2,7 @@ package com.example.historyservice.config;
 
 
 import com.example.filter.CustomAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @ComponentScan
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class Config extends WebSecurityConfigurerAdapter {
+    @Value(("${jwt.secret}"))
+    private  String secret;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -25,7 +28,7 @@ public class Config extends WebSecurityConfigurerAdapter {
 
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
 
 

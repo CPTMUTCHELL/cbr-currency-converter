@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-userdb
+  name: postgres-db
 spec:
   selector:
     matchLabels:
-      app: postgres-userdb
+      app: postgres-db
   serviceName: user-db
   template:
     metadata:
       labels:
-        app: postgres-userdb
+        app: postgres-db
     spec:
 
       containers:
 
-        - name: userdb
+        - name: cbr-converter-db
           image: cptmutchell/postgres-multidb:v1
           ports:
             - containerPort: 5432
@@ -31,7 +31,7 @@ spec:
                   name: postgres-config
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_MULTIPLE_DATABASES
-              value: userdb, converterdb,lol
+              value: user_db, converter_db,history_db
 
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
@@ -48,7 +48,7 @@ metadata:
   name: cbr-converter
 spec:
   selector:
-    app: postgres-userdb
+    app: postgres-db
 
   ports:
     - port: 5432

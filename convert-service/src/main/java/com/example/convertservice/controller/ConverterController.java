@@ -27,6 +27,7 @@ public class ConverterController {
     @PostMapping("/convert")
     public ResponseEntity<PresentationDto> convert(@RequestHeader("Authorization") String token,@RequestBody PresentationDto presentationDto
                                                    ){
+        System.out.println(presentationDto);
         ResponseEntity< PresentationDto> converted = convertService.convert(presentationDto,token);
 
         return converted;
