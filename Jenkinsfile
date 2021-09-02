@@ -1,19 +1,21 @@
 pipeline{
     agent any
+    tools {
+        maven 'mvn-3.8.1'
+        jdk 'jdk-15'
+        // available jdk8, jdk15
+    }
     stages{
-        stage('Init'){
+        stage('Build application'){
             steps {
-                sh '''   echo "Executing Tests"
-
+                sh '''
+                    mvn clean package
                 '''
             }
-
-        }
-        stage('Init2'){
-            steps {
-                sh '''   echo "E"
-
-                '''
+            post{
+                success{
+                    archiveArtifacts artifacts: '/*.jar'
+                }
             }
 
         }
