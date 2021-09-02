@@ -8,6 +8,12 @@ pipeline{
         jdk 'jdk15'
         // available jdk8, jdk15
     }
+    environment {
+        auth = 'auth-service'
+        entity = "entity"
+        history =  'history-service'
+        convert = 'convert-service'
+    }
     stages{
         stage('Build application'){
             steps {
@@ -17,7 +23,7 @@ pipeline{
             }
             post{
                 success{
-                    archiveArtifacts artifacts: '/*.jar'
+                    archiveArtifacts artifacts: '${auth}/target/*.jar' ,'${entity}/target/*.jar','${history}/target/*.jar','${convert}/target/*.jar'
                 }
             }
 
