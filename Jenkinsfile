@@ -1,8 +1,11 @@
 pipeline{
+    options {
+        buildDiscarder logRotator(numToKeepStr: '3')
+    }
     agent any
     tools {
         maven 'mvn-3.8.1'
-        jdk 'jdk-15'
+        jdk 'jdk15'
         // available jdk8, jdk15
     }
     stages{
