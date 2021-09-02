@@ -11,7 +11,7 @@ pipeline{
         }
         stage('Init2'){
             steps {
-                sh '''   echo "EEEDFEs"
+                sh '''   echo "E"
 
                 '''
             }
