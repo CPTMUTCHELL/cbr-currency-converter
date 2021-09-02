@@ -23,7 +23,7 @@ pipeline{
             }
             post{
                 success{
-                    archiveArtifacts artifacts: '${auth}/target/*.jar' ,'${entity}/target/*.jar','${history}/target/*.jar','${convert}/target/*.jar'
+                    archiveArtifacts artifacts: '**/*.jar'
                 }
             }
 
