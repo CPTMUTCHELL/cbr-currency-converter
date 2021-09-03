@@ -34,6 +34,7 @@ pipeline{
 //
 //         }
         stage ("Deploy branches") {
+            stage("Auth service"){
             when{
                 anyOf{
                     expression {changeset "${auth}/**" }
@@ -42,14 +43,27 @@ pipeline{
                 }
             }
             steps {
-
                     sh '''
                         echo ${AUTH_IMAGE}
                         echo AUTH
                     '''
             }
+            }
+            stage("Convert service"){
+            when{
+                anyOf{
+                    expression {changeset "${convert}/**" }
+                    expression {return params.CONVERT_IMAGE}
 
+                }
+            }
+            steps {
+                    sh '''
+                        echo ${CONVERT_IMAGE}
 
+                    '''
+            }
+            }
         }
     }
 }
