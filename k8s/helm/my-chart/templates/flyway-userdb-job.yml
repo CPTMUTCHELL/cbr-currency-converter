@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-userdb-job
+spec:
+  template:
+    metadata:
+      labels:
+          app: flyway
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: flyway-userdb
+          image: cptmutchell/flyway-userdb:v1
+          command: ["flyway", "migrate"]

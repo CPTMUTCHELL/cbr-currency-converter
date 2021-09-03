@@ -1,0 +1,3 @@
+deployment:
+  image: cptmutchell/auth-service
+  tag: v1
