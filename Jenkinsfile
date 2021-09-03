@@ -29,27 +29,17 @@ pipeline{
 
         }
         stage ("Deploy branches") {
+            steps {
+                script{
+                    if (changeset "${auth}/**"){
+                        sh '''
+                            echo AUTH
+                        '''
+                    }
 
-            when {
-                changeset "${auth}/**"
+                }
             }
-            steps {
 
-                  sh '''
-                    echo AUTH
-                  '''
-
-           }
-           when {
-               changeset "${convert}/**"
-           }
-            steps {
-
-                  sh '''
-                    echo CONVERT
-                  '''
-
-           }
         }
     }
 }
