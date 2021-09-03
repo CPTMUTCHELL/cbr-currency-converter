@@ -14,12 +14,31 @@ pipeline{
         history =  'history-service'
         convert = 'convert-service'
     }
-    parameters {
-    booleanParam(name: 'Build Auth image', defaultValue: false, description: 'Build auth service image')
-    }
-    parameters {
-    booleanParam(name: 'Build convert image', defaultValue: false, description: 'Build convert service image')
-    }
+                    properties([
+                        parameters([
+                            choice(
+                                choices: ['ONE', 'TWO'],
+                                name: 'PARAMETER_01'
+                            ),
+                            booleanParam(
+                                defaultValue: true,
+                                description: '',
+                                name: 'BOOLEAN'
+                            ),
+                            text(
+                                defaultValue: '''
+                                this is a multi-line
+                                string parameter example
+                                ''',
+                                 name: 'MULTI-LINE-STRING'
+                            ),
+                            string(
+                                defaultValue: 'scriptcrunch',
+                                name: 'STRING-PARAMETER',
+                                trim: true
+                            )
+                        ])
+                    ])
     stages{
         stage('Build application'){
             steps {
