@@ -14,6 +14,10 @@ pipeline{
         history =  'history-service'
         convert = 'convert-service'
     }
+    parameters {
+    booleanParam(name: 'Build Auth image', defaultValue: false, description: 'Build auth service image'),
+    booleanParam(name: 'Build convert image', defaultValue: false, description: 'Build convert service image'),
+    }
     stages{
         stage('Build application'){
             steps {
@@ -28,19 +32,19 @@ pipeline{
             }
 
         }
-        stage ("Deploy branches") {
-            steps {
-                script{
-                    if (changeset "${auth}/**"){
-                        sh '''
-                            echo AUTH
-                        '''
-                    }
-
-                }
-            }
-
-        }
+//         stage ("Deploy branches") {
+//             when{
+//                 anyof{
+//                     changeset "${auth}/**"
+//                 }
+//             }
+//             steps {
+//                 script {
+//               //do stuff
+//                 }
+//             }
+//
+//         }
     }
 }
 
