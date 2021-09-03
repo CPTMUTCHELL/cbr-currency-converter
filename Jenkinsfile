@@ -44,6 +44,7 @@ pipeline{
             steps {
                 script {
                     sh '''
+                        echo params.AUTH_IMAGE
                         echo AUTH
                     '''
                 }
