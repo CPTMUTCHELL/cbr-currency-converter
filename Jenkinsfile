@@ -53,7 +53,10 @@ pipeline{
             stage("Convert service"){
             when{
                 anyOf{
-                    expression {changeset "${convert}/**" }
+            changeset "${convert}/**"
+            expression {  // there are changes in some-directory/...
+                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
+            }
                     expression {return params.CONVERT_IMAGE}
 
                 }
