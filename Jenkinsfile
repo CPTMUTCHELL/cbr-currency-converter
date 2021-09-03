@@ -34,6 +34,7 @@ pipeline{
 //
 //         }
         stage ("Deploy branches") {
+        stages{
             stage("Auth service"){
             when{
                 anyOf{
@@ -64,6 +65,7 @@ pipeline{
                     '''
             }
             }
+        }
         }
     }
 }
