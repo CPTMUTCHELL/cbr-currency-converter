@@ -15,7 +15,8 @@ pipeline{
         convert = 'convert-service'
     }
     parameters {
-     booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Do you want to run the build with tests?')
+     booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Do you want to run the build with tests?'),
+     booleanParam(name: 'dddd', defaultValue: false, description: 'Do you want to rudild with tests?')
      }
     stages{
         stage('Build application'){
