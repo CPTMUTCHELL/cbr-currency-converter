@@ -14,9 +14,9 @@ pipeline{
         history =  'history-service'
         convert = 'convert-service'
     }
-//     parameters {
-//      booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Do you want to run the build with tests?')
-//      }
+    parameters {
+     booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Do you want to run the build with tests?')
+     }
     stages{
         stage('Build application'){
             steps {
