@@ -15,8 +15,9 @@ pipeline{
         convert = 'convert-service'
     }
     parameters {
-    booleanParam(name: 'KIBANA_TAG', defaultValue: false, description: 'input tag for ansible command.')
-    booleanParam(name: 'FLUENT_TAG', defaultValue: false, description: 'input tag for ansible command.')
+    booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
+    booleanParam(name: 'CONVERT_IMAGE', defaultValue: false, description: 'Build convert service docker image')
+    booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
         stage('Build application'){
@@ -32,19 +33,22 @@ pipeline{
             }
 
         }
-//         stage ("Deploy branches") {
-//             when{
-//                 anyof{
-//                     changeset "${auth}/**"
-//                 }
-//             }
-//             steps {
-//                 script {
-//               //do stuff
-//                 }
-//             }
-//
-//         }
+        stage ("Deploy branches") {
+            when{
+                anyof{
+                    changeset "${auth}/**"
+                    params.AUTH_IMAGE
+                }
+            }
+            steps {
+                script {
+                    sh '''
+                        echo AUTH
+                    '''
+                }
+            }
+
+        }
     }
 }
 
