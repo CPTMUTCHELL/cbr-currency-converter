@@ -37,7 +37,7 @@ pipeline{
             when{
                 anyof{
                     changeset "${auth}/**"
-                    params.AUTH_IMAGE
+                    params.AUTH_IMAGE == true
                 }
             }
             steps {
