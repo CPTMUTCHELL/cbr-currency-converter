@@ -16,7 +16,7 @@ pipeline{
     }
     parameters {
     booleanParam(name: 'Build Auth image', defaultValue: false, description: 'Build auth service image'),
-    booleanParam(name: 'Build convert image', defaultValue: false, description: 'Build convert service image'),
+    booleanParam(name: 'Build convert image', defaultValue: false, description: 'Build convert service image')
     }
     stages{
         stage('Build application'){
