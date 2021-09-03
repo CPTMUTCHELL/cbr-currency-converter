@@ -38,7 +38,7 @@ pipeline{
             stage("Auth service"){
             when{
                 anyOf{
-                    expression {changeset "${auth}/**" }
+                    expression {return false }
                     expression {return params.AUTH_IMAGE}
 
                 }
