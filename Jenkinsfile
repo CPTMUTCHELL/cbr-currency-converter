@@ -20,19 +20,19 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
-        stage('Build application'){
-            steps {
-                sh '''
-                    mvn clean package
-                '''
-            }
-            post{
-                success{
-                    archiveArtifacts artifacts: "${auth}/target/*.jar, ${entity}/target/*.jar, ${history}/target/*.jar, ${convert}/target/*.jar"
-                }
-            }
-
-        }
+//         stage('Build application'){
+//             steps {
+//                 sh '''
+//                     mvn clean package
+//                 '''
+//             }
+//             post{
+//                 success{
+//                     archiveArtifacts artifacts: "${auth}/target/*.jar, ${entity}/target/*.jar, ${history}/target/*.jar, ${convert}/target/*.jar"
+//                 }
+//             }
+//
+//         }
         stage ("Deploy branches") {
             when{
                 anyOf{
@@ -44,7 +44,7 @@ pipeline{
             steps {
                 script {
                     sh '''
-                        echo params.AUTH_IMAGE
+                        echo ${AUTH_IMAGE}
                         echo AUTH
                     '''
                 }
