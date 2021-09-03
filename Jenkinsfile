@@ -34,21 +34,21 @@ pipeline{
                 changeset "${auth}/**"
             }
             steps {
-                script {
+
                   sh '''
                     echo AUTH
                   '''
-                }
+
            }
            when {
                changeset "${convert}/**"
            }
             steps {
-                script {
+
                   sh '''
                     echo CONVERT
                   '''
-                }
+
            }
         }
     }
