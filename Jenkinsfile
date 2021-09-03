@@ -42,13 +42,13 @@ pipeline{
                 }
             }
             steps {
-                script {
+
                     sh '''
                         echo ${AUTH_IMAGE}
                         echo AUTH
                     '''
-                }
             }
+
 
         }
     }
