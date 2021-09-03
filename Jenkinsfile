@@ -35,7 +35,7 @@ pipeline{
         }
         stage ("Deploy branches") {
             when{
-                anyof{
+                anyOf{
                     expression {changeset "${auth}/**" }
                     expression {return params.AUTH_IMAGE}
 
