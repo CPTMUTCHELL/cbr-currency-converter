@@ -14,12 +14,10 @@ pipeline{
         history =  'history-service'
         convert = 'convert-service'
     }
-        parameters {
-
-            booleanParam(‘b1’, false)
-            booleanParam(‘b2’, false)
-            booleanParam(‘b3’, false)
-        }
+    parameters {
+    booleanParam(name: 'KIBANA_TAG', defaultValue: false, description: 'input tag for ansible command.')
+    booleanParam(name: 'FLUENT_TAG', defaultValue: false, description: 'input tag for ansible command.')
+    }
     stages{
         stage('Build application'){
             steps {
