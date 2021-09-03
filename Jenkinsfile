@@ -36,8 +36,9 @@ pipeline{
         stage ("Deploy branches") {
             when{
                 anyof{
-                    changeset "${auth}/**"
-                    environment name: 'AUTH_IMAGE', value: true
+                    expression {changeset "${auth}/**" }
+                    expression {return params.AUTH_IMAGE}
+
                 }
             }
             steps {
