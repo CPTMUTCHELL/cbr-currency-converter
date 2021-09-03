@@ -14,10 +14,9 @@ pipeline{
         history =  'history-service'
         convert = 'convert-service'
     }
-    parameters {
-    booleanParam(name: 'Build Auth image', defaultValue: false, description: 'Build auth service image'),
-    booleanParam(name: 'Build convert image', defaultValue: false, description: 'Build convert service image')
-    }
+//     parameters {
+//      booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Do you want to run the build with tests?')
+//      }
     stages{
         stage('Build application'){
             steps {
