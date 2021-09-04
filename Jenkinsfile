@@ -6,9 +6,11 @@ pipeline{
     tools {
         maven 'mvn-3.8.1'
         jdk 'jdk15'
-        // available jdk8, jdk15
     }
     environment {
+        dockerImage = ''
+        registryCredential = 'dockerhub_id'
+        me = 'cptmutchell'
         auth = 'auth-service'
         entity = "entity"
         history =  'history-service'
@@ -33,42 +35,69 @@ pipeline{
 //             }
 //
 //         }
-        stage ("Deploy branches") {
-        stages{
-            stage("Auth service"){
-            when{
-                anyOf{
-                    expression {return false }
-                    expression {return params.AUTH_IMAGE}
+        stage ("Build images") {
+            stages{
+                stage("Auth image build"){
+                    when{
+                        anyOf{
+                            changeset "${auth}/**"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
+                            }
+                            expression {return params.AUTH_IMAGE}
+                        }
+                    }
+                    steps {
+                        dir('${auth}/'){
+//                         withDockerRegistry(credentialsId: '', url: '')
 
+                            script {
+
+                                dockerImage = docker.build me + "/$auth" + ":$BUILD_NUMBER"
+                                docker.withRegistry('',registryCredential){
+                                    dockerImage.push()
+                                }
+                            }
+                       }
+                    }
+                }
+                stage("Convert image build"){
+                    when{
+                        anyOf{
+                            changeset "${convert}/**"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
+                            }
+                            expression {return params.CONVERT_IMAGE}
+
+                        }
+                    }
+                    steps {
+                            sh '''
+                                echo ${CONVERT_IMAGE}
+
+                            '''
+                    }
+                }
+                stage("History image build"){
+                    when{
+                        anyOf{
+                            changeset "${history}/**"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
+                            }
+                            expression {return params.HISTORY_IMAGE}
+
+                        }
+                    }
+                    steps {
+                            sh '''
+                                e
+
+                            '''
+                    }
                 }
             }
-            steps {
-                    sh '''
-                        echo ${AUTH_IMAGE}
-                        echo AUTH
-                    '''
-            }
-            }
-            stage("Convert service"){
-            when{
-                anyOf{
-            changeset "${convert}/**"
-            expression {  // there are changes in some-directory/...
-                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
-            }
-                    expression {return params.CONVERT_IMAGE}
-
-                }
-            }
-            steps {
-                    sh '''
-                        echo ${CONVERT_IMAGE}
-
-                    '''
-            }
-            }
-        }
         }
     }
 }
