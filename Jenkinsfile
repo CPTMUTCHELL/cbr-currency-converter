@@ -53,13 +53,13 @@ pipeline{
 
                             script {
 
-                                dockerImage = docker.build me + "/$auth" + "v:$BUILD_NUMBER"
+                                dockerImage = docker.build me + "/$auth" + ":v{$BUILD_NUMBER}"
                                 docker.withRegistry('',registryCredential){
                                     dockerImage.push()
                                 }
 
                                 sh """
-                                docker rmi $registry:$BUILD_NUMBER
+                                docker rmi ${me}/{$auth}:v{$BUILD_NUMBER}
                                 """
 
                             }
