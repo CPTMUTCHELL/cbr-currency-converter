@@ -48,15 +48,20 @@ pipeline{
                         }
                     }
                     steps {
-                        dir('${auth}/'){
+                        dir("${auth}/"){
 //                         withDockerRegistry(credentialsId: '', url: '')
 
                             script {
 
-                                dockerImage = docker.build me + "/$auth" + ":$BUILD_NUMBER"
+                                dockerImage = docker.build me + "/$auth" + "v:$BUILD_NUMBER"
                                 docker.withRegistry('',registryCredential){
                                     dockerImage.push()
                                 }
+
+                                sh """
+                                docker rmi $registry:$BUILD_NUMBER
+                                """
+
                             }
                        }
                     }
