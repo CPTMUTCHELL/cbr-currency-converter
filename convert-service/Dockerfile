@@ -11,7 +11,6 @@ COPY history-service/src/ /usr/history-service/src
 COPY history-service/pom.xml /usr/history-service
 RUN --mount=type=cache,target=/root/.m2 mvn -f /usr/pom.xml clean package
 
-
 #RUN mvn -f /usr/pom.xml clean package
 FROM openjdk:15-alpine
 RUN apk add --no-cache bash
