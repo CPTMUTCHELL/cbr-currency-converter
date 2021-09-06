@@ -1,3 +1,4 @@
+// sudo chmod 777 /var/run/docker.sock
 pipeline{
     options {
         buildDiscarder logRotator(numToKeepStr: '3')
@@ -22,19 +23,7 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
-//         stage('Build application'){
-//             steps {
-//                 sh '''
-//                     mvn clean package
-//                 '''
-//             }
-//             post{
-//                 success{
-//                     archiveArtifacts artifacts: "${auth}/target/*.jar, ${entity}/target/*.jar, ${history}/target/*.jar, ${convert}/target/*.jar"
-//                 }
-//             }
-//
-//         }
+
         stage ("Build images") {
             stages{
                 stage("Auth image build"){
@@ -48,22 +37,15 @@ pipeline{
                         }
                     }
                     steps {
-                        dir("${auth}/"){
-//                         withDockerRegistry(credentialsId: '', url: '')
-
-                            script {
-
-                                dockerImage = docker.build me + "/$auth" + ":v{$BUILD_NUMBER}"
+                          script {
+                                dockerImage = docker.build ()me + "/$auth" + ":v$BUILD_NUMBER"
                                 docker.withRegistry('',registryCredential){
                                     dockerImage.push()
                                 }
-
                                 sh """
-                                docker rmi ${me}/{$auth}:v{$BUILD_NUMBER}
+                                docker rmi ${me}/${auth}:v${BUILD_NUMBER}
                                 """
-
-                            }
-                       }
+                          }
                     }
                 }
                 stage("Convert image build"){
@@ -78,10 +60,15 @@ pipeline{
                         }
                     }
                     steps {
-                            sh '''
-                                echo ${CONVERT_IMAGE}
-
-                            '''
+                          script {
+                                dockerImage = docker.build ()me + "/$convert" + ":v$BUILD_NUMBER"
+                                docker.withRegistry('',registryCredential){
+                                    dockerImage.push()
+                                }
+                                sh """
+                                docker rmi ${me}/${convert}:v${BUILD_NUMBER}
+                                """
+                          }
                     }
                 }
                 stage("History image build"){
@@ -92,18 +79,47 @@ pipeline{
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
                             }
                             expression {return params.HISTORY_IMAGE}
-
                         }
                     }
                     steps {
-                            sh '''
-                                e
-
-                            '''
+                          script {
+                                dockerImage = docker.build ()me + "/$history" + ":v$BUILD_NUMBER"
+                                docker.withRegistry('',registryCredential){
+                                    dockerImage.push()
+                                }
+                                //to delete image locally
+                                sh """
+                                docker rmi ${me}/${history}:v${BUILD_NUMBER}
+                                """
+                          }
                     }
                 }
             }
         }
+        stage("K8s apply"){
+            when{
+                anyOf{
+                    changeset "${history}/**"
+                    expression {
+                        sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
+                    }
+                    expression {return params.HISTORY_IMAGE}
+                }
+            }
+            steps {
+                  script {
+                        dockerImage = docker.build ()me + "/$history" + ":v$BUILD_NUMBER"
+                        docker.withRegistry('',registryCredential){
+                            dockerImage.push()
+                        }
+                        //to delete image locally
+                        sh """
+                        docker rmi ${me}/${history}:v${BUILD_NUMBER}
+                        """
+                  }
+            }
+        }
+
     }
 }
 

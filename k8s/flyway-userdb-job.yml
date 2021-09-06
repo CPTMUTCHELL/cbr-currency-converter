@@ -11,5 +11,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: flyway-userdb
-          image: cptmutchell/flyway-userdb:v1
+          image: cptmutchell/flyway-userdb:v2
           command: ["flyway", "migrate"]
+          imagePullPolicy: IfNotPresent
+
