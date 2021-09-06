@@ -20,3 +20,7 @@ spring:
 #  secret: secret
 #  authTokenExpire: 1200000
 #  refreshTokenExpire: 30000000
+management:
+  endpoints:
+    web:
+      base-path: /auth
