@@ -13,7 +13,7 @@ spec:
         app: convert
     spec:
       containers:
-        - name: auth
+        - name: convert
           image: cptmutchell/convert-service:v1
           ports:
             - containerPort: 8082

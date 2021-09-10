@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.global.historyDeployment.name}}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{.Values.global.historyDeployment.name}}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{.Values.global.historyDeployment.name}}
+    spec:
+      containers:
+        - name: {{.Values.global.historyDeployment.name}}
+          image: {{.Values.global.historyDeployment.image}}:{{.Values.global.historyDeployment.tag}}
+          ports:
+            - containerPort: {{.Values.global.historyDeployment.port}}
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.global.historyDeployment.name}}-service
+spec:
+  type: NodePort
+  selector:
+    app: {{.Values.global.historyDeployment.name}}
+  ports:
+    - port: {{.Values.global.historyDeployment.port}}
+      targetPort: {{.Values.global.historyDeployment.port}}
+      protocol: TCP
+      nodePort: 30003
+

@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-converter
+
+spec:
+
+  rules:
+     - host: myconverter
+       http:
+        paths:
+            - path: /{{.Values.global.authDeployment.name}}
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{.Values.global.authDeployment.name}}-service
+                  port:
+                    number: {{.Values.global.authDeployment.port}}
+
+            - path: /{{.Values.global.convertDeployment.name}}
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{.Values.global.convertDeployment.name}}-service
+                  port:
+                    number: {{.Values.global.convertDeployment.port}}
+            - path: /{{.Values.global.historyDeployment.name}}
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{.Values.global.historyDeployment.name}}-service
+                  port:
+                    number: {{.Values.global.historyDeployment.port}}
+  ingressClassName: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx
+

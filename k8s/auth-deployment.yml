@@ -27,13 +27,11 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 20
           readinessProbe:
-
             httpGet:
               path: /auth/health
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 20
-
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-converterdb-job
+spec:
+  template:
+    metadata:
+      labels:
+          app: {{ .Values.flyway.name }}
+    spec:
+      restartPolicy: {{ .Values.flyway.restart }}
+      containers:
+        - name: {{ .Values.flyway.name }}-converterdb
+          image: cptmutchell/{{ .Values.flyway.name }}-converterdb:v1
+          command: ["flyway", "migrate"]

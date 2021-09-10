@@ -23,7 +23,90 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
+        stage("Init db") {
+           steps {
+                 script {
+                       dockerImage = docker.build ()me + "/postgres-multidb:v1"
+                       docker.withRegistry('',registryCredential){
+                           dockerImage.push()
+                       }
+                       sh """
+                       docker rmi ${me}/postgres-multidb:v1
+                       """
+                 }
+           }
+        }
+        stage("Deploy migrations") {
+            parallel{
+                stage("Auth db migration"){
+                    when{
+                        anyOf{
+                            changeset "${auth}/src/resources/userdb/*.sql"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/resources/userdb/.*"') == 0
+                            }
+                            expression {return params.AUTH_IMAGE}
+                        }
+                    }
+                    steps {
+                          script {
+                                dockerImage = docker.build ()me + "/flyway-userdb" + ":v$BUILD_NUMBER"
+                                docker.withRegistry('',registryCredential){
+                                    dockerImage.push()
+                                }
+                                sh """
+                                docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
+                                """
+                          }
+                    }
+                }
+                stage("Convert db migration"){
+                    when{
+                        anyOf{
+                            changeset "${convert}/src/resources/converterdb/*.sql"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
+                            }
+                            expression {return params.CONVERT_IMAGE}
 
+                        }
+                    }
+                    steps {
+                          script {
+                                dockerImage = docker.build ()me + "/flyway-converterdb" + ":v$BUILD_NUMBER"
+                                docker.withRegistry('',registryCredential){
+                                    dockerImage.push()
+                                }
+                                sh """
+                                docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
+                                """
+                          }
+                    }
+                }
+                stage("History db migration"){
+                    when{
+                        anyOf{
+                            changeset "${history}/src/resources/historydb/*.sql"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
+                            }
+                            expression {return params.HISTORY_IMAGE}
+                        }
+                    }
+                    steps {
+                          script {
+                                dockerImage = docker.build ()me + "/flyway-historydb" + ":v$BUILD_NUMBER"
+                                docker.withRegistry('',registryCredential){
+                                    dockerImage.push()
+                                }
+                                sh """
+                                docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
+                                """
+                          }
+                    }
+                }
+            }
+        }
         stage ("Build images") {
             stages{
                 stage("Auth image build"){

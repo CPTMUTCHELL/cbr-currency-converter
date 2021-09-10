@@ -24,3 +24,11 @@ management:
   endpoints:
     web:
       base-path: /auth
+  security:
+    enabled: false
+  health:
+    db:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always

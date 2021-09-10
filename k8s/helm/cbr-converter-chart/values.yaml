@@ -1,0 +1,19 @@
+global:
+  authDeployment:
+    image: cptmutchell/auth-service
+    tag: v1
+    name: auth
+    port: 8081
+  convertDeployment:
+    image: cptmutchell/convert-service
+    tag: v1
+    name: convert
+    port: 8082
+  historyDeployment:
+    image: cptmutchell/history-service
+    tag: v1
+    name: history
+    port: 8083
+
+  initDelay: 15
+  period: 20

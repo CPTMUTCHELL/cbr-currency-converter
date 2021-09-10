@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-historydb-job
+spec:
+  template:
+    metadata:
+      labels:
+          app: {{ .Values.flyway.name }}
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: {{ .Values.flyway.name }}-historydb
+          image: cptmutchell/{{ .Values.flyway.name }}-historydb:v1
+          command: ["flyway", "migrate"]
