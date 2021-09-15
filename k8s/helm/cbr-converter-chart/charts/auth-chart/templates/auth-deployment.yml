@@ -1,27 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{.Values.global.authDeployment.name}}-deployment
+  name: {{ .Values.global.authDeployment.name }}-deployment
 spec:
   selector:
     matchLabels:
-      app: {{.Values.global.authDeployment.name}}
+      app: {{ .Values.global.authDeployment.name }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{.Values.global.authDeployment.name}}
+        app: {{ .Values.global.authDeployment.name }}
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/cbr-converter-char/templates/cbr-converter-cm.yml") . | sha256sum }}
+        checksum/config: {{ include (print $.Chart.Home "/templates/cbr-converter-cm.yml") . | sha256sum }}
     spec:
       containers:
-        - name: {{.Values.global.authDeployment.name}}
-          image: {{.Values.global.authDeployment.image}}:{{.Values.global.authDeployment.tag}}
+        - name: {{ .Values.global.authDeployment.name }}
+          image: {{ .Values.global.authDeployment.image }}:{{.Values.global.authDeployment.tag}}
           ports:
-            - containerPort: {{.Values.global.authDeployment.name}}
+            - containerPort: {{.Values.global.authDeployment.port}}
           envFrom:
             - configMapRef:
                 name: postgres-config
+            - configMapRef:
+                name: cbr-converter-config
           livenessProbe:
             httpGet:
               path: /{{.Values.global.authDeployment.name}}/health
@@ -46,8 +48,9 @@ spec:
   selector:
     app: {{.Values.global.authDeployment.name}}
   ports:
-    - port: {{.Values.global.authDeployment.name}}
+    - port: {{.Values.global.authDeployment.port}}
       protocol: TCP
-      targetPort: {{.Values.global.authDeployment.name}}
+      targetPort: {{.Values.global.authDeployment.port}}
+
 
 

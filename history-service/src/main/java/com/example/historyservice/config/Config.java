@@ -26,7 +26,7 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
 //                .antMatchers("/history/**").hasAuthority("ADMIN")
-
+                .antMatchers("/history/health/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);

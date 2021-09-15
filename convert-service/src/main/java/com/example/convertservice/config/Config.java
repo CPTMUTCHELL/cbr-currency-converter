@@ -25,7 +25,7 @@ public class Config extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-
+                .antMatchers("/converter/health/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);

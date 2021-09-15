@@ -20,6 +20,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-config
+            - configMapRef:
+                name: cbr-converter-config
 ---
 apiVersion: v1
 kind: Service

@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: {{.Values.global.convertDeployment.name}}
+      annotations:
+        checksum/config: {{ include (print $.Chart.Home "/templates/cbr-converter-cm.yml") . | sha256sum }}
     spec:
       containers:
         - name: {{.Values.global.convertDeployment.name}}
@@ -20,18 +22,31 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-config
+            - configMapRef:
+                name: cbr-converter-config
+          livenessProbe:
+            httpGet:
+              path: /{{.Values.global.convertDeployment.name}}/health
+              port: {{.Values.global.convertDeployment.port}}
+            initialDelaySeconds: {{.Values.global.initDelay}}
+            periodSeconds: {{.Values.global.period}}
+          readinessProbe:
+            httpGet:
+              path: /{{.Values.global.convertDeployment.name}}/health
+              port: {{.Values.global.convertDeployment.port}}
+            initialDelaySeconds: {{.Values.global.initDelay}}
+            periodSeconds: {{.Values.global.period}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.global.convertDeployment.name}}-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: {{.Values.global.convertDeployment.name}}
   ports:
     - port: {{.Values.global.convertDeployment.port}}
       targetPort: {{.Values.global.convertDeployment.port}}
       protocol: TCP
-      nodePort: 30002
 

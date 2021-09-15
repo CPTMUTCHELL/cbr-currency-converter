@@ -19,7 +19,3 @@ spring:
 cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
 server:
   port: 8082
-management:
-  endpoints:
-    web:
-      base-path: /auth

@@ -20,6 +20,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-config
+            - configMapRef:
+                name: cbr-converter-config
           livenessProbe:
             httpGet:
               path: /auth/health
@@ -38,13 +40,13 @@ kind: Service
 metadata:
   name: auth-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: auth
   ports:
     - port: 8081
       protocol: TCP
-      nodePort: 30001
+#      nodePort: 30001
       targetPort: 8081
 
 

@@ -1,0 +1,24 @@
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+rollingUpdate:
+  maxUnavailable: 0
+
+globalArguments: [] # Disable anonymous stat
+ports:
+  websecure:
+    expose: false
+pilot:
+  dashboard: false
+ingressRoute:
+  dashboard:
+    enabled: false
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+#
+#  helm upgrade traefik traefik/traefik
+#  --install
+#  --create-namespace
+#  --namespace traefik
+#  --values traefik.yml

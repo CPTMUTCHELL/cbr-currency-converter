@@ -29,7 +29,9 @@ public class ConverterController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PresentationDto> convert(@RequestHeader("Authorization") String token,
                                                    @RequestBody PresentationDto presentationDto){
+
         ResponseEntity< PresentationDto> converted = convertService.convert(presentationDto,token);
+        System.out.println(converted);
         return converted;
 
     }

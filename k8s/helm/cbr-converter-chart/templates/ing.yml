@@ -2,9 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-converter
-
 spec:
-
   rules:
      - host: myconverter
        http:
@@ -31,12 +29,3 @@ spec:
                   name: {{.Values.global.historyDeployment.name}}-service
                   port:
                     number: {{.Values.global.historyDeployment.port}}
-  ingressClassName: nginx
----
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: nginx
-spec:
-  controller: k8s.io/ingress-nginx
-
