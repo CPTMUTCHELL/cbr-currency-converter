@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Values.postgres.name }}
+  name: {{ .Values.name }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.postgres.name }}
+      app: {{ .Values.name }}
   serviceName: user-db
   template:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/postgres-cm.yml") . | sha256sum }}
       labels:
-        app: {{ .Values.postgres.name }}
+        app: {{ .Values.name }}
     spec:
 
       containers:
 
         - name: cbr-converter-db
-          image: cptmutchell/postgres-multidb:v1
+          image: {{ .Values.image }}:{{ .Values.tag }}
           ports:
-            - containerPort: 5432
+            - containerPort: {{ .Values.port }}
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -44,7 +44,7 @@ spec:
               command:
               - /bin/sh
               - -c
-              - exec pg_isready -U {{ .Values.postgres.name }} -p 5432
+              - exec pg_isready -U {{ .Values.name }} -p {{ .Values.port }}
       volumes:
         - name: postgres-user-db-storage
           persistentVolumeClaim:
@@ -56,8 +56,8 @@ metadata:
   name: cbr-converter
 spec:
   selector:
-    app: {{ .Values.postgres.name }}
+    app: {{ .Values.name }}
 
   ports:
-    - port: 5432
-      targetPort: 5432
+    - port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}

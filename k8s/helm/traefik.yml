@@ -9,13 +9,16 @@ ports:
   websecure:
     expose: false
 pilot:
-  dashboard: false
+  dashboard: true
 ingressRoute:
   dashboard:
-    enabled: false
+    enabled: true
 ingressClass:
   enabled: true
   isDefaultClass: true
+logs:
+  general:
+    level: DEBUG
 #
 #  helm upgrade traefik traefik/traefik
 #  --install

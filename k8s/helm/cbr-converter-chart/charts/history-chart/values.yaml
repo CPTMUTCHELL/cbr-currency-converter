@@ -1,0 +1,4 @@
+image: cptmutchell/history-service
+tag: v1
+name: history
+port: "8083"

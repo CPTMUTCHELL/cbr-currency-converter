@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.global.authDeployment.name }}-deployment
+  name: {{.Values.name}}-deployment
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.global.authDeployment.name }}
+      app: {{.Values.name}}
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{ .Values.global.authDeployment.name }}
+        app: {{.Values.name}}
       annotations:
         checksum/config: {{ include (print $.Chart.Home "/templates/cbr-converter-cm.yml") . | sha256sum }}
     spec:
       containers:
-        - name: {{ .Values.global.authDeployment.name }}
-          image: {{ .Values.global.authDeployment.image }}:{{.Values.global.authDeployment.tag}}
+        - name: {{.Values.name}}
+          image: {{.Values.image}}:{{.Values.tag}}
           ports:
-            - containerPort: {{.Values.global.authDeployment.port}}
+            - containerPort: {{.Values.port}}
           envFrom:
             - configMapRef:
                 name: postgres-config
@@ -26,31 +26,26 @@ spec:
                 name: cbr-converter-config
           livenessProbe:
             httpGet:
-              path: /{{.Values.global.authDeployment.name}}/health
-              port: {{.Values.global.authDeployment.port}}
+              path: /{{.Values.name}}/health
+              port: {{.Values.port}}
             initialDelaySeconds: {{.Values.global.initDelay}}
             periodSeconds: {{.Values.global.period}}
           readinessProbe:
             httpGet:
-              path: /{{.Values.global.authDeployment.name}}/health
-              port: {{.Values.global.authDeployment.port}}
+              path: /{{.Values.name}}/health
+              port: {{.Values.port}}
             initialDelaySeconds: {{.Values.global.initDelay}}
             periodSeconds: {{.Values.global.period}}
-
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.global.authDeployment.name}}-service
+  name: {{.Values.name}}-service
 spec:
   type: ClusterIP
   selector:
-    app: {{.Values.global.authDeployment.name}}
+    app: {{.Values.name}}
   ports:
-    - port: {{.Values.global.authDeployment.port}}
+    - port: {{.Values.port}}
+      targetPort: {{.Values.port}}
       protocol: TCP
-      targetPort: {{.Values.global.authDeployment.port}}
-
-
-

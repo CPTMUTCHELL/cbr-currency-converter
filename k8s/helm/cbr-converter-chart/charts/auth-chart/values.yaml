@@ -1,0 +1,4 @@
+image: cptmutchell/auth-service
+tag: v1
+name: auth
+port: "8081"

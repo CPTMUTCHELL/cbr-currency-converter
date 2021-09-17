@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: postgres-user-db-pvc
   labels:
-    app: {{ .Values.postgres.name }}
+    app: {{ .Values.name }}
 spec:
   resources:
     requests:

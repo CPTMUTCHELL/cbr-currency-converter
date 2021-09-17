@@ -1,2 +1,4 @@
-postgres:
-  name: postgres
+name: postgres
+port: "5432"
+image: cptmutchell/postgres-multidb
+tag: v1

@@ -6,10 +6,10 @@ spec:
   template:
     metadata:
       labels:
-          app: {{ .Values.flyway.name }}
+          app: {{ .Values.name }}
     spec:
-      restartPolicy: {{ .Values.flyway.restart }}
+      restartPolicy: {{ .Values.restart }}
       containers:
-        - name: {{ .Values.flyway.name }}-converterdb
-          image: cptmutchell/{{ .Values.flyway.name }}-converterdb:v1
+        - name: {{ .Values.name }}-converterdb
+          image: cptmutchell/{{ .Values.name }}-converterdb:v1
           command: ["flyway", "migrate"]

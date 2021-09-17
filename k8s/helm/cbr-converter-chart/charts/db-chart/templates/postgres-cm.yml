@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: postgres-config
 data:
-  POSTGRES_USER: {{ .Values.postgres.name }}
-  POSTGRES_PASSWORD: {{ .Values.postgres.name }}
+  POSTGRES_USER: {{ .Values.name }}
+  POSTGRES_PASSWORD: {{ .Values.name }}
   POSTGRES_USER_DB: user_db
   POSTGRES_CONVERTER_DB: converter_db
   POSTGRES_HISTORY_DB: history_db

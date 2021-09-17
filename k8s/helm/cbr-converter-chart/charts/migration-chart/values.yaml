@@ -1,4 +1,3 @@
-flyway:
-  restart: OnFailure
-  name: flyway
-  tag: v1
+restart: OnFailure
+name: flyway
+tag: v1

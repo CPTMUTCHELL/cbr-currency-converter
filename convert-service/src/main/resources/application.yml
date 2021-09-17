@@ -19,3 +19,16 @@ spring:
 cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
 server:
   port: 8082
+
+management:
+  endpoints:
+    web:
+      base-path: /converter
+  security:
+    enabled: false
+  health:
+    db:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always

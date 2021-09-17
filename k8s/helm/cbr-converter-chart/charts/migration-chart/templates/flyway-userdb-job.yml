@@ -6,10 +6,10 @@ spec:
   template:
     metadata:
       labels:
-          app: {{ .Values.flyway.name }}
+          app: {{ .Values.name }}
     spec:
       restartPolicy: OnFailure
       containers:
-        - name: {{ .Values.flyway.name }}-userdb
-          image: cptmutchell/{{ .Values.flyway.name }}-userdb:v1
+        - name: {{ .Values.name }}-userdb
+          image: cptmutchell/{{ .Values.name }}-userdb:v1
           command: ["flyway", "migrate"]
