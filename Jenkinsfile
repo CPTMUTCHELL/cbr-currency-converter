@@ -29,7 +29,7 @@ pipeline{
 
                    sh """
                     cd k8s/helm
-                    sudo minikube status
+                    minikube status
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 
                    """
