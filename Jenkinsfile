@@ -63,11 +63,11 @@ pipeline{
                         }
                     }
                     steps {
-                        dir('${auth}'){
+
                          sh """
-                            docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} ${auth}/flyway
+                            docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} -f ${auth}/flyway/Dockerfile .
                             """
-                         }
+
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
                             docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
@@ -89,7 +89,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/flyway-converterdb:v${BUILD_NUMBER} ${convert}/flyway
+                          docker build -t ${me}/flyway-converterdb:v${BUILD_NUMBER} -f ${convert}/flyway/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
@@ -111,7 +111,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/flyway-historydb:v${BUILD_NUMBER} ${history}/flyway
+                          docker build -t ${me}/flyway-historydb:v${BUILD_NUMBER} -f ${history}/flyway/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
@@ -138,7 +138,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/${auth}:v${BUILD_NUMBER} ${auth}/
+                          docker build -t ${me}/${auth}:v${BUILD_NUMBER} -f ${auth}/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
@@ -162,7 +162,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/${convert}:v${BUILD_NUMBER} ${convert}/
+                          docker build -t ${me}/${convert}:v${BUILD_NUMBER} -f ${convert}/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
@@ -184,7 +184,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/${history}:v${BUILD_NUMBER} ${history}/
+                          docker build -t ${me}/${history}:v${BUILD_NUMBER} -f ${history}/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
