@@ -23,20 +23,20 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
-//          stage("Traefik") {
-//            steps {
-//              script {
-//
-//                    sh """
-//                     cd k8s/helm
-//                     helm repo add traefik https://helm.traefik.io/traefik
-//                     helm repo update
-//                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-//
-//                    """
-//              }
-//            }
-//          }
+         stage("Traefik") {
+           steps {
+             script {
+
+                   sh """
+                    cd k8s/helm
+                    helm repo add traefik https://helm.traefik.io/traefik
+                    helm repo update
+                    helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
+
+                   """
+             }
+           }
+         }
         stage("Custom postgres") {
            steps {
                 sh """
@@ -162,7 +162,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/${convert}:v${BUILD_NUMBER} -f ${convert}/Dockerfile .
+                         DOCKER_BUILDKIT=1 docker build -t ${me}/${convert}:v${BUILD_NUMBER} -f ${convert}/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
@@ -184,7 +184,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/${history}:v${BUILD_NUMBER} -f ${history}/Dockerfile .
+                          DOCKER_BUILDKIT=1 docker build -t ${me}/${history}:v${BUILD_NUMBER} -f ${history}/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """

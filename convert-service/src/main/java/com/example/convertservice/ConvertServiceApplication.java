@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan(basePackages = {"com.example.entity"})
 
 public class ConvertServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ConvertServiceApplication.class, args);
     }
