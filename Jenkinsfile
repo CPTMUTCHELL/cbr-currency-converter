@@ -37,10 +37,10 @@ pipeline{
 //              }
 //            }
 //          }
-        stage("Init db") {
+        stage("Custom postgres") {
            steps {
                 sh """
-                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} .
+                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/.
                 """
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                    sh """
@@ -67,62 +67,60 @@ pipeline{
                             docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} .
                             """
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                                           sh """
-                                            docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
-                                            docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
-                                           """
+                           sh """
+                            docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
+                            docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
+                           """
                          }
                     }
                 }
             }
        }
-//                 stage("Convert db migration"){
-//                     when{
-//                         anyOf{
-//                             changeset "${convert}/src/resources/converterdb/*.sql"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
-//                             }
-//                             expression {return params.CONVERT_IMAGE}
-//
-//                         }
-//                     }
-//                     steps {
-//                           script {
-//                                 dockerImage = docker.build ()me + "/flyway-converterdb" + ":v$BUILD_NUMBER"
-//                                 docker.withRegistry('',registryCredential){
-//                                     dockerImage.push()
-//                                 }
-//                                 sh """
-//                                 docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
-//                                 """
-//                           }
-//                     }
-//                 }
-//                 stage("History db migration"){
-//                     when{
-//                         anyOf{
-//                             changeset "${history}/src/resources/historydb/*.sql"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
-//                             }
-//                             expression {return params.HISTORY_IMAGE}
-//                         }
-//                     }
-//                     steps {
-//                           script {
-//                                 dockerImage = docker.build ()me + "/flyway-historydb" + ":v$BUILD_NUMBER"
-//                                 docker.withRegistry('',registryCredential){
-//                                     dockerImage.push()
-//                                 }
-//                                 sh """
-//                                 docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
-//                                 """
-//                           }
-//                     }
-//                 }
-//             }
-//         }
+        stage("Convert db migration"){
+            when{
+                anyOf{
+                    changeset "${convert}/src/resources/converterdb/*.sql"
+                    expression {
+                        sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
+                    }
+                    expression {return params.CONVERT_IMAGE}
+
+                }
+            }
+            steps {
+                  sh """
+                  docker build -t ${me}/flyway-converterdb:v${BUILD_NUMBER} .
+                  """
+                  withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                     sh """
+                      docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
+                      docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
+                     """
+                  }
+            }
+        }
+        stage("History db migration"){
+            when{
+                anyOf{
+                    changeset "${history}/src/resources/historydb/*.sql"
+                    expression {
+                        sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
+                    }
+                    expression {return params.HISTORY_IMAGE}
+                }
+            }
+            steps {
+                  sh """
+                  docker build -t ${me}/flyway-historydb:v${BUILD_NUMBER} .
+                  """
+                  withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                     sh """
+                      docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
+                      docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
+                     """
+                  }
+            }
+        }
 //         stage ("Build images") {
 //             stages{
 //                 stage("Auth image build"){
