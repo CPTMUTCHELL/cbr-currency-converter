@@ -41,39 +41,37 @@ pipeline{
            steps {
                 sh """
                 docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} .
-
                 """
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                    sh """
                     docker push ${me}/postgres-multidb:v${BUILD_NUMBER}
                     docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
-
                    """
                 }
-//                  script {
-//                        dockerImage = docker.build ()me + "/postgres-multidb:v$BUILD_NUMBER"
-//                        docker.withRegistry('',registryCredential){
-//                            dockerImage.push()
-//                        }
-//                        sh """
-//                        docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
-//                        """
-//                  }
            }
         }
-//         stage("Deploy migrations") {
-//             parallel{
-//                 stage("Auth db migration"){
-//                     when{
-//                         anyOf{
-//                             changeset "${auth}/src/resources/userdb/*.sql"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/resources/userdb/.*"') == 0
-//                             }
-//                             expression {return params.AUTH_IMAGE}
-//                         }
-//                     }
-//                     steps {
+        stage("Deploy migrations") {
+            parallel{
+                stage("Auth db migration"){
+                    when{
+                        anyOf{
+                            changeset "${auth}/src/resources/userdb/*.sql"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/resources/userdb/.*"') == 0
+                            }
+                            expression {return params.AUTH_IMAGE}
+                        }
+                    }
+                    steps {
+                         sh """
+                            docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} .
+                            """
+                         withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                                           sh """
+                                            docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
+                                            docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
+                                           """
+                                        }
 //                           script {
 //                                 dockerImage = docker.build ()me + "/flyway-userdb" + ":v$BUILD_NUMBER"
 //                                 docker.withRegistry('',registryCredential){
@@ -83,8 +81,8 @@ pipeline{
 //                                 docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
 //                                 """
 //                           }
-//                     }
-//                 }
+                    }
+                }
 //                 stage("Convert db migration"){
 //                     when{
 //                         anyOf{
