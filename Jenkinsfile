@@ -138,7 +138,7 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/${auth}:v${BUILD_NUMBER} -f ${auth}/Dockerfile .
+                         DOCKER_BUILDKIT=1 docker build -t ${me}/${auth}:v${BUILD_NUMBER} -f ${auth}/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
