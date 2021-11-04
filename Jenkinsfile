@@ -1,17 +1,19 @@
 // sudo chmod 777 /var/run/docker.sock
 pipeline{
-    options {
-        buildDiscarder logRotator(numToKeepStr: '3')
-        durabilityHint('PERFORMANCE_OPTIMIZED')
 
+    agent{
+        docker {
+            image 'openjdk:15-alpine'
+            image 'maven:3.8.1-openjdk-15'
+            args '-v $HOME/.m2:/root/.m2'
+            reuseNode true
+        }
     }
-    agent
-    docker {
-        image 'openjdk:15-alpine'
-        image 'maven:3.8.1-openjdk-15'
-        args '-v $HOME/.m2:/root/.m2'
-        reuseNode true
-    }
+     options {
+            buildDiscarder logRotator(numToKeepStr: '3')
+            durabilityHint('PERFORMANCE_OPTIMIZED')
+
+     }
     environment {
         dockerImage = ''
         registryCredential = 'dockerhub_id'
@@ -33,7 +35,6 @@ pipeline{
 
                    sh """
                     cd k8s/helm
-                    minikube status
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 
                    """
