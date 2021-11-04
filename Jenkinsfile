@@ -28,7 +28,7 @@ pipeline{
              script {
 
                    sh """
-                    cd k8s/helm
+                    cd k8s
                     helm repo add traefik https://helm.traefik.io/traefik
                     helm repo update
                     kubectl config view --raw >~/.kube/config
@@ -38,19 +38,19 @@ pipeline{
              }
            }
          }
-//         stage("Custom postgres") {
-//            steps {
-//                 sh """
-//                 docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
-//                 """
-//                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-//                    sh """
-//                     docker push ${me}/postgres-multidb:v${BUILD_NUMBER}
-//                     docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
-//                    """
-//                 }
-//            }
-//         }
+        stage("Custom postgres") {
+           steps {
+                sh """
+                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
+                """
+                withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                   sh """
+                    docker push ${me}/postgres-multidb:v${BUILD_NUMBER}
+                    docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
+                   """
+                }
+           }
+        }
 //         stage("Deploy migrations") {
 //             parallel{
 //                 stage("Auth db migration"){
