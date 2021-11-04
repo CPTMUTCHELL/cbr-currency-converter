@@ -2,11 +2,15 @@
 pipeline{
     options {
         buildDiscarder logRotator(numToKeepStr: '3')
+        durabilityHint('PERFORMANCE_OPTIMIZED')
+
     }
-    agent any
-    tools {
-        maven 'mvn-3.8.1'
-        jdk 'jdk15'
+    agent
+    docker {
+        image 'openjdk:15-alpine'
+        image 'maven:3.8.1-openjdk-15'
+        args '-v $HOME/.m2:/root/.m2'
+        reuseNode true
     }
     environment {
         dockerImage = ''
