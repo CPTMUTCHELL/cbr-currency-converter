@@ -1,6 +1,5 @@
 // sudo chmod 777 /var/run/docker.sock
 pipeline{
-
     agent{
         docker {
             image 'openjdk:15-alpine'
