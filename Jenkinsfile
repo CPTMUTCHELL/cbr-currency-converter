@@ -36,6 +36,8 @@ pipeline{
 //              }
 //            }
 //          }
+
+
         stage("Init db") {
            steps {
                  script {
