@@ -40,7 +40,7 @@ pipeline{
         stage("Custom postgres") {
            steps {
                 sh """
-                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/Dockerfile
+                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
                 """
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                    sh """
