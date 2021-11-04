@@ -43,7 +43,7 @@ pipeline{
                 docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER}
 
                 """
-                withDockerRegistry(credentialsId: registryCredential){
+                withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                    sh """
                     docker push ${me}/postgres-multidb:v${BUILD_NUMBER}
                     docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
