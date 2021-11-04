@@ -121,6 +121,7 @@ pipeline{
                 }
             }
         }
+        }
 //         stage ("Build images") {
 //             stages{
 //                 stage("Auth image build"){
