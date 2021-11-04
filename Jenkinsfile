@@ -73,7 +73,7 @@ pipeline{
                            """
                          }
                     }
-
+                }
                 stage("Convert db migration"){
                     when{
                         anyOf{
@@ -121,7 +121,7 @@ pipeline{
                 }
             }
         }
-        }
+
 //         stage ("Build images") {
 //             stages{
 //                 stage("Auth image build"){
