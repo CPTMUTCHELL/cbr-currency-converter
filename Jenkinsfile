@@ -63,9 +63,11 @@ pipeline{
                         }
                     }
                     steps {
+                        dir('${auth}'){
                          sh """
                             docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} ${auth}/flyway
                             """
+                         }
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
                             docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
