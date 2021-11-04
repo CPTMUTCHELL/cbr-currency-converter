@@ -14,8 +14,6 @@ pipeline{
 
      }
     environment {
-
-
         dockerImage = ''
         registryCredential = 'dockerhub_id'
         me = 'cptmutchell'
@@ -35,6 +33,7 @@ pipeline{
              script {
 
                    sh """
+                   kubectl get nodes
                     cd k8s/helm
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 
