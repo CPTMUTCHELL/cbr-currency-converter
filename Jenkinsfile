@@ -64,7 +64,7 @@ pipeline{
                     }
                     steps {
                          sh """
-                            docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} .
+                            docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} ${auth}/flyway
                             """
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
@@ -73,52 +73,52 @@ pipeline{
                            """
                          }
                     }
-                }
-            }
-       }
-        stage("Convert db migration"){
-            when{
-                anyOf{
-                    changeset "${convert}/src/resources/converterdb/*.sql"
-                    expression {
-                        sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
-                    }
-                    expression {return params.CONVERT_IMAGE}
 
-                }
-            }
-            steps {
-                  sh """
-                  docker build -t ${me}/flyway-converterdb:v${BUILD_NUMBER} .
-                  """
-                  withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                     sh """
-                      docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
-                      docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
-                     """
-                  }
-            }
-        }
-        stage("History db migration"){
-            when{
-                anyOf{
-                    changeset "${history}/src/resources/historydb/*.sql"
-                    expression {
-                        sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
+                stage("Convert db migration"){
+                    when{
+                        anyOf{
+                            changeset "${convert}/src/resources/converterdb/*.sql"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
+                            }
+                            expression {return params.CONVERT_IMAGE}
+
+                        }
                     }
-                    expression {return params.HISTORY_IMAGE}
+                    steps {
+                          sh """
+                          docker build -t ${me}/flyway-converterdb:v${BUILD_NUMBER} ${convert}/flyway
+                          """
+                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                             sh """
+                              docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
+                              docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
+                             """
+                          }
+                    }
                 }
-            }
-            steps {
-                  sh """
-                  docker build -t ${me}/flyway-historydb:v${BUILD_NUMBER} .
-                  """
-                  withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                     sh """
-                      docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
-                      docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
-                     """
-                  }
+                stage("History db migration"){
+                    when{
+                        anyOf{
+                            changeset "${history}/src/resources/historydb/*.sql"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
+                            }
+                            expression {return params.HISTORY_IMAGE}
+                        }
+                    }
+                    steps {
+                          sh """
+                          docker build -t ${me}/flyway-historydb:v${BUILD_NUMBER} ${history}/flyway
+                          """
+                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                             sh """
+                              docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
+                              docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
+                             """
+                          }
+                    }
+                }
             }
         }
 //         stage ("Build images") {
