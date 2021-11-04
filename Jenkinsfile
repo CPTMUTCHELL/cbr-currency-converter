@@ -1,13 +1,8 @@
 // sudo chmod 777 /var/run/docker.sock
 pipeline{
-    agent{
-        docker {
-            image 'openjdk:15-alpine'
-            image 'maven:3.8.1-openjdk-15'
-            args '-v $HOME/.m2:/root/.m2'
-            reuseNode true
-        }
-    }
+    agent any
+
+
      options {
             buildDiscarder logRotator(numToKeepStr: '3')
             durabilityHint('PERFORMANCE_OPTIMIZED')
