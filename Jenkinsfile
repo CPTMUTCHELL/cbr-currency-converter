@@ -122,78 +122,78 @@ pipeline{
             }
         }
 
-//         stage ("Build images") {
-//             stages{
-//                 stage("Auth image build"){
-//                     when{
-//                         anyOf{
-//                             changeset "${auth}/**"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
-//                             }
-//                             expression {return params.AUTH_IMAGE}
-//                         }
-//                     }
-//                     steps {
-//                           script {
-//                                 dockerImage = docker.build ()me + "/$auth" + ":v$BUILD_NUMBER"
-//                                 docker.withRegistry('',registryCredential){
-//                                     dockerImage.push()
-//                                 }
-//                                 sh """
-//                                 docker rmi ${me}/${auth}:v${BUILD_NUMBER}
-//                                 """
-//                           }
-//                     }
-//                 }
-//                 stage("Convert image build"){
-//                     when{
-//                         anyOf{
-//                             changeset "${convert}/**"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
-//                             }
-//                             expression {return params.CONVERT_IMAGE}
-//
-//                         }
-//                     }
-//                     steps {
-//                           script {
-//                                 dockerImage = docker.build ()me + "/$convert" + ":v$BUILD_NUMBER"
-//                                 docker.withRegistry('',registryCredential){
-//                                     dockerImage.push()
-//                                 }
-//                                 sh """
-//                                 docker rmi ${me}/${convert}:v${BUILD_NUMBER}
-//                                 """
-//                           }
-//                     }
-//                 }
-//                 stage("History image build"){
-//                     when{
-//                         anyOf{
-//                             changeset "${history}/**"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
-//                             }
-//                             expression {return params.HISTORY_IMAGE}
-//                         }
-//                     }
-//                     steps {
-//                           script {
-//                                 dockerImage = docker.build ()me + "/$history" + ":v$BUILD_NUMBER"
-//                                 docker.withRegistry('',registryCredential){
-//                                     dockerImage.push()
-//                                 }
-//                                 //to delete image locally
-//                                 sh """
-//                                 docker rmi ${me}/${history}:v${BUILD_NUMBER}
-//                                 """
-//                           }
-//                     }
-//                 }
-//             }
-//         }
+        stage ("Build images") {
+            stages{
+                stage("Auth image build"){
+                    when{
+                        anyOf{
+                            changeset "${auth}/**"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
+                            }
+                            expression {return params.AUTH_IMAGE}
+                        }
+                    }
+                    steps {
+                          sh """
+                          docker build -t ${me}/${auth}:v${BUILD_NUMBER} ${auth}/
+                          """
+                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                             sh """
+                              docker push ${me}/${auth}:v${BUILD_NUMBER}
+                              docker rmi ${me}/${auth}:v${BUILD_NUMBER}
+                             """
+                          }
+
+                    }
+                }
+                stage("Convert image build"){
+                    when{
+                        anyOf{
+                            changeset "${convert}/**"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
+                            }
+                            expression {return params.CONVERT_IMAGE}
+
+                        }
+                    }
+                    steps {
+                          sh """
+                          docker build -t ${me}/${convert}:v${BUILD_NUMBER} ${convert}/
+                          """
+                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                             sh """
+                              docker push ${me}/${convert}:v${BUILD_NUMBER}
+                              docker rmi ${me}/${convert}:v${BUILD_NUMBER}
+                             """
+                          }
+                    }
+                }
+                stage("History image build"){
+                    when{
+                        anyOf{
+                            changeset "${history}/**"
+                            expression {
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
+                            }
+                            expression {return params.HISTORY_IMAGE}
+                        }
+                    }
+                    steps {
+                          sh """
+                          docker build -t ${me}/${history}:v${BUILD_NUMBER} ${history}/
+                          """
+                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                             sh """
+                              docker push ${me}/${history}:v${BUILD_NUMBER}
+                              docker rmi ${me}/${history}:v${BUILD_NUMBER}
+                             """
+                          }
+                    }
+                }
+            }
+        }
 //         stage("K8s apply"){
 //             when{
 //                 anyOf{
