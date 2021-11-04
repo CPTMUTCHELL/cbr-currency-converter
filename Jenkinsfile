@@ -71,18 +71,11 @@ pipeline{
                                             docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
                                             docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
                                            """
-                                        }
-//                           script {
-//                                 dockerImage = docker.build ()me + "/flyway-userdb" + ":v$BUILD_NUMBER"
-//                                 docker.withRegistry('',registryCredential){
-//                                     dockerImage.push()
-//                                 }
-//                                 sh """
-//                                 docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
-//                                 """
-//                           }
+                         }
                     }
                 }
+            }
+       }
 //                 stage("Convert db migration"){
 //                     when{
 //                         anyOf{
