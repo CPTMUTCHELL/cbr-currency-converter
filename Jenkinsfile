@@ -28,27 +28,37 @@ pipeline{
 //              script {
 //
 //                    sh """
-//                    kubectl get nodes
 //                     cd k8s/helm
+//                     helm repo add traefik https://helm.traefik.io/traefik
+//                     helm repo update
 //                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 //
 //                    """
 //              }
 //            }
 //          }
-
-
         stage("Init db") {
            steps {
-                 script {
-                       dockerImage = docker.build ()me + "/postgres-multidb:v$BUILD_NUMBER"
-                       docker.withRegistry('',registryCredential){
-                           dockerImage.push()
-                       }
-                       sh """
-                       docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
-                       """
-                 }
+                sh """
+                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER}
+
+                """
+                withDockerRegistry(credentialsId: registryCredential){
+                   sh """
+                    docker push ${me}/postgres-multidb:v${BUILD_NUMBER}
+                    docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
+
+                   """
+                }
+//                  script {
+//                        dockerImage = docker.build ()me + "/postgres-multidb:v$BUILD_NUMBER"
+//                        docker.withRegistry('',registryCredential){
+//                            dockerImage.push()
+//                        }
+//                        sh """
+//                        docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
+//                        """
+//                  }
            }
         }
 //         stage("Deploy migrations") {
