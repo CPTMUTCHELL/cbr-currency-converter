@@ -23,32 +23,32 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
-         stage("Traefik") {
-           steps {
-             script {
-
-                   sh """
-                   kubectl get nodes
-                    cd k8s/helm
-                    helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-
-                   """
-             }
-           }
-         }
-//         stage("Init db") {
+//          stage("Traefik") {
 //            steps {
-//                  script {
-//                        dockerImage = docker.build ()me + "/postgres-multidb:v$BUILD_NUMBER"
-//                        docker.withRegistry('',registryCredential){
-//                            dockerImage.push()
-//                        }
-//                        sh """
-//                        docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
-//                        """
-//                  }
+//              script {
+//
+//                    sh """
+//                    kubectl get nodes
+//                     cd k8s/helm
+//                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
+//
+//                    """
+//              }
 //            }
-//         }
+//          }
+        stage("Init db") {
+           steps {
+                 script {
+                       dockerImage = docker.build ()me + "/postgres-multidb:v$BUILD_NUMBER"
+                       docker.withRegistry('',registryCredential){
+                           dockerImage.push()
+                       }
+                       sh """
+                       docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
+                       """
+                 }
+           }
+        }
 //         stage("Deploy migrations") {
 //             parallel{
 //                 stage("Auth db migration"){
