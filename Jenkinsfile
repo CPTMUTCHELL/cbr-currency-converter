@@ -39,7 +39,7 @@ pipeline{
                    def read = readYaml file: 'datas.yaml'
 
                    writeYaml file: 'datas.yaml', data: amap1 ,overwrite: true
-                    def read = readYaml file: 'datas.yaml'
+                   read = readYaml file: 'datas.yaml'
                    sh"""
                    cat datas.yaml
                    """
