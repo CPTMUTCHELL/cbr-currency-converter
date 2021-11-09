@@ -36,9 +36,12 @@ pipeline{
                     ]
                     def amap1 =['auth': 'tag']
                    writeYaml file: 'datas.yaml', data: amap
+                    sh"""
+                                      cat datas.yaml
+                                      """
                    def read = readYaml file: 'datas.yaml'
 
-                   writeYaml file: 'datas.yaml', data: amap1 ,overwrite: true
+                   writeYaml file: 'datas.yaml', data: amap1
                    read = readYaml file: 'datas.yaml'
                    sh"""
                    cat datas.yaml
