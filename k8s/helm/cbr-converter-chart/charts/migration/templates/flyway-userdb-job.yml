@@ -11,5 +11,5 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: {{ .Values.name }}-userdb
-          image: cptmutchell/{{ .Values.name }}-userdb:v1
+          image: {{ .Values.user.image }}:{{ .Values.user.tag }}
           command: ["flyway", "migrate"]

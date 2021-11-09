@@ -1,5 +1,5 @@
 apiVersion: v2
-name: convert-chart
+name: convert
 description: A Helm chart for Kubernetes
 home: cbr-converter-chart
 

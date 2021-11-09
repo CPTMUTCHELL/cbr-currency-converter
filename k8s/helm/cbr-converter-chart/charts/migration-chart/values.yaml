@@ -1,3 +1,0 @@
-restart: OnFailure
-name: flyway
-tag: v1

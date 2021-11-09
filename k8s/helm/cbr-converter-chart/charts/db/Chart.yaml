@@ -1,7 +1,7 @@
 apiVersion: v2
-name: auth-chart
-home: cbr-converter-chart
+name: db
 description: A Helm chart for Kubernetes
+home: cbr-converter-chart
 
 # A chart can be either an 'application' or a 'library' chart.
 #

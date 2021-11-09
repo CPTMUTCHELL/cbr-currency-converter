@@ -7,25 +7,25 @@ spec:
      - host: myconverter
        http:
         paths:
-            - path: /{{.Values.global.authDeployment.name}}
+            - path: /{{ .Values.auth.name}}
               pathType: Prefix
               backend:
                 service:
-                  name: {{.Values.global.authDeployment.name}}-service
+                  name: {{.Values.auth.name}}-service
                   port:
-                    number: {{.Values.global.authDeployment.port}}
+                    number: {{.Values.auth.port}}
 
-            - path: /{{.Values.global.convertDeployment.name}}
+            - path: /{{.Values.convert.name}}
               pathType: Prefix
               backend:
                 service:
-                  name: {{.Values.global.convertDeployment.name}}-service
+                  name: {{.Values.convert.name}}-service
                   port:
-                    number: {{.Values.global.convertDeployment.port}}
-            - path: /{{.Values.global.historyDeployment.name}}
+                    number: {{.Values.convert.port}}
+            - path: /{{.Values.history.name}}
               pathType: Prefix
               backend:
                 service:
-                  name: {{.Values.global.historyDeployment.name}}-service
+                  name: {{.Values.history.name}}-service
                   port:
-                    number: {{.Values.global.historyDeployment.port}}
+                    number: {{.Values.history.port}}

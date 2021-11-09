@@ -1,19 +1,22 @@
 global:
-  authDeployment:
-    image: cptmutchell/auth-service
-    tag: v1
-    name: auth
-    port: "8081"
-  convertDeployment:
-    image: cptmutchell/convert-service
-    tag: v1
-    name: converter
-    port: "8082"
-  historyDeployment:
-    image: cptmutchell/history-service
-    tag: v1
-    name: history
-    port: "8083"
-
   initDelay: 15
   period: 20
+auth:
+  tag: v1
+  name: auth
+  port: "8081"
+convert:
+  tag: v1
+  name: converter
+  port: "8082"
+history:
+  tag: v1
+  name: history
+  port: "8083"
+migration:
+  history:
+    tag: v1
+  converter:
+    tag: v1
+  user:
+    tag: v1
