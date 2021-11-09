@@ -26,13 +26,24 @@ pipeline{
       stage("create file") {
                steps {
                  script {
-                        def amap = ['something': 'my datas',
-                                          'size': 3,
-                                          'isEmpty': false]
+                    sh"""
+                     rm -rf datas.yaml || true
+                     """
+                   def amap = [
+                   'something': 'my datas',
+                    'size': 3,
+                    'isEmpty': false
+                    ]
+                    def amap1 =['auth': 'tag' :'v2']
+                   writeYaml file: 'datas.yaml', data: amap
+                   def read = readYaml file: 'datas.yaml'
 
-                              writeYaml file: 'datas.yaml', data: amap
-                              def read = readYaml file: 'datas.yaml'
-
+                   writeYaml file: 'datas.yaml', data: amap1 ,overwrite: true
+                    def read = readYaml file: 'datas.yaml'
+                   read.auth.tag="v1"
+                   sh"""
+                   cat datas.yaml
+                   """
                  }
                }
              }
