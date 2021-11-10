@@ -75,8 +75,10 @@ pipeline{
                            sh """
                             docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
                             docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
+                            set += 'migration.user.tag=v${BUILD_NUMBER},'
+                            echo ${set}
                            """
-                           set = set + 'migration.user.tag=v${BUILD_NUMBER},'
+
                          }
                     }
                 }
@@ -100,7 +102,7 @@ pipeline{
                               docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
                               docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
                              """
-                            set = set + 'migration.converter.tag=v${BUILD_NUMBER},'
+//                             set = set + 'migration.converter.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -123,7 +125,7 @@ pipeline{
                               docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
                               docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
                              """
-                              set = set + 'migration.history.tag=v${BUILD_NUMBER},'
+//                               set = set + 'migration.history.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -151,7 +153,7 @@ pipeline{
                               docker push ${me}/${auth}:v${BUILD_NUMBER}
                               docker rmi ${me}/${auth}:v${BUILD_NUMBER}
                              """
-                              set = set + 'auth.tag=v${BUILD_NUMBER},'
+//                               set = set + 'auth.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -175,7 +177,7 @@ pipeline{
                               docker push ${me}/${convert}:v${BUILD_NUMBER}
                               docker rmi ${me}/${convert}:v${BUILD_NUMBER}
                              """
-                              set = set + 'convert.tag=v${BUILD_NUMBER},'
+//                               set = set + 'convert.tag=v${BUILD_NUMBER},'
 
                           }
                     }
@@ -199,8 +201,8 @@ pipeline{
                               docker push ${me}/${history}:v${BUILD_NUMBER}
                               docker rmi ${me}/${history}:v${BUILD_NUMBER}
                              """
-                              set = set + 'history.tag=v${BUILD_NUMBER},'
-                                sh "echo ${set}"
+//                               set = set + 'history.tag=v${BUILD_NUMBER},'
+//                                 sh "echo ${set}"
                           }
                     }
                 }
