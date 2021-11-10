@@ -25,21 +25,21 @@ pipeline{
     }
     stages{
 
-         stage("Traefik") {
-           steps {
-             script {
-                    set= set+'image.tag=${BUILD_NUMBER},'
-                   sh """
-                    ${set}
-                    cd k8s
-                    helm repo add traefik https://helm.traefik.io/traefik
-                    helm repo update
-                    helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-
-                   """
-             }
-           }
-         }
+//          stage("Traefik") {
+//            steps {
+//              script {
+//                     set= set+'image.tag=${BUILD_NUMBER},'
+//                    sh """
+//                     ${set}
+//                     cd k8s
+//                     helm repo add traefik https://helm.traefik.io/traefik
+//                     helm repo update
+//                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
+//
+//                    """
+//              }
+//            }
+//          }
         stage("Custom postgres") {
            steps {
                 sh """
@@ -75,10 +75,12 @@ pipeline{
                            sh """
                             docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
                             docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
-                            set += 'migration.user.tag=v${BUILD_NUMBER},'
-                            echo ${set}
+
                            """
 
+                         }
+                         script{
+                            set = set + 'migration.auth.tag=v{BUILD_NUMBER}'
                          }
                     }
                 }
@@ -102,7 +104,10 @@ pipeline{
                               docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
                               docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
                              """
-//                             set = set + 'migration.converter.tag=v${BUILD_NUMBER},'
+//
+                          }
+                          script{
+                            set = set + 'migration.converter.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -125,7 +130,10 @@ pipeline{
                               docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
                               docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
                              """
-//                               set = set + 'migration.history.tag=v${BUILD_NUMBER},'
+//
+                          }
+                          script{
+                            set = set + 'migration.history.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -153,7 +161,9 @@ pipeline{
                               docker push ${me}/${auth}:v${BUILD_NUMBER}
                               docker rmi ${me}/${auth}:v${BUILD_NUMBER}
                              """
-//                               set = set + 'auth.tag=v${BUILD_NUMBER},'
+                          }
+                          script{
+                            set = set + 'auth.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -177,8 +187,9 @@ pipeline{
                               docker push ${me}/${convert}:v${BUILD_NUMBER}
                               docker rmi ${me}/${convert}:v${BUILD_NUMBER}
                              """
-//                               set = set + 'convert.tag=v${BUILD_NUMBER},'
-
+                          }
+                          script{
+                            set = set + 'convert.tag=v${BUILD_NUMBER},'
                           }
                     }
                 }
@@ -201,8 +212,11 @@ pipeline{
                               docker push ${me}/${history}:v${BUILD_NUMBER}
                               docker rmi ${me}/${history}:v${BUILD_NUMBER}
                              """
-//                               set = set + 'history.tag=v${BUILD_NUMBER},'
-//                                 sh "echo ${set}"
+
+                          }
+                          script{
+                              set = set + 'history.tag=v${BUILD_NUMBER},'
+                            echo ${set}
                           }
                     }
                 }
