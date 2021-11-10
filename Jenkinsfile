@@ -216,8 +216,11 @@ pipeline{
                           }
                           script{
                               set = set + 'history.tag=v${BUILD_NUMBER},'
-                            echo ${set}
+
                           }
+                          sh"""
+                            echo ${set}
+                          """
                     }
                 }
             }
