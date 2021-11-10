@@ -16,6 +16,7 @@ pipeline{
         entity = "entity"
         history =  'history-service'
         convert = 'convert-service'
+        set='helm upgrade --install cbr ./cbr-converter-chart --set '
     }
     parameters {
     booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -23,35 +24,11 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
-      stage("create file") {
-               steps {
-                 script {
-                    sh"""
-                     rm -rf datas.yaml || true
-                     """
-                   def amap = [
-                   'something': 'my datas',
-                    'size': 3,
-                    'isEmpty': false
-                    ]
-                    def amap1 =['auth': 'tag']
-                   writeYaml file: 'datas.yaml', data: amap
-                    sh"""
-                                      cat datas.yaml
-                                      """
-                   def read = readYaml file: 'datas.yaml'
 
-                   writeYaml file: 'datas.yaml', data: amap1
-                   read = readYaml file: 'datas.yaml'
-                   sh"""
-                   cat datas.yaml
-                   """
-                 }
-               }
-             }
          stage("Traefik") {
            steps {
              script {
+                    set= set+'image.tag=${BUILD_NUMBER},'
                    sh """
                     cd k8s
                     helm repo add traefik https://helm.traefik.io/traefik
@@ -97,6 +74,7 @@ pipeline{
                            sh """
                             docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
                             docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
+
                            """
                          }
                     }
