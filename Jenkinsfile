@@ -221,7 +221,7 @@ pipeline{
                     if (set =~ '--set [A-Za-z]') {
                         set = set.substring(0, set.length() - 1);
                         sh"""
-                        pwd
+                        cd k8s/helm
                         eval ${set}
                         """
 
