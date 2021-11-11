@@ -16,7 +16,7 @@ pipeline{
         entity = "entity"
         history =  'history-service'
         convert = 'convert-service'
-        set='helm upgrade --install cbr ./cbr-converter-chart --set '
+        set='helm update --install cbr ./cbr-converter-chart --set '
     }
     parameters {
     booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -132,9 +132,6 @@ pipeline{
                           }
                           script{
                             set = set + 'migration.history.tag=v${BUILD_NUMBER},'
-                            sh"""
-                            echo ${set}
-                            """
                           }
                     }
                 }
@@ -230,8 +227,7 @@ pipeline{
                         sh"""
                         bash -c ${set}
                         """
-                        sh 'echo set'
-                        sh 'echo ${set}'
+
                     }
                 }
             }
