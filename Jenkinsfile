@@ -74,7 +74,7 @@ pipeline{
                            sh """
                             docker push ${me}/flyway-userdb:v1
                             docker rmi ${me}/flyway-userdb:v1
-                            kubectl delete job flyway-userdb-job --ignore-not-found=true
+                            kubectl delete job flyway-userdb-job --ignore-not-found=truebash -c helm upgrade
                            """
 
                          }
@@ -221,7 +221,7 @@ pipeline{
                     if (set =~ '--set [A-Za-z]') {
                         set = set.substring(0, set.length() - 1);
                         sh"""
-                        bash -c ${set}
+                        eval ${set}
                         """
 
                     }
