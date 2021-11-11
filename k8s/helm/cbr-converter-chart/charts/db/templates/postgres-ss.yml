@@ -38,7 +38,7 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-user-db-storage
-         #     subPath: postgres
+              subPath: postgres
           readinessProbe:
             exec:
               command:
