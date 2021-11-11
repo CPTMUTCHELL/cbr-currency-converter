@@ -16,7 +16,7 @@ pipeline{
         entity = "entity"
         history =  'history-service'
         convert = 'convert-service'
-        set='helm update --install cbr ./cbr-converter-chart --set '
+        set='helm upgrade --install cbr ./cbr-converter-chart --set '
     }
     parameters {
     booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -67,21 +67,18 @@ pipeline{
                     steps {
 
                          sh """
-                            docker build -t ${me}/flyway-userdb:v${BUILD_NUMBER} -f ${auth}/flyway/Dockerfile .
+                            docker build -t ${me}/flyway-userdb:v1 -f ${auth}/flyway/Dockerfile .
                             """
 
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
-                            docker push ${me}/flyway-userdb:v${BUILD_NUMBER}
-                            docker rmi ${me}/flyway-userdb:v${BUILD_NUMBER}
-
+                            docker push ${me}/flyway-userdb:v1
+                            docker rmi ${me}/flyway-userdb:v1
+                            kubectl delete job flyway-userdb-job
                            """
 
                          }
-                         script{
-                            set = set + 'migration.auth.tag=v${BUILD_NUMBER},'
 
-                         }
                     }
                 }
                 stage("Convert db migration"){
@@ -97,17 +94,17 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/flyway-converterdb:v${BUILD_NUMBER} -f ${convert}/flyway/Dockerfile .
+                          docker build -t ${me}/flyway-converterdb:v1 -f ${convert}/flyway/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
-                              docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
-                              docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
+                              docker push ${me}/flyway-converterdb:v1
+                              docker rmi ${me}/flyway-converterdb:v1
+                              kubectl delete job flyway-converterdb-job
+
                              """
                           }
-                          script{
-                            set = set + 'migration.converter.tag=v${BUILD_NUMBER},'
-                          }
+
                     }
                 }
                 stage("History db migration"){
@@ -122,17 +119,16 @@ pipeline{
                     }
                     steps {
                           sh """
-                          docker build -t ${me}/flyway-historydb:v${BUILD_NUMBER} -f ${history}/flyway/Dockerfile .
+                          docker build -t ${me}/flyway-historydb:v1 -f ${history}/flyway/Dockerfile .
                           """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                              sh """
-                              docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
-                              docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
+                              docker push ${me}/flyway-historydb:v1
+                              docker rmi ${me}/flyway-historydb:v1
+                              kubectl delete job flyway-historydb-job
                              """
                           }
-                          script{
-                            set = set + 'migration.history.tag=v${BUILD_NUMBER},'
-                          }
+
                     }
                 }
             }
