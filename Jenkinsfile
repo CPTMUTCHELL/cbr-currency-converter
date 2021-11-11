@@ -13,7 +13,6 @@ pipeline{
         registryCredential = 'dockerhub_id'
         me = 'cptmutchell'
         auth = 'auth-service'
-        entity = "entity"
         history =  'history-service'
         convert = 'convert-service'
         set='helm upgrade --install cbr ./cbr-converter-chart --set '
@@ -52,6 +51,7 @@ pipeline{
                 }
            }
         }
+
         stage("Deploy migrations") {
             parallel{
                 stage("Auth db migration"){
@@ -225,6 +225,11 @@ pipeline{
                         eval ${set}
                         """
 
+                    }
+                    else {
+                        sh"""
+                            helm upgrade --install cbr ./cbr-converter-chart
+                        """
                     }
                 }
             }
