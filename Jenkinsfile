@@ -224,12 +224,9 @@ pipeline{
                 script {
                     if (set =~ '--set [A-Za-z]') {
                         set = set.substring(0, set.length() - 1);
-                        sh"""
-
-                            echo ${set}
-                            chmod +x set
-                            ./set
-                        """
+                        sh'''
+                            bash -c ${set}
+                        '''
                     }
                 }
             }
