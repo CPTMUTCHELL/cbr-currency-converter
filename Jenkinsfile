@@ -42,12 +42,12 @@ pipeline{
         stage("Custom postgres") {
            steps {
                 sh """
-                docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
+                docker build -t ${me}/postgres-multidb:v1 postgres/
                 """
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                    sh """
-                    docker push ${me}/postgres-multidb:v${BUILD_NUMBER}
-                    docker rmi ${me}/postgres-multidb:v${BUILD_NUMBER}
+                    docker push ${me}/postgres-multidb:v1
+                    docker rmi ${me}/postgres-multidb:v1
                    """
                 }
            }
@@ -228,12 +228,10 @@ pipeline{
                     if (set =~ '--set [A-Za-z]') {
                         set = set.substring(0, set.length() - 1);
                         sh"""
-                        echo ${set}
+                        bash -c ${set}
                         """
-                        sh'''
-                            echo ${set}
-                            bash -c ${set}
-                        '''
+                        sh 'echo set'
+                        sh 'echo ${set}'
                     }
                 }
             }
