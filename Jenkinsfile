@@ -25,30 +25,20 @@ pipeline{
     }
     stages{
 
-//          stage("Traefik") {
-//            steps {
-//              script {
-//                     set= set+'image.tag=${BUILD_NUMBER},'
-//                    sh """
-//                     ${set}
-//                     cd k8s
-//                     helm repo add traefik https://helm.traefik.io/traefik
-//                     helm repo update
-//                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-//
-//                    """
-//              }
-//            }
-//          }
-        stage("Custom postgres") {
+         stage("Traefik") {
            steps {
-                script{
-                    if (set =~ /'--set (.*)'/){
-                            sh """
-                               echo 'OLOLO'
-                            """
-                    }
-                }
+             script {
+             sh"""
+                    cd k8s/helm
+                    helm repo add traefik https://helm.traefik.io/traefik
+                    helm repo update
+                    helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
+
+                   """
+             }
+           }
+         }
+        stage("Custom postgres") {
                 sh """
                 docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
                 """
@@ -230,9 +220,19 @@ pipeline{
                 }
             }
         }
-//         stage("Helm"){
-//
-//         }
+        stage("Helm"){
+             steps{
+                script{
+                    if (set =~ '--set [A-Za-z]') {
+                        set = set.substring(0, set.length() - 1);
+                        sh"""
+                            set
+                        """
+
+                    }
+                }
+            }
+        }
 
     }
 }
