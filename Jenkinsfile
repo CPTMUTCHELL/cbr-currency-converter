@@ -74,7 +74,7 @@ pipeline{
                            sh """
                             docker push ${me}/flyway-userdb:v1
                             docker rmi ${me}/flyway-userdb:v1
-                            kubectl delete job flyway-userdb-job
+                            kubectl delete job flyway-userdb-job --ignore-not-found=true
                            """
 
                          }
@@ -100,7 +100,7 @@ pipeline{
                              sh """
                               docker push ${me}/flyway-converterdb:v1
                               docker rmi ${me}/flyway-converterdb:v1
-                              kubectl delete job flyway-converterdb-job
+                              kubectl delete job flyway-converterdb-job --ignore-not-found=true
 
                              """
                           }
@@ -125,7 +125,7 @@ pipeline{
                              sh """
                               docker push ${me}/flyway-historydb:v1
                               docker rmi ${me}/flyway-historydb:v1
-                              kubectl delete job flyway-historydb-job
+                              kubectl delete job flyway-historydb-job --ignore-not-found=true
                              """
                           }
 
