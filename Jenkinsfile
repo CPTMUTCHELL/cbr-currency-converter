@@ -80,6 +80,7 @@ pipeline{
                          }
                          script{
                             set = set + 'migration.auth.tag=v${BUILD_NUMBER}'
+
                          }
                     }
                 }
@@ -225,7 +226,7 @@ pipeline{
                         set = set.substring(0, set.length() - 1);
                         sh"""
 
-                            set
+                            echo ${set}
                         """
                     }
                 }
