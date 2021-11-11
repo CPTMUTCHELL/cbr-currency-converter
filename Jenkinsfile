@@ -74,7 +74,7 @@ pipeline{
                            sh """
                             docker push ${me}/flyway-userdb:v1
                             docker rmi ${me}/flyway-userdb:v1
-                            kubectl delete job flyway-userdb-job --ignore-not-found=truebash -c helm upgrade
+                            kubectl delete job flyway-userdb-job --ignore-not-found=true
                            """
 
                          }
