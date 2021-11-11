@@ -16,7 +16,7 @@ pipeline{
         entity = "entity"
         history =  'history-service'
         convert = 'convert-service'
-        set='helm upgrade --install cbr ./cbr-converter-chart --set '
+        set='helm upgrade --install cbr ./cbr-converter-chart --set migration,'
     }
     parameters {
     booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -42,6 +42,13 @@ pipeline{
 //          }
         stage("Custom postgres") {
            steps {
+                script{
+                    if (set =~ /'--set (.*)'/){
+                            sh """
+                               echo 'OLOLO'
+                            """
+                    }
+                }
                 sh """
                 docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
                 """
@@ -80,7 +87,7 @@ pipeline{
 
                          }
                          script{
-                            set = set + 'migration.auth.tag=v{BUILD_NUMBER}'
+                            set = set + 'migration.auth.tag=v${BUILD_NUMBER}'
                          }
                     }
                 }
@@ -218,35 +225,13 @@ pipeline{
                               set = set + 'history.tag=v${BUILD_NUMBER},'
 
                           }
-                          sh"""
-                            echo ${set}
-                          """
+
                     }
                 }
             }
         }
-//         stage("K8s apply"){
-//             when{
-//                 anyOf{
-//                     changeset "${history}/**"
-//                     expression {
-//                         sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
-//                     }
-//                     expression {return params.HISTORY_IMAGE}
-//                 }
-//             }
-//             steps {
-//                   script {
-//                         dockerImage = docker.build ()me + "/$history" + ":v$BUILD_NUMBER"
-//                         docker.withRegistry('',registryCredential){
-//                             dockerImage.push()
-//                         }
-//                         //to delete image locally
-//                         sh """
-//                         docker rmi ${me}/${history}:v${BUILD_NUMBER}
-//                         """
-//                   }
-//             }
+//         stage("Helm"){
+//
 //         }
 
     }
