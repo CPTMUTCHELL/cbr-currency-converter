@@ -79,7 +79,7 @@ pipeline{
 
                          }
                          script{
-                            set = set + 'migration.auth.tag=v${BUILD_NUMBER}'
+                            set = set + 'migration.auth.tag=v${BUILD_NUMBER},'
 
                          }
                     }
@@ -132,6 +132,9 @@ pipeline{
                           }
                           script{
                             set = set + 'migration.history.tag=v${BUILD_NUMBER},'
+                            sh"""
+                            echo ${set}
+                            """
                           }
                     }
                 }
@@ -224,6 +227,9 @@ pipeline{
                 script {
                     if (set =~ '--set [A-Za-z]') {
                         set = set.substring(0, set.length() - 1);
+                        sh"""
+                        echo ${set}
+                        """
                         sh'''
                             echo ${set}
                             bash -c ${set}
