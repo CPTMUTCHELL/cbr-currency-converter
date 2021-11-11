@@ -227,6 +227,8 @@ pipeline{
                         sh"""
 
                             echo ${set}
+                            chmod +x set
+                            ./set
                         """
                     }
                 }
