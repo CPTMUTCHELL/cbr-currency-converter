@@ -24,7 +24,6 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
-
          stage("Traefik") {
            steps {
              script {
@@ -101,7 +100,6 @@ pipeline{
                               docker push ${me}/flyway-converterdb:v${BUILD_NUMBER}
                               docker rmi ${me}/flyway-converterdb:v${BUILD_NUMBER}
                              """
-//
                           }
                           script{
                             set = set + 'migration.converter.tag=v${BUILD_NUMBER},'
@@ -127,7 +125,6 @@ pipeline{
                               docker push ${me}/flyway-historydb:v${BUILD_NUMBER}
                               docker rmi ${me}/flyway-historydb:v${BUILD_NUMBER}
                              """
-//
                           }
                           script{
                             set = set + 'migration.history.tag=v${BUILD_NUMBER},'
@@ -228,11 +225,9 @@ pipeline{
                         sh"""
                             set
                         """
-
                     }
                 }
             }
-        }
 
     }
 }
