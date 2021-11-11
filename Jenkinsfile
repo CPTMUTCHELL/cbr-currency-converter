@@ -224,10 +224,10 @@ pipeline{
                         cd k8s/helm
                         eval ${set}
                         """
-
                     }
                     else {
                         sh"""
+                            cd k8s/helm
                             helm upgrade --install cbr ./cbr-converter-chart
                         """
                     }
