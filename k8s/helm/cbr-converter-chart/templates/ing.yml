@@ -4,7 +4,8 @@ metadata:
   name: ingress-converter
 spec:
   rules:
-       http:
+    - http:
+
         paths:
             - path: /{{ .Values.auth.name}}
               pathType: Prefix
