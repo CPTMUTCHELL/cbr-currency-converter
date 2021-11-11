@@ -16,7 +16,7 @@ pipeline{
         entity = "entity"
         history =  'history-service'
         convert = 'convert-service'
-        set='helm upgrade --install cbr ./cbr-converter-chart --set migration,'
+        set='helm upgrade --install cbr ./cbr-converter-chart --set migration.auth.tag=v${BUILD_NUMBER},'
     }
     parameters {
     booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -24,20 +24,23 @@ pipeline{
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
     }
     stages{
+
          stage("Traefik") {
-           steps {
+            steps {
              script {
-             sh"""
+
+                    sh """
                     cd k8s/helm
                     helm repo add traefik https://helm.traefik.io/traefik
                     helm repo update
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 
-                   """
+                    """
              }
-           }
+            }
          }
         stage("Custom postgres") {
+           steps {
                 sh """
                 docker build -t ${me}/postgres-multidb:v${BUILD_NUMBER} postgres/
                 """
@@ -206,17 +209,29 @@ pipeline{
                               docker push ${me}/${history}:v${BUILD_NUMBER}
                               docker rmi ${me}/${history}:v${BUILD_NUMBER}
                              """
-
                           }
                           script{
                               set = set + 'history.tag=v${BUILD_NUMBER},'
 
                           }
-
                     }
                 }
             }
         }
+
+         stage("Helm") {
+            steps {
+             script {
+                    if (set =~ '--set [A-Za-z]') {
+                        set = set.substring(0, set.length() - 1);
+                        sh"""
+
+                            set
+                        """
+                    }
+             }
+            }
+         }
 
     }
 }
