@@ -74,7 +74,7 @@ pipeline{
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
 
-                           ./docker.sh flyway-userdb v1 ${auth}/flyway
+                           sh ./docker.sh flyway-userdb v1 ${auth}/flyway
 //
                            """
 

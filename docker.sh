@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 
 if [[ "$1" =~ "flyway" ]]; then
@@ -8,5 +8,5 @@ if [[ "$1" =~ "flyway" ]]; then
 else
 DOCKER_BUILDKIT=1 docker build -t cptmutchell/"$1":"$2" -f "$1"/Dockerfile .
 fi
-docker push cptmutchell/"$1":$2
-docker rmi cptmutchell/$1:$2
+docker push cptmutchell/"$1":"$2"
+docker rmi cptmutchell/"$1":"$2"
