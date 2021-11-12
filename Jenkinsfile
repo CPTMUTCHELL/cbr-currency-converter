@@ -26,10 +26,10 @@ pipeline{
 
          stage("Traefik") {
             steps {
+             sh "chmod +x -R ${env.WORKSPACE}"
              script {
 
                     sh """
-                    chmod 755 docker.sh
                     cd k8s/helm
                     helm repo add traefik https://helm.traefik.io/traefik
                     helm repo update
@@ -73,7 +73,7 @@ pipeline{
 
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
 
-                              sh "chmod +x -R ${env.WORKSPACE}"
+
                            sh './docker.sh flyway-userdb v1 ${auth}/flyway'
 
 
