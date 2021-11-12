@@ -1,7 +1,6 @@
 #!/bin/sh
 
-
-if [[ "$1" =~ "flyway" ]]; then
+if echo "$1" | grep "flyway"; then
   kubectl delete job "$1""-job" --ignore-not-found=true
   DOCKER_BUILDKIT=1 docker build -t cptmutchell/"$1":"$2" -f "$3"/Dockerfile .
 
