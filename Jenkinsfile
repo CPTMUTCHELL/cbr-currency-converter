@@ -73,9 +73,7 @@ pipeline{
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
                            ./docker.sh flyway-userdb v1 ${auth}/flyway
-//                             docker push ${me}/flyway-userdb:v1
-//                             docker rmi ${me}/flyway-userdb:v1
-//                             kubectl delete job flyway-userdb-job --ignore-not-found=true
+//
                            """
 
                          }
