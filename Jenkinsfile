@@ -26,7 +26,8 @@ pipeline{
 
          stage("Traefik") {
             steps {
-//              sh "chmod +x -R ${env.WORKSPACE}"
+            // to avoid @tmp/durable permission denied
+             sh "chmod +x -R ${env.WORKSPACE}"
              script {
 
                     sh """
@@ -83,16 +84,8 @@ pipeline{
                         }
                     }
                     steps {
-                          sh """
-                          docker build -t ${me}/flyway-converterdb:v1 -f ${convert}/flyway/Dockerfile .
-                          """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh """
-                              docker push ${me}/flyway-converterdb:v1
-                              docker rmi ${me}/flyway-converterdb:v1
-                              kubectl delete job flyway-converterdb-job --ignore-not-found=true
-
-                             """
+                             sh './docker.sh flyway-converterdb v1 ${convert}/flyway'
                           }
 
                     }
@@ -108,17 +101,9 @@ pipeline{
                         }
                     }
                     steps {
-                          sh """
-                          docker build -t ${me}/flyway-historydb:v1 -f ${history}/flyway/Dockerfile .
-                          """
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh """
-                              docker push ${me}/flyway-historydb:v1
-                              docker rmi ${me}/flyway-historydb:v1
-                              kubectl delete job flyway-historydb-job --ignore-not-found=true
-                             """
+                               sh './docker.sh flyway-historydb v1 ${history}/flyway'
                           }
-
                     }
                 }
             }
@@ -137,14 +122,10 @@ pipeline{
                         }
                     }
                     steps {
-                          sh """
-                         DOCKER_BUILDKIT=1 docker build -t ${me}/${auth}:v${BUILD_NUMBER} -f ${auth}/Dockerfile .
-                          """
+
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh """
-                              docker push ${me}/${auth}:v${BUILD_NUMBER}
-                              docker rmi ${me}/${auth}:v${BUILD_NUMBER}
-                             """
+                             sh './docker.sh ${auth} v${BUILD_NUMBER}'
+
                           }
                           script{
                             set = set + 'auth.tag=v${BUILD_NUMBER},'
@@ -163,14 +144,9 @@ pipeline{
                         }
                     }
                     steps {
-                          sh """
-                         DOCKER_BUILDKIT=1 docker build -t ${me}/${convert}:v${BUILD_NUMBER} -f ${convert}/Dockerfile .
-                          """
+
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh """
-                              docker push ${me}/${convert}:v${BUILD_NUMBER}
-                              docker rmi ${me}/${convert}:v${BUILD_NUMBER}
-                             """
+                             sh './docker.sh ${convert} v${BUILD_NUMBER}'
                           }
                           script{
                             set = set + 'convert.tag=v${BUILD_NUMBER},'
@@ -188,18 +164,12 @@ pipeline{
                         }
                     }
                     steps {
-                          sh """
-                          DOCKER_BUILDKIT=1 docker build -t ${me}/${history}:v${BUILD_NUMBER} -f ${history}/Dockerfile .
-                          """
+
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh """
-                              docker push ${me}/${history}:v${BUILD_NUMBER}
-                              docker rmi ${me}/${history}:v${BUILD_NUMBER}
-                             """
+                             sh './docker.sh ${history} v${BUILD_NUMBER}'
                           }
                           script{
                               set = set + 'history.tag=v${BUILD_NUMBER},'
-
                           }
                     }
                 }
