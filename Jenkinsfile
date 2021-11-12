@@ -26,7 +26,7 @@ pipeline{
 
          stage("Traefik") {
             steps {
-             sh "chmod +x -R ${env.WORKSPACE}"
+//              sh "chmod +x -R ${env.WORKSPACE}"
              script {
 
                     sh """
@@ -66,20 +66,9 @@ pipeline{
                         }
                     }
                     steps {
-
-//                          sh """
-//                             docker build -t ${me}/flyway-userdb:v1 -f ${auth}/flyway/Dockerfile .
-//                             """
-
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-
-
                            sh './docker.sh flyway-userdb v1 ${auth}/flyway'
-
-
-
                          }
-
                     }
                 }
                 stage("Convert db migration"){
