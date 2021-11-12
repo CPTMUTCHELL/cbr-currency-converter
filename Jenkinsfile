@@ -66,15 +66,16 @@ pipeline{
                     }
                     steps {
 
-                         sh """
-                            docker build -t ${me}/flyway-userdb:v1 -f ${auth}/flyway/Dockerfile .
-                            """
+//                          sh """
+//                             docker build -t ${me}/flyway-userdb:v1 -f ${auth}/flyway/Dockerfile .
+//                             """
 
                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                            sh """
-                            docker push ${me}/flyway-userdb:v1
-                            docker rmi ${me}/flyway-userdb:v1
-                            kubectl delete job flyway-userdb-job --ignore-not-found=true
+                           ./docker.sh flyway-userdb v1 ${auth}/flyway
+//                             docker push ${me}/flyway-userdb:v1
+//                             docker rmi ${me}/flyway-userdb:v1
+//                             kubectl delete job flyway-userdb-job --ignore-not-found=true
                            """
 
                          }
