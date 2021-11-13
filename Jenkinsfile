@@ -49,7 +49,9 @@ pipeline{
 
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                     sh"""
-                        bash ./docker.sh postgres v1
+                        DOCKER_BUILDKIT=1 docker build -t cptmutchell/postgres:v1 -f postgres/Dockerfile .
+                        docker push cptmutchell/postgres:v1
+                        docker rmi cptmutchell/postgres:v1
                      """
                 }
            }
