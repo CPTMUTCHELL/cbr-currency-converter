@@ -4,12 +4,7 @@ metadata:
   name: postgres-config
 data:
   POSTGRES_USER: {{ .Values.name }}
-  POSTGRES_PASSWORD: {{ .Values.name }}
   POSTGRES_USER_DB: user_db
   POSTGRES_CONVERTER_DB: converter_db
   POSTGRES_HISTORY_DB: history_db
-  # send from jenkins ?
-  JWT_SECRET: secret
-  JWT_AUTH_TOKEN_EXPIRE: "1200000"
-  JWT_REFRESH_TOKEN_EXPIRE: "36000000"
   DB_HOST: cbr-converter

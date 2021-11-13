@@ -24,6 +24,12 @@ spec:
                 name: postgres-config
             - configMapRef:
                 name: cbr-converter-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpass
+                  key: PGPASSWORD
           livenessProbe:
             httpGet:
               path: /{{.Values.name}}/health

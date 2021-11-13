@@ -40,14 +40,16 @@ pipeline{
          }
         stage("Custom postgres") {
            steps {
-                sh """
-                docker build -t ${me}/postgres-multidb:v1 postgres/
-                """
-                withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+             withCredentials([string(credentialsId: 'pg_pass', variable: 'test')]) {
                    sh """
-                    docker push ${me}/postgres-multidb:v1
-                    docker rmi ${me}/postgres-multidb:v1
+                   kubectl create secret generic pgpass --from-literal PGPASSWORD=${test}
                    """
+             }
+
+                withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                    sh"""
+                        sh ./docker.sh postgres v1
+                     """
                 }
            }
         }
