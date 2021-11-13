@@ -42,6 +42,7 @@ pipeline{
            steps {
              withCredentials([string(credentialsId: 'pg_pass', variable: 'test')]) {
                    sh """
+                   kubectl delete secret pgpass --ignore-not-found
                    kubectl create secret generic pgpass --from-literal PGPASSWORD=${test}
                    """
              }
