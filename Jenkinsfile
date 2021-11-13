@@ -87,7 +87,9 @@ pipeline{
                     }
                     steps {
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh './docker.sh flyway-converterdb v1 ${convert}/flyway'
+                          sh"""
+                             sh ./docker.sh flyway-converterdb v1 ${convert}/flyway
+                            """
                           }
 
                     }
@@ -104,7 +106,9 @@ pipeline{
                     }
                     steps {
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                               sh './docker.sh flyway-historydb v1 ${history}/flyway'
+                                sh"""
+                               sh ./docker.sh flyway-historydb v1 ${history}/flyway
+                               """
                           }
                     }
                 }
@@ -126,7 +130,9 @@ pipeline{
                     steps {
 
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh './docker.sh ${auth} v${BUILD_NUMBER}'
+                          sh"""
+                             sh ./docker.sh ${auth} v${BUILD_NUMBER}
+                             """
 
                           }
                           script{
@@ -148,7 +154,9 @@ pipeline{
                     steps {
 
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh './docker.sh ${convert} v${BUILD_NUMBER}'
+                            sh"""
+                             sh ./docker.sh ${convert} v${BUILD_NUMBER}
+                             """
                           }
                           script{
                             set = set + 'convert.tag=v${BUILD_NUMBER},'
@@ -168,7 +176,9 @@ pipeline{
                     steps {
 
                           withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh './docker.sh ${history} v${BUILD_NUMBER}'
+                             sh"""
+                             sh ./docker.sh ${history} v${BUILD_NUMBER}
+                             """
                           }
                           script{
                               set = set + 'history.tag=v${BUILD_NUMBER},'
