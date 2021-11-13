@@ -1,4 +1,4 @@
 name: postgres
 port: "5432"
-image: cptmutchell/postgres
+image: cptmutchell/postgres-multidb
 tag: v1
