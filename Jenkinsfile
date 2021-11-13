@@ -26,8 +26,6 @@ pipeline{
 
          stage("Traefik") {
             steps {
-            // to avoid @tmp/durable permission denied
-
              script {
 
                     sh """
