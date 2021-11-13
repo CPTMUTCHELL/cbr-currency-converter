@@ -27,7 +27,7 @@ pipeline{
          stage("Traefik") {
             steps {
             // to avoid @tmp/durable permission denied
-             sh "chmod +x -R ${env.WORKSPACE}"
+
              script {
 
                     sh """
