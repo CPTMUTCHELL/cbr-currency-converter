@@ -49,9 +49,7 @@ pipeline{
 
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                     sh"""
-                        docker build -t ${me}/postgres-multidb:v1 postgres/
-                        docker push ${me}/postgres-multidb:v1
-                        docker rmi ${me}/postgres-multidb:v1
+                        bash ./docker.sh postgres v1
                      """
                 }
            }
