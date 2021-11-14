@@ -1,8 +1,6 @@
 // sudo chmod 777 /var/run/docker.sock
 pipeline{
     agent any
-
-
      options {
             buildDiscarder logRotator(numToKeepStr: '3')
             durabilityHint('PERFORMANCE_OPTIMIZED')
@@ -26,8 +24,7 @@ pipeline{
 
          stage("Traefik") {
             steps {
-             script {
-
+                 script {
                     sh """
                     cd k8s/helm
                     helm repo add traefik https://helm.traefik.io/traefik
@@ -35,7 +32,7 @@ pipeline{
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 
                     """
-             }
+                 }
             }
          }
         stage("Custom postgres") {
