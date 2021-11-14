@@ -54,7 +54,6 @@ pipeline{
                 }
            }
         }
-
         stage("Deploy migrations") {
             parallel{
                 stage("Auth db migration"){
