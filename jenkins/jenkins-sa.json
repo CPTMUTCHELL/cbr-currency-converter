@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "aerobic-datum-327116",
+  "private_key_id": "3fe3b58455ad2f9b2fa87b11f68b880fee147ab4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC23B1pBh6vHP5X\niZ4ZoYwyZRdhH8qlZmtUSeJQoBG3hTqq7ypD2cEhzuya8oDENtotjvmHIK3WK9x9\nzSv9Qp0U4vZXNr5UKyIylJsbP06FmrMQ7pLDmI17UPXvuYYZ6DX8izPsLy91m0b2\naCw7uWjnaqGg5NEmDU/tbML3rmLiAGy0nLd5vYz3C0RM1FZEn6EUBj5tODthBwET\nUSOj2kKupOGZMMDbtZV4VwqFkZO2wlSIwCuAAyr+P+qUOh1pkGs2c5ryuXxZI45g\nR7iM4q30678joayDpDX+5Bv6yiEuyDVQiEAVzxyb4ed2ax9G5QCT99Fx6NKOps/K\nehrxn0KtAgMBAAECggEADcytLIKReLoZqJ4CUCFcnOX7nnEBgDtrMJx1x4tY4u5b\nN9CeMioh9Mzylpvj40rXarY+NvgcnkvHkzfTUMTA6XVaTUkckmoB5erIjMUZhiQf\nTNEQQtIFpU9+C9YGnHhlcJZJuBJ0hK3P7GL+qZArrkEiCuwRq4s4I60ARqRCopbw\nct9muiO1j4TK1oYf5dpxnirrODdPXkl1ww19x4JY1Sk05xgSpzd0NAkBrvChTngd\nnUF9P2SGzUSkCcUPVJpsHQM3SIIBkasnLq0lAhDDWtw1SayIqKbzvP4YeR7fBKSZ\nakFG5Lditndndl3EgClV90ZlokkoQECpxB1S9HudmQKBgQDdnCweIcRKIzkv3Wrv\nlgKNf5druL4A9CttQ6u4w0VzJ7sd+cQqp2I1l4ptD9UsmKR/w1x+srCnet/wZXdX\nydYZdHUr5t1h/j92pFZpWNTOaJ1IKIuBYauub/zNk7Xtrv1wDLe5jEgKUVkr/OFp\nD88bPsD3OBx9FFiNncVufxW+pQKBgQDTPIaDzwdXwNGbwzPo1npsb5BU5DM7mQg+\nwND4e+yelgM28eumETnLpXg4KkpExMeuu6B+plTlyxFV5VuXyySJMqYgR4n0Ctsl\nSqU5JFs8LpoOEO0hU8J+/pnLhnEKmAX7m/RjfrU7ySZgQb1ts2mWd+OCDagFbt7u\nZaOMxC/9aQKBgQCit/5o7ZBMg4qFC8ZuPy6GqU4MqazR1HdillKrqq3+/QhW3UNd\nsmPZR/k7VWnIghgfO9pZqWkuwHlX8Zjsm+YZ8LnsT2r0fhQpUEemuLQhDw2Vozez\n+3xs7AurAy+NY3Tx5lSs6EUpVkvskZUNaK9AqRZVMB0y9lKDQXprROM5hQKBgQC1\nt/zUSXa8pDDt+bifVltNC5Czpvj4DUdNjNx410sQhmbPjsC1RV5d9cR9NMxdapeJ\nlvmT2o1wfgg0x7HK3MRajsrhPAnOesRZyWRnywH9vO1kqmUE5aSNUYOG1epLPcrv\n0BMmwKsyenHcHtHSHKT5/7sld5AS1HVNyvwurdvG+QKBgGNg3rkRRlTBB6PgvUrb\nCxrLXWGcybGbpSNRwdeLSuYpTY4JMBBz3bHDOL0ZLo8athz8wi3/SrYYW4twIlD8\nncKluxoIxWhWo9xVpfkE8w1V2aOlN/vD9ea+EHsdnSbxH/ic58TCor5lJCgg8zWp\n85iG024KEQ7+rfmur/xTh/x/\n-----END PRIVATE KEY-----\n",
+  "client_email": "jenkins-sa@aerobic-datum-327116.iam.gserviceaccount.com",
+  "client_id": "100820555972392547070",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/jenkins-sa%40aerobic-datum-327116.iam.gserviceaccount.com"
+}
