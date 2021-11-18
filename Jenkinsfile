@@ -60,7 +60,7 @@ pipeline{
                 stage("Auth db migration"){
                     when{
                         anyOf{
-                            changeset "${auth}/src/resources/userdb/*.sql"
+                            changeset "${auth}/src/resources/userdb/.*"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/resources/userdb/.*"') == 0
                             }
@@ -79,7 +79,7 @@ pipeline{
                 stage("Convert db migration"){
                     when{
                         anyOf{
-                            changeset "${convert}/src/resources/converterdb/*.sql"
+                            changeset "${convert}/src/resources/converterdb/.*"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
                             }
@@ -99,7 +99,7 @@ pipeline{
                 stage("History db migration"){
                     when{
                         anyOf{
-                            changeset "${history}/src/resources/historydb/*.sql"
+                            changeset "${history}/src/resources/historydb/.*"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
                             }
