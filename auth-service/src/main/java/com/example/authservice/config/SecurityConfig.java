@@ -45,9 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(filter)
                 .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
-
-
-
     @Override
     public void configure(AuthenticationManagerBuilder auth)  {
         auth.authenticationProvider(authenticationProvider());
