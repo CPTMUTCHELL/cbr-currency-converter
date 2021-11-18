@@ -18,7 +18,7 @@ spec:
       containers:
 
         - name: cbr-converter-db
-          image: {{ .Values.image }}:{{ .Values.tag }}
+          image: postgres
           ports:
             - containerPort: {{ .Values.port }}
           env:
@@ -32,8 +32,6 @@ spec:
                 secretKeyRef:
                   name: pgpass
                   key: PGPASSWORD
-            - name: POSTGRES_MULTIPLE_DATABASES
-              value: user_db, converter_db,history_db,lolol_db
 
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
