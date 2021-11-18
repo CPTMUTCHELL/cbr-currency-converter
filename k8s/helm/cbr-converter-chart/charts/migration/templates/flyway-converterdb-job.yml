@@ -12,4 +12,5 @@ spec:
       containers:
         - name: {{ .Values.name }}-converterdb
           image: {{ .Values.converter.image }}:{{ .Values.converter.tag }}
+          imagePullPolicy: Always
           command: ["flyway", "migrate"]
