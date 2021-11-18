@@ -21,4 +21,3 @@ if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
 	echo "Multiple databases created"
 fi
 
-docker-entrypoint.sh postgres
