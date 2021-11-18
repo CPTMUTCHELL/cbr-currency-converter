@@ -17,4 +17,4 @@ job-dsl
 configuration-as-code
 workflow-job:latest
 git:latest
-
+pipeline-stage-view
