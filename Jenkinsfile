@@ -60,9 +60,9 @@ pipeline{
                 stage("Auth db migration"){
                     when{
                         anyOf{
-                            changeset "${auth}/src/main/resources/userdb/.*"
+                            changeset "${auth}/src/main/resources/userdb/.**"
                             expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/main/resources/userdb/.*"') == 0
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/main/resources/userdb/.**"') == 0
                             }
                             expression {return params.AUTH_IMAGE}
                         }
@@ -79,9 +79,9 @@ pipeline{
                 stage("Convert db migration"){
                     when{
                         anyOf{
-                            changeset "${convert}/src/main/resources/converterdb/.*"
+                            changeset "${convert}/src/main/resources/converterdb/.**"
                             expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/main/resources/converterdb/.*"') == 0
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/main/resources/converterdb/.**"') == 0
                             }
                             expression {return params.CONVERT_IMAGE}
 
@@ -99,9 +99,9 @@ pipeline{
                 stage("History db migration"){
                     when{
                         anyOf{
-                            changeset "${history}/src/main/resources/historydb/.*"
+                            changeset "${history}/src/main/resources/historydb/.**"
                             expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/main/resources/historydb/.*"') == 0
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/main/resources/historydb/.**"') == 0
                             }
                             expression {return params.HISTORY_IMAGE}
                         }
