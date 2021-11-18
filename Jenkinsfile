@@ -46,9 +46,13 @@ pipeline{
 
                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
                     sh"""
-                        bash ./docker.sh postgres v1
+                        bash ./docker.sh postgres v${BUILD_NUMBER}
                      """
+                    script{
+                         set = set + 'db.tag=v${BUILD_NUMBER},'
+                    }
                 }
+
            }
         }
         stage("Deploy migrations") {
@@ -69,6 +73,7 @@ pipeline{
                            bash ./docker.sh flyway-userdb v1 ${auth}/flyway
                            """
                          }
+
                     }
                 }
                 stage("Convert db migration"){
