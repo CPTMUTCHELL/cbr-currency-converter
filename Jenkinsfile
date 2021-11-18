@@ -62,7 +62,7 @@ pipeline{
                         anyOf{
                             changeset "${auth}/src/main/resources/userdb/.*"
                             expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/resources/userdb/.*"') == 0
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/main/resources/userdb/.*"') == 0
                             }
                             expression {return params.AUTH_IMAGE}
                         }
@@ -81,7 +81,7 @@ pipeline{
                         anyOf{
                             changeset "${convert}/src/main/resources/converterdb/.*"
                             expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/resources/converterdb/.*"') == 0
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/main/resources/converterdb/.*"') == 0
                             }
                             expression {return params.CONVERT_IMAGE}
 
@@ -101,7 +101,7 @@ pipeline{
                         anyOf{
                             changeset "${history}/src/main/resources/historydb/.*"
                             expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/resources/historydb/.*"') == 0
+                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/main/resources/historydb/.*"') == 0
                             }
                             expression {return params.HISTORY_IMAGE}
                         }
