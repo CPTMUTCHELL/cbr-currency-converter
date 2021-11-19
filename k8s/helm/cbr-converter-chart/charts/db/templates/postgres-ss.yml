@@ -16,7 +16,6 @@ spec:
     spec:
 
       containers:
-          imagePullPolicy: Always
         - name: cbr-converter-db
           image: {{ .Values.image}}:{{ .Values.tag}}
           ports:
@@ -34,10 +33,7 @@ spec:
                   key: PGPASSWORD
             - name: POSTGRES_MULTIPLE_DATABASES
               value: user_db, converter_db,history_db
-              valueFrom:
-                secretKeyRef:
-                  name: pgpass
-                  key: PGPASSWORD
+
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-user-db-storage
