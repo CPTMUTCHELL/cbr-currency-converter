@@ -1,4 +1,5 @@
 #!/bin/bash
+psql -c "CREATE DATABASE odopm;"
 
 #set -e
 #set -u
