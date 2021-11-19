@@ -16,7 +16,7 @@ spec:
     spec:
 
       containers:
-
+          imagePullPolicy: Always
         - name: cbr-converter-db
           image: {{ .Values.image}}:{{ .Values.tag}}
           ports:
