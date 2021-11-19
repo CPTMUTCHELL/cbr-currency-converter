@@ -35,26 +35,26 @@ pipeline{
                  }
             }
          }
-//         stage("Custom postgres") {
-//            steps {
-//              withCredentials([string(credentialsId: 'pg_pass', variable: 'test')]) {
-//                    sh """
-//                    kubectl delete secret pgpass --ignore-not-found
-//                    kubectl create secret generic pgpass --from-literal PGPASSWORD=${test}
-//                    """
-//              }
-//
-//                 withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-//                     sh"""
-//                         bash ./docker.sh postgres v${BUILD_NUMBER}
-//                      """
-//                     script{
-//                          set = set + 'db.tag=v${BUILD_NUMBER},'
-//                     }
-//                 }
-//
-//            }
-//         }
+        stage("Custom postgres") {
+           steps {
+             withCredentials([string(credentialsId: 'pg_pass', variable: 'test')]) {
+                   sh """
+                   kubectl delete secret pgpass --ignore-not-found
+                   kubectl create secret generic pgpass --from-literal PGPASSWORD=${test}
+                   """
+             }
+
+                withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
+                    sh"""
+                        bash ./docker.sh postgres v${BUILD_NUMBER}
+                     """
+                    script{
+                         set = set + 'db.tag=v${BUILD_NUMBER},'
+                    }
+                }
+
+           }
+        }
         stage("Deploy migrations") {
             parallel{
                 stage("Auth db migration"){
