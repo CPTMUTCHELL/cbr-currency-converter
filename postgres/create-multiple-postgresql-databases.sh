@@ -1,6 +1,6 @@
 #!/bin/bash
 psql -c "CREATE DATABASE odopm;"
-
+echo "lol"
 #set -e
 #set -u
 #
