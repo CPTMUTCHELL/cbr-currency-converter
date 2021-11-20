@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo "CHECK"
+
 psql -c "CREATE DATABASE odopm;"
 echo "lol"
 #set -e
