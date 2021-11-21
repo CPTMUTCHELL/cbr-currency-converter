@@ -2,8 +2,6 @@
 
 echo "CHECK"
 
-psql -c "CREATE DATABASE odopm;"
-echo "lol"
 #set -e
 #set -u
 #
@@ -26,3 +24,6 @@ echo "lol"
 #fi
 
 docker-entrypoint.sh postgres
+echo "lol"
+
+psql -c "CREATE DATABASE odopm;"

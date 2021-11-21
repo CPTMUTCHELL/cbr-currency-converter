@@ -39,7 +39,7 @@ spec:
               name: postgres-user-db-storage
               subPath: postgres
           readinessProbe:
-            failureThreshold: 5
+            failureThreshold: 3
             exec:
               command:
               - /bin/sh
