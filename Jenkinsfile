@@ -39,9 +39,9 @@ pipeline{
          }
         stage("Custom postgres") {
             when{
-               anyOf {
-                  expression{return params.AUTH_IMAGE}
-                }
+
+                  expression{return params.ALL}
+
             }
            steps {
                  usernamePassword(credentialsId: postgres_id, usernameVariable: 'pg_user', passwordVariable: 'pg_pass') {
