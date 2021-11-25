@@ -39,7 +39,7 @@ pipeline{
          }
         stage("Custom postgres") {
             when{
-                allOf {
+               anyOf {
                   expression{return params.AUTH_IMAGE}
                 }
             }
