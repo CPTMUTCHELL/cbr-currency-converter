@@ -8,6 +8,8 @@ services:
       - GITHUB_PASS=${GITHUB_PASS}
       - DOCKERHUB_USER=${DOCKERHUB_USER}
       - DOCKERHUB_PASS=${DOCKERHUB_PASS}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
     build:
       ./
     ports:

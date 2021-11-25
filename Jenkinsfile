@@ -19,6 +19,8 @@ pipeline{
     booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
     booleanParam(name: 'CONVERT_IMAGE', defaultValue: false, description: 'Build convert service docker image')
     booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
+    booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
+
     }
     stages{
 
@@ -36,11 +38,16 @@ pipeline{
             }
          }
         stage("Custom postgres") {
+            when{
+                allOf {
+                  expression{return params.AUTH_IMAGE}
+                }
+            }
            steps {
-             withCredentials([string(credentialsId: 'pg_pass', variable: 'test')]) {
+                 usernamePassword(credentialsId: postgres_id, usernameVariable: 'pg_user', passwordVariable: 'pg_pass') {
                    sh """
-                   kubectl delete secret pgpass --ignore-not-found
-                   kubectl create secret generic pgpass --from-literal PGPASSWORD=${test}
+                   kubectl delete secret postgres-secret --ignore-not-found
+                   kubectl create secret generic postgres-secret --from-literal POSTGRES_PASSWORD=${pg_pass} POSTGRES_USER=${pg_user}
                    """
              }
 
@@ -202,7 +209,7 @@ pipeline{
                     else {
                         sh"""
                             cd k8s/helm
-                            helm upgrade --install cbr ./cbr-converter-chart
+                            helm upgrade --install --atomic --wait cbr ./cbr-converter-chart
                         """
                     }
                 }

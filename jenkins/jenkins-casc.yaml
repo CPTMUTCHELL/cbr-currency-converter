@@ -48,9 +48,9 @@ credentials:
               password: ${DOCKERHUB_PASS}
               scope: GLOBAL
               username: ${USER}
-          - string:
-              description: "Secret Text Credentials"
-              id: "pg_pass"
+          - usernamePassword:
+              description: "postgres cred"
+              id: "postgres_id"
+              password: ${POSTGRES_PASS}
               scope: GLOBAL
-              secret: "postgres"
-
+              username: ${POSTGRES_USER}
