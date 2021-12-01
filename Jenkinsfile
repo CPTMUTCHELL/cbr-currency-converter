@@ -44,7 +44,8 @@ pipeline{
 //
 //             }
            steps {
-                 usernamePassword(credentialsId: postgres_id, usernameVariable: 'pg_user', passwordVariable: 'pg_pass') {
+
+                 withCredentials([usernamePassword(credentialsId: 'postgres_id', usernameVariable: 'pg_user', passwordVariable: 'pg_pass')]) {
                    sh """
                    kubectl delete secret postgres-secret --ignore-not-found
                    kubectl create secret generic postgres-secret --from-literal POSTGRES_PASSWORD=${pg_pass} POSTGRES_USER=${pg_user}
