@@ -24,6 +24,3 @@ echo "CHECK"
 #fi
 
 docker-entrypoint.sh postgres
-echo "lol"
-
-psql -c "CREATE DATABASE odopm;"
