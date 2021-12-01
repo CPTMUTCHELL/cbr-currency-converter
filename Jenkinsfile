@@ -25,7 +25,6 @@ pipeline {
 
     }
     stages {
-
         stage("Traefik") {
             steps {
                 script {
