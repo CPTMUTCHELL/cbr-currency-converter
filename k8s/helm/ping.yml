@@ -1,0 +1,14 @@
+- name: Playbook2
+  hosts: localhost
+  vars:
+    user: postgres
+    password: postgres
+    newdb: new_db
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+  - name: Execute a command
+    kubernetes.core.k8s_exec:
+      namespace: postgres-0
+      pod: postgres-0
+      kubeconfig: /var/jenkins_home/.kube/config
+      command: psql -c CREATE DATABASE new_db;
