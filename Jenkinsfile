@@ -49,7 +49,7 @@ pipeline{
                    sh 'echo $USERNAME'
 
 
-                    '''
+                    sh'''
                    kubectl delete secret postgres-secret --ignore-not-found
                    kubectl create secret generic postgres-secret --from-literal POSTGRES_PASSWORD=$PASSWORD POSTGRES_USER=$USERNAME
                    '''
