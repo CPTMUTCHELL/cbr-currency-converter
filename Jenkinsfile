@@ -46,12 +46,9 @@ pipeline{
            steps {
 
                  withCredentials([usernamePassword(credentialsId: 'postgres_id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                   sh 'echo $USERNAME'
-
-
                     sh'''
                    kubectl delete secret postgres-secret --ignore-not-found
-                   kubectl create secret generic postgres-secret --from-literal POSTGRES_PASSWORD=$PASSWORD POSTGRES_USER=$USERNAME
+                   kubectl create secret generic postgres-secret --from-literal POSTGRES_PASSWORD=postgres POSTGRES_USER=$USERNAME
                    '''
              }
 
