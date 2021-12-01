@@ -1,34 +1,34 @@
 // sudo chmod 777 /var/run/docker.sock
-pipeline{
+pipeline {
     agent any
-     options {
-            buildDiscarder logRotator(numToKeepStr: '3')
-            durabilityHint('PERFORMANCE_OPTIMIZED')
+    options {
+        buildDiscarder logRotator(numToKeepStr: '3')
+        durabilityHint('PERFORMANCE_OPTIMIZED')
 
-     }
+    }
     environment {
         dockerImage = ''
         registryCredential = 'dockerhub_id'
         me = 'cptmutchell'
         auth = 'auth-service'
-        history =  'history-service'
+        history = 'history-service'
         convert = 'convert-service'
-        set='helm upgrade --install cbr ./cbr-converter-chart --set '
-              us     = credentials('pg_user')
-                pg = credentials('pg_pass')
+        set = 'helm upgrade --install cbr ./cbr-converter-chart --set '
+        us = credentials('pg_user')
+        pg = credentials('pg_pass')
     }
     parameters {
-    booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
-    booleanParam(name: 'CONVERT_IMAGE', defaultValue: false, description: 'Build convert service docker image')
-    booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
-    booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
+        booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
+        booleanParam(name: 'CONVERT_IMAGE', defaultValue: false, description: 'Build convert service docker image')
+        booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
+        booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
 
     }
-    stages{
+    stages {
 
-         stage("Traefik") {
+        stage("Traefik") {
             steps {
-                 script {
+                script {
                     sh """
                     cd k8s/helm
                     helm repo add traefik https://containous.github.io/traefik-helm-chart
@@ -36,188 +36,187 @@ pipeline{
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
 
                     """
-                 }
+                }
             }
-         }
+        }
         stage("Custom postgres") {
 //             when{
 //
 //                   expression{return params.ALL}
 //
 //             }
-           steps {
+            steps {
 
 
-                    sh"""
+                sh """
                    kubectl delete secret postgres-secret --ignore-not-found
                    kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg} --from-literal=POSTGRES_USER=${us}
                    """
-             }
 
-                withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                    sh"""
+
+                withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                    sh """
                         bash ./docker.sh postgres v${BUILD_NUMBER}
                      """
-                    script{
-                         set = set + 'db.tag=v${BUILD_NUMBER},'
+                    script {
+                        set = set + 'db.tag=v${BUILD_NUMBER},'
                     }
                 }
 
-           }
+            }
         }
         stage("Deploy migrations") {
-            parallel{
-                stage("Auth db migration"){
-                    when{
-                        anyOf{
+            parallel {
+                stage("Auth db migration") {
+                    when {
+                        anyOf {
                             changeset "${auth}/src/main/resources/userdb/**"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/src/main/resources/userdb/.*"') == 0
                             }
-                            expression {return params.AUTH_IMAGE}
+                            expression { return params.AUTH_IMAGE }
                         }
                     }
                     steps {
-                         withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                         sh"""
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
                            bash ./docker.sh flyway-userdb v1 ${auth}/flyway
                            """
-                         }
+                        }
 
                     }
                 }
-                stage("Convert db migration"){
-                    when{
-                        anyOf{
+                stage("Convert db migration") {
+                    when {
+                        anyOf {
                             changeset "${convert}/src/main/resources/converterdb/**"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/src/main/resources/converterdb/.*"') == 0
                             }
-                            expression {return params.CONVERT_IMAGE}
+                            expression { return params.CONVERT_IMAGE }
 
                         }
                     }
                     steps {
-                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                          sh"""
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
                              bash ./docker.sh flyway-converterdb v1 ${convert}/flyway
                             """
-                          }
+                        }
 
                     }
                 }
-                stage("History db migration"){
-                    when{
-                        anyOf{
+                stage("History db migration") {
+                    when {
+                        anyOf {
                             changeset "${history}/src/main/resources/historydb/**"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/src/main/resources/historydb/.*"') == 0
                             }
-                            expression {return params.HISTORY_IMAGE}
+                            expression { return params.HISTORY_IMAGE }
                         }
                     }
                     steps {
-                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                                sh"""
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
                                bash ./docker.sh flyway-historydb v1 ${history}/flyway
                                """
-                          }
+                        }
                     }
                 }
             }
         }
 
-        stage ("Build images") {
-            stages{
-                stage("Auth image build"){
-                    when{
-                        anyOf{
+        stage("Build images") {
+            stages {
+                stage("Auth image build") {
+                    when {
+                        anyOf {
                             changeset "${auth}/**"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
                             }
-                            expression {return params.AUTH_IMAGE}
+                            expression { return params.AUTH_IMAGE }
                         }
                     }
                     steps {
 
-                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                          sh"""
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
                              bash ./docker.sh ${auth} v${BUILD_NUMBER}
                              """
 
-                          }
-                          script{
+                        }
+                        script {
                             set = set + 'auth.tag=v${BUILD_NUMBER},'
-                          }
+                        }
                     }
                 }
-                stage("Convert image build"){
-                    when{
-                        anyOf{
+                stage("Convert image build") {
+                    when {
+                        anyOf {
                             changeset "${convert}/**"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
                             }
-                            expression {return params.CONVERT_IMAGE}
+                            expression { return params.CONVERT_IMAGE }
 
                         }
                     }
                     steps {
 
-                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                            sh"""
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
                              bash ./docker.sh ${convert} v${BUILD_NUMBER}
                              """
-                          }
-                          script{
+                        }
+                        script {
                             set = set + 'convert.tag=v${BUILD_NUMBER},'
-                          }
+                        }
                     }
                 }
-                stage("History image build"){
-                    when{
-                        anyOf{
+                stage("History image build") {
+                    when {
+                        anyOf {
                             changeset "${history}/**"
                             expression {
                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
                             }
-                            expression {return params.HISTORY_IMAGE}
+                            expression { return params.HISTORY_IMAGE }
                         }
                     }
                     steps {
 
-                          withDockerRegistry(credentialsId: registryCredential, url:'https://index.docker.io/v1/'){
-                             sh"""
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
                              bash ./docker.sh ${history} v${BUILD_NUMBER}
                              """
-                          }
-                          script{
-                              set = set + 'history.tag=v${BUILD_NUMBER},'
-                          }
+                        }
+                        script {
+                            set = set + 'history.tag=v${BUILD_NUMBER},'
+                        }
                     }
                 }
             }
         }
-         stage("Helm") {
+        stage("Helm") {
             steps {
                 script {
                     if (set =~ '--set [A-Za-z]') {
                         set = set.substring(0, set.length() - 1);
-                        sh"""
+                        sh """
                         cd k8s/helm
                         eval ${set}
                         """
-                    }
-                    else {
-                        sh"""
+                    } else {
+                        sh """
                             cd k8s/helm
                             helm upgrade --install cbr ./cbr-converter-chart
                         """
                     }
                 }
             }
-         }
+        }
     }
-
+}
 
