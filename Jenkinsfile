@@ -14,8 +14,8 @@ pipeline {
         history = 'history-service'
         convert = 'convert-service'
         set = 'helm upgrade --install cbr ./cbr-converter-chart --set '
-        us = credentials('pg_user')
-        pg = credentials('pg_pass')
+        pg_user = credentials('pg_user')
+        pg_pass = credentials('pg_pass')
     }
     parameters {
         booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 sh '''
                    kubectl delete secret postgres-secret --ignore-not-found
-                   kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg} --from-literal=POSTGRES_USER=${us}
+                   kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg_pass} --from-literal=POSTGRES_USER=${pg_user}
                    '''
 
 

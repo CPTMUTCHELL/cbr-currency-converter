@@ -29,8 +29,8 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pgpass
-                  key: PGPASSWORD
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
             - name: POSTGRES_MULTIPLE_DATABASES
               value: user_db, converter_db,history_db
 
