@@ -38,11 +38,11 @@ pipeline{
             }
          }
         stage("Custom postgres") {
-            when{
-
-                  expression{return params.ALL}
-
-            }
+//             when{
+//
+//                   expression{return params.ALL}
+//
+//             }
            steps {
                  usernamePassword(credentialsId: postgres_id, usernameVariable: 'pg_user', passwordVariable: 'pg_pass') {
                    sh """
@@ -209,7 +209,7 @@ pipeline{
                     else {
                         sh"""
                             cd k8s/helm
-                            helm upgrade --install --atomic --wait cbr ./cbr-converter-chart
+                            helm upgrade --install cbr ./cbr-converter-chart
                         """
                     }
                 }
