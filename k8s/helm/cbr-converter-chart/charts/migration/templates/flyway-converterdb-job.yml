@@ -13,4 +13,16 @@ spec:
         - name: {{ .Values.name }}-converterdb
           image: {{ .Values.converter.image }}:{{ .Values.converter.tag }}
           imagePullPolicy: Always
+          env:
+            - name: FLYWAY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+
           command: ["flyway", "migrate"]

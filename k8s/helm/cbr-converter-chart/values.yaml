@@ -20,5 +20,3 @@ migration:
     tag: v1
   user:
     tag: v1
-db:
-  tag: v1
