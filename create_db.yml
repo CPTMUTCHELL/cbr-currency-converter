@@ -1,0 +1,11 @@
+- name: Create db playbook
+  hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.9
+  tasks:
+    - name: create db
+      kubernetes.core.k8s_exec:
+        namespace: default
+        pod: postgres-0
+        command: "psql -c 'CREATE DATABASE if not exists {{ new_db }};'"
+      failed_when: False

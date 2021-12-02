@@ -23,8 +23,8 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pgpass
-                  key: PGPASSWORD
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
           envFrom:
             - configMapRef:
                 name: postgres-config

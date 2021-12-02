@@ -49,15 +49,12 @@ pipeline {
                    kubectl delete secret postgres-secret --ignore-not-found
                    kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg_pass} --from-literal=POSTGRES_USER=${pg_user}
                    '''
-
-
                 withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                     sh """
-                        bash ./docker.sh postgres v${BUILD_NUMBER}
+                        bash ./docker.sh postgres v1
+                        ansible-playbook create_db.yml --extra-vars "new_db=checking"
                      """
-                    script {
-                        set = set + 'db.tag=v${BUILD_NUMBER},'
-                    }
+
                 }
 
             }
@@ -208,7 +205,7 @@ pipeline {
                     } else {
                         sh """
                             cd k8s/helm
-                            helm upgrade --install cbr ./cbr-converter-chart
+                            helm upgrade --install --atomic --timeout 60 cbr ./cbr-converter-chart
                         """
                     }
                 }
