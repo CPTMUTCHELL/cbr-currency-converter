@@ -34,21 +34,21 @@ spec:
             - name: POSTGRES_MULTIPLE_DATABASES
               value: user_db, converter_db,history_db
 
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-user-db-storage
-              subPath: postgres
-          readinessProbe:
-            failureThreshold: 5
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - exec pg_isready -U {{ .Values.name }} -p {{ .Values.port }}
-      volumes:
-        - name: postgres-user-db-storage
-          persistentVolumeClaim:
-            claimName: postgres-user-db-pvc
+{{/*          volumeMounts:*/}}
+{{/*            - mountPath: /var/lib/postgresql/data*/}}
+{{/*              name: postgres-user-db-storage*/}}
+{{/*              subPath: postgres*/}}
+{{/*          readinessProbe:*/}}
+{{/*            failureThreshold: 5*/}}
+{{/*            exec:*/}}
+{{/*              command:*/}}
+{{/*              - /bin/sh*/}}
+{{/*              - -c*/}}
+{{/*              - exec pg_isready -U {{ .Values.name }} -p {{ .Values.port }}*/}}
+{{/*      volumes:*/}}
+{{/*        - name: postgres-user-db-storage*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: postgres-user-db-pvc*/}}
 ---
 apiVersion: v1
 kind: Service

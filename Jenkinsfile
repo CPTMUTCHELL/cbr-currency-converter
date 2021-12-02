@@ -21,8 +21,7 @@ pipeline {
         booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
         booleanParam(name: 'CONVERT_IMAGE', defaultValue: false, description: 'Build convert service docker image')
         booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
-        booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
-
+//         booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
     }
     stages {
         stage("Traefik") {

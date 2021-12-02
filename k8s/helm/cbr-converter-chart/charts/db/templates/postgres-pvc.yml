@@ -1,12 +1,12 @@
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-user-db-pvc
-  labels:
-    app: {{ .Values.name }}
-spec:
-  resources:
-    requests:
-      storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
+{{/*kind: PersistentVolumeClaim*/}}
+{{/*apiVersion: v1*/}}
+{{/*metadata:*/}}
+{{/*  name: postgres-user-db-pvc*/}}
+{{/*  labels:*/}}
+{{/*    app: {{ .Values.name }}*/}}
+{{/*spec:*/}}
+{{/*  resources:*/}}
+{{/*    requests:*/}}
+{{/*      storage: 100Mi*/}}
+{{/*  accessModes:*/}}
+{{/*    - ReadWriteOnce*/}}
