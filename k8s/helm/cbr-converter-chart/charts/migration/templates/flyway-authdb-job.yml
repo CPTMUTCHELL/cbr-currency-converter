@@ -25,6 +25,6 @@ spec:
                 name: postgres-secret
                 key: POSTGRES_PASSWORD
               - name: FLYWAY_URL
-                value: jdbc:postgresql://cbr-converter:5432/{{ split( "-" .Values.auth.image )._1 | replace "db" "_db" }}
+                value: jdbc:postgresql://cbr-converter:5432/{{ (split "-" .Values.auth.image )._1 | replace "db" "_db" }}
 
           command: ["flyway", "migrate"]
