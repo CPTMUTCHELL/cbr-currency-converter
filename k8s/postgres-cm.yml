@@ -5,6 +5,6 @@ metadata:
 data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
-  POSTGRES_USER_DB: user_db
+  POSTGRES_AUTH_DB: auth_db
   POSTGRES_CONVERTER_DB: converter_db
   POSTGRES_HISTORY_DB: history_db
