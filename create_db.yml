@@ -3,6 +3,12 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3.9
   tasks:
+  - name: wait for postgres to start
+    shell: kubectl get pod postgres-0 -o json
+    retries: 5
+    delay: 20
+    register: kubectl_get_pods
+    until: kubectl_get_pods.stdout|from_json|json_query('status.phase')|unique == ["Running"]
   - name: create db
     kubernetes.core.k8s_exec:
       namespace: default
