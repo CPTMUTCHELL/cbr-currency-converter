@@ -7,5 +7,5 @@
     kubernetes.core.k8s_exec:
       namespace: default
       pod: postgres-0
-      command: "psql -c 'CREATE DATABASE if not exists {{ new_db }};'"
+      command: "psql -c 'CREATE DATABASE {{ new_db }};'"
     failed_when: False
