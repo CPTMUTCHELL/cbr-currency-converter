@@ -14,7 +14,6 @@ spec:
           image: {{ .Values.auth.image }}:v1
           imagePullPolicy: Always
           env:
-
             - name: FLYWAY_USER
               valueFrom:
                 secretKeyRef:
@@ -25,7 +24,7 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
-                - name: FLYWAY_URL
-                  value: jdbc:postgresql://cbr-converter:5432/{{ (split "-" .Values.auth.image )._1 | replace "db" "_db" }}
+            - name: FLYWAY_URL
+              value: jdbc:postgresql://cbr-converter:5432/{{ (split "-" .Values.auth.image )._1 | replace "db" "_db" }}
 
           command: ["flyway", "migrate"]
