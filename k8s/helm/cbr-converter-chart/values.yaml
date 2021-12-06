@@ -13,3 +13,5 @@ history:
   tag: v1
   name: history
   port: "8083"
+db:
+  tag: v1

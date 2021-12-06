@@ -48,13 +48,16 @@ pipeline {
                    kubectl delete secret postgres-secret --ignore-not-found
                    kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg_pass} --from-literal=POSTGRES_USER=${pg_user}
                    '''
-//                 withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
-//                     sh """
-//                         bash ./docker.sh postgres v1
-//
-//                      """
-//
-//                 }
+                withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                    sh """
+                        bash ./docker.sh postgres v${BUILD_NUMBER}
+
+                     """
+                       script {
+                                                 set = set + 'db.tag=v${BUILD_NUMBER},'
+                                             }
+
+                }
 
             }
         }

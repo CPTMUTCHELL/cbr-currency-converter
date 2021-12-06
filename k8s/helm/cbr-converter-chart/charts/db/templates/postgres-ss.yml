@@ -17,7 +17,7 @@ spec:
 
       containers:
         - name: cbr-converter-db
-          image: postgres:latest
+          image: {{ .Values.image}}:{{ .Values.tag}}
           ports:
             - containerPort: {{ .Values.port }}
           envFrom:
