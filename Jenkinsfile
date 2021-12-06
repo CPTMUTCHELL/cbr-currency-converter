@@ -189,7 +189,8 @@ pipeline {
                         sh """
                             cd k8s/helm
                             helm upgrade --install  cbr ./cbr-converter-chart
-                                                                            ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
+                            cd ../..
+ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
 
  ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
 ansible-playbook create_db.yml --extra-vars "new_db=history_db"
