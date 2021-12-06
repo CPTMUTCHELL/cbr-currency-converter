@@ -3,8 +3,10 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3.9
   tasks:
+
+
   - name: wait for postgres to start
-    shell: kubectl get pod postgres-0 -o json
+    shell: kubectl get pod postgres-0 --ignore-not-found=true -o json
     retries: 5
     delay: 20
     register: kubectl_get_pods

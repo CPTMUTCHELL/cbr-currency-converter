@@ -66,7 +66,6 @@ pipeline {
                                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                                             sh """
                                            bash ./docker.sh flyway-authdb v1 ${auth}/flyway
-                                            ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
 
                                            """
                                         }
@@ -79,7 +78,6 @@ pipeline {
                                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                                             sh """
                                              bash ./docker.sh flyway-convertdb v1 ${convert}/flyway
-                                                ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
                                             """
                                         }
 
@@ -91,7 +89,6 @@ pipeline {
                                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                                             sh """
                                                bash ./docker.sh flyway-historydb v1 ${history}/flyway
-                                              ansible-playbook create_db.yml --extra-vars "new_db=history_db"
 
                                                """
                                         }
@@ -192,6 +189,12 @@ pipeline {
                         sh """
                             cd k8s/helm
                             helm upgrade --install  cbr ./cbr-converter-chart
+                                                                            ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
+
+ ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
+ansible-playbook create_db.yml --extra-vars "new_db=history_db"
+
+
                         """
                     }
                 }
