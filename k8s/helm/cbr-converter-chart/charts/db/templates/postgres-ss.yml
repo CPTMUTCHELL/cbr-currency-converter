@@ -20,6 +20,9 @@ spec:
           image: postgres:latest
           ports:
             - containerPort: {{ .Values.port }}
+          envFrom:
+            - configMapRef:
+                name: postgres-config
           env:
             - name: POSTGRES_USER
               valueFrom:
