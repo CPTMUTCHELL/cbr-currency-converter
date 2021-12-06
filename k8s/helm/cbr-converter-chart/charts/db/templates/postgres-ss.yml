@@ -20,9 +20,7 @@ spec:
           image: {{ .Values.image}}:{{ .Values.tag}}
           ports:
             - containerPort: {{ .Values.port }}
-          envFrom:
-            - configMapRef:
-                name: postgres-config
+
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -34,6 +32,9 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
+            - name: POSTGRES_MULTIPLE_DATABASES
+              value: auth_db, converter_db,history_db
+
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-user-db-storage
