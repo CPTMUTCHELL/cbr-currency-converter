@@ -11,7 +11,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: {{ .Values.name }}-historydb
-          image: {{ .Values.history.image }}:{{ .Values.history.tag }}
+          image: {{ .Values.history.image }}:v1
           imagePullPolicy: Always
           env:
           - name: FLYWAY_USER
@@ -24,5 +24,6 @@ spec:
               secretKeyRef:
                 name: postgres-secret
                 key: POSTGRES_PASSWORD
-
+          - name: FLYWAY_URL
+            value: jdbc:postgresql://cbr-converter:5432/{{ (split "-" .Values.history.image)._1 }}
           command: ["flyway", "migrate"]

@@ -2,10 +2,9 @@ restart: OnFailure
 name: flyway
 history:
   image: cptmutchell/flyway-historydb
-  tag: v1
-converter:
-  image: cptmutchell/flyway-converterdb
-  tag: v1
-user:
-  image: cptmutchell/flyway-userdb
-  tag: v1
+
+convert:
+  image: cptmutchell/flyway-convertdb
+
+auth:
+  image: cptmutchell/flyway-authdb

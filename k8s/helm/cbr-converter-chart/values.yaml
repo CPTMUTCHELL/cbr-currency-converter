@@ -13,10 +13,3 @@ history:
   tag: v1
   name: history
   port: "8083"
-migration:
-  history:
-    tag: v1
-  converter:
-    tag: v1
-  user:
-    tag: v1

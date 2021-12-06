@@ -4,7 +4,7 @@ metadata:
   name: postgres-config
 data:
   POSTGRES_USER: {{ .Values.name }}
-  POSTGRES_USER_DB: user_db
-  POSTGRES_CONVERTER_DB: converter_db
+  POSTGRES_AUTH_DB: auth_db
+  POSTGRES_CONVERTER_DB: convert_db
   POSTGRES_HISTORY_DB: history_db
   DB_HOST: cbr-converter
