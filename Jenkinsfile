@@ -198,7 +198,7 @@ pipeline {
                         """
                     }
                     sh"""
-
+                    ls -la
                     ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
 
                      ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
