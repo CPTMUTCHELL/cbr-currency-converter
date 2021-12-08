@@ -10,8 +10,7 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
-      securityContext:
-        runAsUser: 1001
+
       restartPolicy: OnFailure
       containers:
 
@@ -31,5 +30,5 @@ spec:
             - psql
 
             - -c
-            - >
-             -U postgres -p postgres -h cbr-converter CREATE DATABASE hhhh;
+
+            -U postgres -p postgres -h cbr-converter CREATE DATABASE hhhh;
