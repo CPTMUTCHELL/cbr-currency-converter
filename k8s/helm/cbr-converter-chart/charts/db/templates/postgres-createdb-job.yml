@@ -16,19 +16,15 @@ spec:
           image: postgres:11-alpine
           imagePullPolicy: Always
           env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_USER
+
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
           command:
-            - su postgres
-            - psql
+            - sh
+
             - -c
             - >
              -U postgres -p postgres -h cbr-converter CREATE DATABASE hhhh;
