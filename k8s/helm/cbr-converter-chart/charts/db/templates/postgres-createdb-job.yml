@@ -27,7 +27,7 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
           command:
-            - sh
+            - psql
             - -c
             - >
-             -U postgres -h cbr-converter CREATE DATABASE hhhh;
+             -U postgres -p postgres -h cbr-converter CREATE DATABASE hhhh;
