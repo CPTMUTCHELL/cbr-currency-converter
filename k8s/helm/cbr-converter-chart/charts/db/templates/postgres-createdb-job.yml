@@ -8,13 +8,13 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: jobpg
     spec:
 
       restartPolicy: OnFailure
       containers:
 
-        - name: {{ .Values.name }}-createdb-job
+        - name: jobpg
 
 
           image: postgres:11-alpine
@@ -28,7 +28,5 @@ spec:
                   key: POSTGRES_PASSWORD
           command:
             - psql
-
             - -c
-
-            -U postgres -p postgres -h cbr-converter CREATE DATABASE hhhh;
+            - -U postgres -p postgres -h cbr-converter CREATE DATABASE hhhh;
