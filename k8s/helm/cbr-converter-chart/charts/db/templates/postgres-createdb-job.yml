@@ -1,27 +1,27 @@
 
-{{/*apiVersion: batch/v1*/}}
-{{/*kind: Job*/}}
-{{/*metadata:*/}}
-{{/*  name: postgres-createdb-job*/}}
-{{/*spec:*/}}
-{{/*  template:*/}}
-{{/*    metadata:*/}}
-{{/*      labels:*/}}
-{{/*        app: {{ .Values.name }}*/}}
-{{/*    spec:*/}}
-{{/*      containers:*/}}
-{{/*        - name: {{ .Values.name }}-createdb-job*/}}
-{{/*          image: postgres:11-alpine*/}}
-{{/*          imagePullPolicy: Always*/}}
-{{/*          env:*/}}
-{{/*            - name: POSTGRES_USER*/}}
-{{/*              valueFrom:*/}}
-{{/*                secretKeyRef:*/}}
-{{/*                  name: postgres-secret*/}}
-{{/*                  key: POSTGRES_USER*/}}
-{{/*            - name: POSTGRES_PASSWORD*/}}
-{{/*              valueFrom:*/}}
-{{/*                secretKeyRef:*/}}
-{{/*                  name: postgres-secret*/}}
-{{/*                  key: POSTGRES_PASSWORD*/}}
-{{/*          command: ["psql","-c","-U","postgres","-h", "cbr-converter"]*/}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-createdb-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}-createdb-job
+          image: postgres:11-alpine
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          command: ["psql","-c","-U","postgres","-h", "cbr-converter"]

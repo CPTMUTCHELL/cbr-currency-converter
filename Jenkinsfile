@@ -192,17 +192,14 @@ pipeline {
                         sh """
                             cd k8s/helm
                             helm upgrade --install  cbr ./cbr-converter-chart
-
-
-
                         """
                     }
-                    sh"""
-                    ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
-
-                     ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
-                    ansible-playbook create_db.yml --extra-vars "new_db=history_db"
-                    """
+//                     sh"""
+//                     ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
+//
+//                      ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
+//                     ansible-playbook create_db.yml --extra-vars "new_db=history_db"
+//                     """
                 }
             }
         }
