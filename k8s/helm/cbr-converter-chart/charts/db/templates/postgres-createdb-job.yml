@@ -4,17 +4,19 @@ kind: Job
 metadata:
   name: postgres-createdb-job
 spec:
+
   template:
     metadata:
       labels:
         app: {{ .Values.name }}
     spec:
+      securityContext:
+        runAsUser: 1001
       restartPolicy: OnFailure
       containers:
 
         - name: {{ .Values.name }}-createdb-job
-          securityContext:
-            runAsNonRoot: true
+
 
           image: postgres:11-alpine
           imagePullPolicy: Always
