@@ -13,8 +13,9 @@ spec:
       containers:
 
         - name: {{ .Values.name }}-createdb-job
-{{/*          securityContext:*/}}
-{{/*            runAsUser: 999*/}}
+          securityContext:
+            runAsNonRoot: true
+
           image: postgres:11-alpine
           imagePullPolicy: Always
           env:
