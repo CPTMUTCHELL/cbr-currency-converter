@@ -27,6 +27,7 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
           command:
+            - su postgres
             - psql
             - -c
             - >
