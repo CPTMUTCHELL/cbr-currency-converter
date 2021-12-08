@@ -9,7 +9,9 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      restartPolicy: OnFailure
       containers:
+
         - name: {{ .Values.name }}-createdb-job
           image: postgres:11-alpine
           imagePullPolicy: Always
