@@ -13,6 +13,8 @@ spec:
       containers:
 
         - name: {{ .Values.name }}-createdb-job
+          securityContext:
+            runAsUser: 999
           image: postgres:11-alpine
           imagePullPolicy: Always
           env:
@@ -23,7 +25,7 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
           command:
-            - sh
+            - psql
 
             - -c
             - >
