@@ -5,6 +5,6 @@ metadata:
 data:
   POSTGRES_USER: {{ .Values.name }}
   POSTGRES_AUTH_DB: auth_db
-  POSTGRES_CONVERTER_DB: convert_db
+  POSTGRES_CONVERT_DB: convert_db
   POSTGRES_HISTORY_DB: history_db
   DB_HOST: cbr-converter
