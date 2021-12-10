@@ -50,12 +50,11 @@ pipeline {
                    '''
                 withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                     sh """
-                        bash ./docker.sh postgres v${BUILD_NUMBER}
-
+                        bash ./docker.sh postgres v1
                      """
                        script {
-                                                 set = set + 'db.tag=v${BUILD_NUMBER},'
-                                             }
+                         set = set + 'db.tag=v${BUILD_NUMBER},'
+                     }
 
                 }
 
