@@ -1,5 +1,7 @@
 spring:
 
+  flyway:
+    enabled: false
   datasource:
     password: ${POSTGRES_PASSWORD}
     username: ${POSTGRES_USER}
