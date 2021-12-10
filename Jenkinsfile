@@ -51,7 +51,7 @@ pipeline {
                 withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                     sh """
                          kubectl delete job postgres-createdb-job --ignore-not-found=true
-                        bash ./docker.sh postgres v1
+                        bash ./docker.sh postgres v111
                      """
                        script {
                          set = set + 'db.tag=v${BUILD_NUMBER},'

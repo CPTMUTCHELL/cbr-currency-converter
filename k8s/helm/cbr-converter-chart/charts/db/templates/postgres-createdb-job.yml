@@ -17,7 +17,7 @@ spec:
       containers:
 
         - name: jobpg
-          image: cptmutchell/postgres:v1
+          image: cptmutchell/postgres:v111
           imagePullPolicy: Always
           env:
 
