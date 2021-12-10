@@ -8,13 +8,15 @@ spec:
       app: {{ .Values.name }}
   serviceName: user-db
   template:
+
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/postgres-cm.yml") . | sha256sum }}
       labels:
         app: {{ .Values.name }}
     spec:
-
+      securityContext:
+        runAsUser: 999
       containers:
         - name: cbr-converter-db
           image: postgres

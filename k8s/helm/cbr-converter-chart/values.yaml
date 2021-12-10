@@ -15,3 +15,7 @@ history:
   port: "8083"
 db:
   tag: v1
+  createdb:
+    - auth_db
+    - convert_db
+    - history_db

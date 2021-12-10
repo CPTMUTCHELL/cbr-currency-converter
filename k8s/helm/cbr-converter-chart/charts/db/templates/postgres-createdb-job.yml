@@ -21,6 +21,6 @@ spec:
                   key: POSTGRES_PASSWORD
           command: ["./create-multiple-databases.sh"]
           args:
-            {{  range .Values.args }}
+            {{  range .Values.createdb }}
             - {{ . }}
           {{ end }}
