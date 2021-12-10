@@ -53,9 +53,9 @@ pipeline {
                          kubectl delete job postgres-createdb-job --ignore-not-found=true
                         bash ./docker.sh postgres v111
                      """
-                       script {
-                         set = set + 'db.tag=v${BUILD_NUMBER},'
-                     }
+//                        script {
+//                          set = set + 'db.tag=v${BUILD_NUMBER},'
+//                      }
 
                 }
 
