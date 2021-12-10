@@ -8,7 +8,7 @@ spec:
       labels:
           app: {{ .Values.name }}
     spec:
-      restartPolicy: OnFailure
+      restartPolicy: {{ .Values.restart }}
       containers:
         - name: {{ .Values.name }}-historydb
           image: {{ .Values.history.image }}:v1
