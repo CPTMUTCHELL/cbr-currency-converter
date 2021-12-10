@@ -14,16 +14,16 @@ spec:
           image: {{ .Values.history.image }}:v1
           imagePullPolicy: Always
           env:
-          - name: FLYWAY_USER
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: POSTGRES_USER
-          - name: FLYWAY_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: POSTGRES_PASSWORD
-          - name: FLYWAY_URL
-            value: {{ (split "-" .Values.history.image )._1 | replace "db" "_db" }}
+            - name: FLYWAY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: FLYWAY_URL
+              value: {{ (split "-" .Values.history.image )._1 | replace "db" "_db" }}
           command: ["flyway", "migrate"]
