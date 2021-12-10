@@ -27,5 +27,4 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
           command: ["./create-multiple-postgresql-databases.sh"]
-          args:
-            -
+
