@@ -19,3 +19,4 @@ db:
     - auth_db
     - convert_db
     - history_db
+    - test
