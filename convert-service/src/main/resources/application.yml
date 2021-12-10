@@ -17,7 +17,6 @@ spring:
       ddl-auto: none
 jwt:
   secret: secret
-  authTokenExpire: 12000000
-  refreshTokenExpire: 300000000
+
 cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
 history.url: http://localhost:8083
