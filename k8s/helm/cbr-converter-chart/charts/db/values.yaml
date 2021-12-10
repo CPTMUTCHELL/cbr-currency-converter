@@ -1,4 +1,5 @@
 name: postgres
+jobName: postgres-createdb-job
 port: "5432"
 image: cptmutchell/postgres-createdb
 args:
