@@ -7,7 +7,7 @@ auth:
   port: "8081"
 convert:
   tag: v1
-  name: converter
+  name: convert
   port: "8082"
 history:
   tag: v1
