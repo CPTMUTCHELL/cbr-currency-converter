@@ -17,4 +17,4 @@ RUN apk add --no-cache bash
 RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
 USER appuser
 COPY --from=build /usr/convert-service/target/convert-service-0.0.1-SNAPSHOT.jar /usr/convert/convert-service-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","/usr/convert/convert-service-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","/usr/convert/convert-service-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]

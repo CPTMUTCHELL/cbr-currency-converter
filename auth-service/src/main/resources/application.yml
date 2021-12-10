@@ -1,35 +1,21 @@
 server:
   port: 8081
 spring:
-#  flyway:
-#    url: jdbc:postgresql://${USER_DB_HOST}:5432/${POSTGRES_USER_DB}
-#    user: ${POSTGRES_USER}
-#    password: ${POSTGRES_PASSWORD}
-#    locations: classpath:userdb
+  flyway:
+    url: jdbc:postgresql://localhost:5432/auth_db
+    user: postgres
+    password: postgres
+    locations: classpath:authdb
   datasource:
-    password: ${POSTGRES_PASSWORD}
-    username: ${POSTGRES_USER}
+    password: postgres
+    username: postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST}:5432/${POSTGRES_AUTH_DB}
-
+    url: jdbc:postgresql://localhost:5432/auth_db
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-#jwt:
-#  secret: secret
-#  authTokenExpire: 1200000
-#  refreshTokenExpire: 30000000
-
-management:
-  endpoints:
-    web:
-      base-path: /auth
-  security:
-    enabled: false
-  health:
-    db:
-      enabled: true
-  endpoint:
-    health:
-      show-details: always
+jwt:
+  secret: secret
+  authTokenExpire: 12000000
+  refreshTokenExpire: 300000000

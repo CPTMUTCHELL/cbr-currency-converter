@@ -1,34 +1,21 @@
-
+server:
+  port: 8082
 spring:
-#  flyway:
-#    url: jdbc:postgresql://localhost:5432/converter_db
-#    user: postgres
-#    password: postgres
-#    locations: classpath:converterdb
-
+  flyway:
+    url: jdbc:postgresql://localhost:5432/convert_db
+    user: postgres
+    password: postgres
+    locations: classpath:convertdb
   datasource:
-    password: ${POSTGRES_PASSWORD}
-    username: ${POSTGRES_USER}
+    password: postgres
+    username: postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST}:5432/${POSTGRES_CONVERTER_DB}
+    url: jdbc:postgresql://localhost:5432/convert_db
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-
-cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
-server:
-  port: 8082
-
-management:
-  endpoints:
-    web:
-      base-path: /converter
-  security:
-    enabled: false
-  health:
-    db:
-      enabled: true
-  endpoint:
-    health:
-      show-details: always
+jwt:
+  secret: secret
+  authTokenExpire: 12000000
+  refreshTokenExpire: 300000000
