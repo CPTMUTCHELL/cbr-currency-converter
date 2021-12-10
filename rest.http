@@ -19,8 +19,8 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwia
 
 
 ###
-POST http://localhost:8082/converter/convert
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4OTMwODF9.XkLtkZmQIRKPKGzDfI_rqmohCpFZiyhvvf5l4HKd2po
+POST http://localhost:8082/convert/convert
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2MzkxODU4MTJ9.neuOkNgCvVw86gzf8HOI2oERZ0i7ZYD2V6veFWdJNeE
 Content-Type: application/json
 
 {
@@ -29,5 +29,5 @@ Content-Type: application/json
     "targetCurrency": "EUR"
 }
 ###
-GET http://localhost:8083/history
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2Mjk4NDEyODF9.ZVIy_wSiXZn5ndIzis565aQj_ye-GaoO0_WSnzN9-2E
+GET http://localhost:8083/history/show
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aHkxIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiL2F1dGgvbG9naW4iLCJleHAiOjE2MzkxODU4MTJ9.neuOkNgCvVw86gzf8HOI2oERZ0i7ZYD2V6veFWdJNeE

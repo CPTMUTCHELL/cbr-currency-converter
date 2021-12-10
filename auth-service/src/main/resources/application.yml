@@ -17,5 +17,5 @@ spring:
       ddl-auto: none
 jwt:
   secret: secret
-  authTokenExpire: 12000000
-  refreshTokenExpire: 300000000
+  auth.token.expire: 12000000
+  refresh.token.expire: 300000000
