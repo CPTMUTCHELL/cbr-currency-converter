@@ -108,11 +108,8 @@ pipeline {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
-
-
                              bash ./docker.sh ${auth} v${BUILD_NUMBER}
                              """
-
                         }
                         script {
                             set = set + 'auth.tag=v${BUILD_NUMBER},'

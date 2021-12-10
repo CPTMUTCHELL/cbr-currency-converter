@@ -56,6 +56,7 @@ public class ConvertService {
 
         if (dto.getBaseCurrency().equals("RUB")) {
             res = convertFromRubToCurrency(dto.getQuantityToConvert(), target);
+            System.out.println(res);
         } else if (dto.getTargetCurrency().equals("RUB")) {
             res = convertFromCurrencyToRub(dto.getQuantityToConvert(), base);
         } else {
