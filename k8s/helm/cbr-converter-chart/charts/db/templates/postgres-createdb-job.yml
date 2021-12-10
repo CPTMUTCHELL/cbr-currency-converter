@@ -1,26 +1,19 @@
-
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: postgres-createdb-job
+  name: {{ .Values.name }}-createdb-job
 spec:
-
   template:
-
     metadata:
       labels:
-        app: jobpg
+        app: createdb-job
     spec:
-{{/*      securityContext:*/}}
-{{/*        runAsUser: 999*/}}
       restartPolicy: OnFailure
       containers:
-
-        - name: jobpg
-          image: cptmutchell/postgres:v111
+        - name: createdb-job
+          image: {{ .Values.image }}:v1
           imagePullPolicy: Always
           env:
-
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
@@ -28,6 +21,6 @@ spec:
                   key: POSTGRES_PASSWORD
           command: ["./create-multiple-postgresql-databases.sh"]
           args:
-            - olo
-            - lol
-
+            {{  range .Values.args }}
+            - {{ . }}
+          {{ end }}
