@@ -37,12 +37,7 @@ pipeline {
                 }
             }
         }
-        stage("Custom postgres") {
-//             when{
-//
-//                   expression{return params.ALL}
-//
-//             }
+        stage("Create db") {
             steps {
                 sh '''
                    kubectl delete secret postgres-secret --ignore-not-found
@@ -53,9 +48,6 @@ pipeline {
                          kubectl delete job postgres-createdb-job --ignore-not-found=true
                         bash ./docker.sh postgres-createdb v1
                      """
-                       script {
-                         set = set + 'db.tag=v${BUILD_NUMBER},'
-                     }
 
                 }
 
