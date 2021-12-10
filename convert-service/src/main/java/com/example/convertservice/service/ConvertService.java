@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
@@ -136,12 +137,12 @@ public class ConvertService {
 
     private BigDecimal convertFromRubToCurrency(BigDecimal quantity, Currency target) {
         return quantity.divide(target.getValue()
-                .divide(BigDecimal.valueOf(target.getNominal())), 3);
+                .divide(BigDecimal.valueOf(target.getNominal())), 3, RoundingMode.CEILING);
     }
 
     private BigDecimal convertFromCurrencyToRub(BigDecimal quantity, Currency base) {
         return quantity.multiply(base.getValue())
-                .divide(BigDecimal.valueOf(base.getNominal()), 3);
+                .divide(BigDecimal.valueOf(base.getNominal()), 3,RoundingMode.CEILING);
     }
 
 
