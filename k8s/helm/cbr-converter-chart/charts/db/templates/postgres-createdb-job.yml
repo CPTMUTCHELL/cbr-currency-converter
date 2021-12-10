@@ -11,8 +11,8 @@ spec:
       labels:
         app: jobpg
     spec:
-      securityContext:
-        runAsUser: 999
+{{/*      securityContext:*/}}
+{{/*        runAsUser: 999*/}}
       restartPolicy: OnFailure
       containers:
 
