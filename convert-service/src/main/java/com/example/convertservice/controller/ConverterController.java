@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/converter")
+@RequestMapping("/convert")
 public class ConverterController {
     @Autowired
     private ConvertService convertService;
