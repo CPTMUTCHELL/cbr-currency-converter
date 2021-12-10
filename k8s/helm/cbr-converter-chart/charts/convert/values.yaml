@@ -1,4 +1,4 @@
 image: cptmutchell/convert-service
 tag: v1
-name: converter
+name: convert
 port: "8082"
