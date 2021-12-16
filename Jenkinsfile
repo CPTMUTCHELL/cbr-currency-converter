@@ -74,6 +74,7 @@ pipeline {
                             sh """
                              bash ./docker.sh flyway-convertdb v1 ${convert}/flyway
                             """
+                            docker.image('openshift/origin-cli').inside('-u root:root')
                         }
 
                     }
