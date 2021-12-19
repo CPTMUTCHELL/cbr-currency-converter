@@ -48,7 +48,6 @@ pipeline {
                          kubectl delete job postgres-createdb-job --ignore-not-found=true
                         bash ./docker.sh postgres-createdb v1
                      """
-                     docker.image('openshift/origin-cli').inside('-u root:root')
 
                 }
 

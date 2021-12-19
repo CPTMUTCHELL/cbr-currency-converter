@@ -4,9 +4,8 @@ metadata:
   name: ingress-converter
 spec:
   rules:
-    # - host: myconverter
-
-    - http:
+    - host: myconverter.woyd.ru
+      http:
         paths:
             - path: /{{ .Values.auth.name}}
               pathType: Prefix
