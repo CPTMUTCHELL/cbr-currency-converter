@@ -3,6 +3,11 @@ podDisruptionBudget:
   minAvailable: 1
 rollingUpdate:
   maxUnavailable: 0
+additionalArguments:
+  - "--log.level=DEBUG"
+  - "--entrypoints.websecure.http.tls"
+  - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
+  - "--ping"
 
 globalArguments: [] # Disable anonymous stat
 ports:
@@ -13,9 +18,9 @@ pilot:
 ingressRoute:
   dashboard:
     enabled: true
-ingressClass:
-  enabled: true
-  isDefaultClass: true
+#ingressClass:
+#  enabled: true
+#  isDefaultClass: true
 logs:
   general:
     level: DEBUG
