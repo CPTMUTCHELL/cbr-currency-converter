@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-   stages {
+
         stage("Cert-manager") {
             steps {
                 script {
@@ -53,6 +53,7 @@ pipeline {
                 }
             }
         }
+
         stage("Create db") {
             steps {
                 sh '''
