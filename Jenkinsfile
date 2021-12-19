@@ -45,7 +45,7 @@ pipeline {
                     cd k8s/helm
                     helm repo add jetstack https://charts.jetstack.io
                     helm repo update
-                    helm upgrade cert-manager jetstack/cert-manager --install -name cert-manager --create-namespace \
+                    helm upgrade cert-manager jetstack/cert-manager --install -n cert-manager --create-namespace \
                      --version v1.6.1 \
                      --set installCRDs=true
 
