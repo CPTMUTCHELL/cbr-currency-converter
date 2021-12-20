@@ -19,7 +19,7 @@ persistence:
   accessMode: ReadWriteOnce
   size: 128Mi
   # storageClass: ""
-  path: ./letsencrypt
+  path: /letsencrypt
   annotations: {}
 ports:
   web:
@@ -29,10 +29,7 @@ ports:
     address: ":443"
     tls:
       enabled: true
-volumes:
- - name: public-cert
-   mountPath: "/data"
-   type: secret
+
 certificatesResolvers:
   letsEncrypt:
     acme:
