@@ -40,7 +40,7 @@ certificatesResolvers:
       storage: acme.json
       httpChallenge:
         # used during the challenge
-        entryPoint: http
+        entryPoint: web
 globalArguments: [] # Disable anonymous stat
 
 pilot:
