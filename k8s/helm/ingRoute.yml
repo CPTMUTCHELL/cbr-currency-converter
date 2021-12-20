@@ -4,12 +4,12 @@ metadata:
   name: myconvertertls
 spec:
   entryPoints:
-    - websecure
+    - https
   routes:
     - match: Host(`myconverter.woyd.ru`)
       kind: Rule
       services:
         - name: myconverter
-          port: 8080
+          port: 80
   tls:
-    certResolver: myresolver
+    certResolver: letsencrypt

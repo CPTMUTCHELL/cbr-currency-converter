@@ -9,10 +9,10 @@ rollingUpdate:
 #  - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
 #  - "--ping"
 entryPoints:
-  web:
+  http:
     address: ":80"
 
-  websecure:
+  https:
     address: ":443"
 
 certificatesResolvers:
@@ -22,7 +22,7 @@ certificatesResolvers:
       storage: acme.json
       httpChallenge:
         # used during the challenge
-        entryPoint: web
+        entryPoint: http
 globalArguments: [] # Disable anonymous stat
 ports:
   websecure:
