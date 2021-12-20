@@ -3,12 +3,26 @@ podDisruptionBudget:
   minAvailable: 1
 rollingUpdate:
   maxUnavailable: 0
-additionalArguments:
-  - "--log.level=DEBUG"
-  - "--entrypoints.websecure.http.tls"
-  - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
-  - "--ping"
+#additionalArguments:
+#  - "--log.level=DEBUG"
+#  - "--entrypoints.websecure.http.tls"
+#  - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
+#  - "--ping"
+entryPoints:
+  web:
+    address: ":80"
 
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  letsEncrypt:
+    acme:
+      email: cptmutchell@gmail.com
+      storage: acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web
 globalArguments: [] # Disable anonymous stat
 ports:
   websecure:

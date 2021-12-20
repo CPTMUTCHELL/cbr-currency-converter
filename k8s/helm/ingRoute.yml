@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myconvertertls
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`myconverter.woyd.ru`)
+      kind: Rule
+      services:
+        - name: myconverter
+          port: 8080
+  tls:
+    certResolver: myresolver

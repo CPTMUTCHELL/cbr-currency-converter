@@ -32,7 +32,7 @@ pipeline {
                     helm repo add traefik https://containous.github.io/traefik-helm-chart
                     helm repo update
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-
+                    kubectl apply ingRoute.yml
                     """
                 }
             }
@@ -45,7 +45,7 @@ pipeline {
                     cd k8s/helm
                     helm repo add jetstack https://charts.jetstack.io
                     helm repo update
-                    helm upgrade cert-manager jetstack/cert-manager --install -n cert-manager --create-namespace \
+                    helm upgrade cert-manager jetstack/cert-manager --install -n     cert-manager --create-namespace \
                      --version v1.6.1 \
                      --set installCRDs=true
 
