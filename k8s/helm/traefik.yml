@@ -4,8 +4,14 @@ podDisruptionBudget:
 rollingUpdate:
   maxUnavailable: 0
 additionalArguments:
-  - "--certificatesresolvers.le.acme.storage=/data/acme.json"
   - "--ping.entrypoint=web"
+  - "--certificatesresolvers.letsencrypt.acme.tlschallenge"
+  - "--certificatesresolvers.letsencrypt.acme.email=cptmutchell@gmail.com"
+  - "--certificatesresolvers.letsencrypt.acme.storage=data/acme.json"
+      # Please note that this is the staging Let's Encrypt server.
+      # Once you get things working, you should remove that whole line altogether.
+  - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+
 persistence:
   enabled: true
   name: data
