@@ -26,6 +26,7 @@ ports:
 volumes:
  - name: public-cert
    mountPath: "/data"
+   type: secret
 certificatesResolvers:
   letsEncrypt:
     acme:
