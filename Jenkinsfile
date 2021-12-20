@@ -33,6 +33,7 @@ pipeline {
                     helm repo update
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
                     kubectl apply -f ingRoute.yml
+                    helm template traefik --values traefik.yml
                     """
                 }
             }
