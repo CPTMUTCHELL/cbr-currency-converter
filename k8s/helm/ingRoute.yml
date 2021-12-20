@@ -4,7 +4,7 @@ metadata:
   name: myconvertertls
 spec:
   entryPoints:
-    - https
+    - websecure
   routes:
     - match: Host(`myconverter.woyd.ru`)
       kind: Rule

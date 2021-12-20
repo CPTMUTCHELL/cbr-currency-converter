@@ -3,18 +3,29 @@ podDisruptionBudget:
   minAvailable: 1
 rollingUpdate:
   maxUnavailable: 0
-#additionalArguments:
-#  - "--log.level=DEBUG"
-#  - "--entrypoints.websecure.http.tls"
-#  - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
-#  - "--ping"
-entryPoints:
-  http:
+additionalArguments:
+  - "--certificatesresolvers.le.acme.storage=/data/acme.json"
+  - "--ping.entrypoint=web"
+persistence:
+  enabled: true
+  name: data
+  #  existingClaim: ""
+  accessMode: ReadWriteOnce
+  size: 128Mi
+  # storageClass: ""
+  path: /data
+  annotations: {}
+ports:
+  web:
     address: ":80"
 
-  https:
+  websecure:
     address: ":443"
-
+    tls:
+      enabled: true
+volumes:
+ - name: public-cert
+   mountPath: "/data"
 certificatesResolvers:
   letsEncrypt:
     acme:
@@ -24,9 +35,7 @@ certificatesResolvers:
         # used during the challenge
         entryPoint: http
 globalArguments: [] # Disable anonymous stat
-ports:
-  websecure:
-    expose: false
+
 pilot:
   dashboard: true
 ingressRoute:
