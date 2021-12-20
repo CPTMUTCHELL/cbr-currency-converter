@@ -32,7 +32,7 @@ pipeline {
                     helm repo add traefik https://containous.github.io/traefik-helm-chart
                     helm repo update
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-                    kubectl apply ingRoute.yml
+                    kubectl apply -f ingRoute.yml
                     """
                 }
             }
