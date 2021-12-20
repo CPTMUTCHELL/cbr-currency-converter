@@ -6,27 +6,10 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host("myconverter.woyd.ru")
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/history")
       kind: Rule
       services:
-        - name: auth
-          port: 8081
-  tls:
-      certResolver: letsencrypt
----
-
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: myconvertertls
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host("myconverter.woyd.ru")
-      kind: Rule
-      services:
-        - name: history
+        - name: history-service
           port: 8083
   tls:
-    certResolver: letsencrypt
+      certResolver: letsencrypt
