@@ -29,7 +29,6 @@ pipeline {
                 script {
                     sh """
                     cd k8s/helm
-                    helm uninstall traefik
                     helm repo add traefik https://helm.traefik.io/traefik
                     helm repo update
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
