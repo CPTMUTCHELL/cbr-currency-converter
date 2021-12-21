@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: myconvertertls
+  name: myconvertertlshistory
 spec:
   entryPoints:
     - websecure
@@ -17,7 +17,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: myconvertertls
+  name: myconvertertlsauth
 spec:
   entryPoints:
     - websecure
@@ -29,3 +29,31 @@ spec:
           port: 8081
   tls:
     certResolver: letsencrypt
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myconverternotlsauth
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/auth")
+      kind: Rule
+      services:
+        - name: auth-service
+          port: 8081
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myconverternotlshistory
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/history")
+      kind: Rule
+      services:
+        - name: history-service
+          port: 8083
