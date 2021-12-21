@@ -10,14 +10,14 @@ additionalArguments:
   - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
 
-persistence:
-  enabled: true
-  name: data
-  accessMode: ReadWriteOnce
-  size: 128Mi
-  storageClass: ""
-  path: /data
-  annotations: {}
+#persistence:
+#  enabled: true
+#  name: data
+#  accessMode: ReadWriteOnce
+#  size: 128Mi
+#  storageClass: ""
+#  path: /data
+#  annotations: {}
 ports:
   traefik:
     expose: false
