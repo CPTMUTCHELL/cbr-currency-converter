@@ -31,7 +31,7 @@ ports:
       enabled: true
 
 certificatesResolvers:
-  letsEncrypt:
+  letsencrypt:
     acme:
       email: cptmutchell@gmail.com
       storage: /letsencrypt/acme.json
