@@ -38,7 +38,6 @@ ports:
     exposedPort: 80
     port: 8000
     protocol: TCP
-    redirectTo: websecure
   websecure:
     expose: true
     exposedPort: 443
@@ -46,7 +45,7 @@ ports:
     protocol: TCP
     tls:
       certResolver: letsencrypt
-    domains:
+      domains:
       - main: myconverter.woyd.ru
 
       enabled: true
