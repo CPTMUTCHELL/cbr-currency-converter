@@ -11,9 +11,8 @@ additionalArguments: []
 #      # Once you get things working, you should remove that whole line altogether.
 #  - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
 #  - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-initContainers: []
-  # The "volume-permissions" init container is required if you run into permission issues.
-  # Related issue: https://github.com/traefik/traefik/issues/6972
+initContainers:
+
   - name: volume-permissions
     image: busybox:1.31.1
     command: ["sh", "-c", "chmod -Rv 600 /data/*"]
