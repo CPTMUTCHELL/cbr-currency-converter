@@ -4,7 +4,7 @@ podDisruptionBudget:
 rollingUpdate:
   maxUnavailable: 0
 additionalArguments:
-#  - "--ping.entrypoint=web"
+  - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
   - "--certificatesresolvers.letsencrypt.acme.email=cptmutchell@gmail.com"
   - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
 #      # Please note that this is the staging Let's Encrypt server.
