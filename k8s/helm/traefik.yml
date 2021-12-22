@@ -13,6 +13,7 @@ additionalArguments: []
 certificatesResolvers:
   le:
     acme:
+      caServer: https://acme-v02.api.letsencrypt.org/directory
       email: cptmutchell@gmail.com
       storage: /data/acme.json
       httpChallenge:
