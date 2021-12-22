@@ -7,8 +7,9 @@ additionalArguments:
   - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
   - "--certificatesresolvers.letsencrypt.acme.email=cptmutchell@gmail.com"
   - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
-  - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+#  - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+  - "--certificatesresolvers.letsencrypt.acme.acmelogging=true"
 
 persistence:
   enabled: true
@@ -20,6 +21,7 @@ persistence:
   annotations: {}
 ports:
   traefik:
+
     expose: false
     exposedPort: 9000
     port: 9000
