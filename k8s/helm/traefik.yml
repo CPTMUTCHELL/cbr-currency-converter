@@ -9,7 +9,6 @@ additionalArguments:
   - "--certificatesresolvers.le.acme.storage=/data/acme.json"
   - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
-  - "--certificatesresolvers.le.acme.entrypoint=websecure"
 #certificatesResolvers:
 #  le:
 #    acme:
