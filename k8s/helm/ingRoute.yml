@@ -1,6 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  namespace: traefik
   name: myconvertertlshistory
 spec:
   entryPoints:
@@ -19,6 +20,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  namespace: traefik
   name: myconvertertlsauth
 spec:
   entryPoints:
@@ -37,6 +39,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  namespace: traefik
   name: myconverternotlsauth
 spec:
   entryPoints:
@@ -51,6 +54,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  namespace: traefik
   name: myconverternotlsauthip
 spec:
   entryPoints:
@@ -66,6 +70,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: myconverternotlshistory
+  namespace: traefik
 spec:
   entryPoints:
     - web
@@ -75,3 +80,19 @@ spec:
       services:
         - name: history-service
           port: 8083
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  namespace: traefik
+  name: dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`tmyconverter.woyd.ru`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService

@@ -28,7 +28,6 @@ persistence:
   annotations: {}
 ports:
   traefik:
-
     expose: false
     exposedPort: 9000
     port: 9000
