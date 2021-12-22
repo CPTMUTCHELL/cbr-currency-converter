@@ -36,11 +36,9 @@ ports:
     protocol: TCP
     tls:
       certResolver: letsencrypt
-      domains:
-      - main: myconverter.woyd.ru
 
       enabled: true
-      options: ""
+
 
 
 globalArguments: [] # Disable anonymous stat
