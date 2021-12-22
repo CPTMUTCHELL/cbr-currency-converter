@@ -47,6 +47,20 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  name: myconverternotlsauth
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host("34.116.220.96") && PathPrefix("/auth")
+      kind: Rule
+      services:
+        - name: auth-service
+          port: 8081
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
   name: myconverternotlshistory
 spec:
   entryPoints:

@@ -40,7 +40,6 @@ ports:
       enabled: true
 
 
-
 globalArguments: [] # Disable anonymous stat
 
 pilot:
