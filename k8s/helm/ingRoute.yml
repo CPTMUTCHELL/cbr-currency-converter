@@ -91,7 +91,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`tmyconverter.woyd.ru`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+    - match: Host(`myconverter.woyd.ru`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
       kind: Rule
       services:
         - name: api@internal
