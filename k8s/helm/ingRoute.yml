@@ -12,7 +12,9 @@ spec:
         - name: history-service
           port: 8083
   tls:
-      certResolver: letsencrypt
+    certResolver: letsencrypt
+    domains:
+      - main: "myconverter.woyd.ru"
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -29,6 +31,8 @@ spec:
           port: 8081
   tls:
     certResolver: letsencrypt
+    domains:
+      - main: "myconverter.woyd.ru"
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
