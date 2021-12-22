@@ -14,7 +14,7 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: cptmutchell@gmail.com
-      storage: /data/ache.json
+      storage: /data/acme.json
       httpChallenge:
         entryPoint: web
 
