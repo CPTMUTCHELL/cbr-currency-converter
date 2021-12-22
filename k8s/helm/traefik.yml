@@ -11,7 +11,7 @@ additionalArguments: []
 #  - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
 #  - "--certificatesresolvers.letsencrypt.acme.entrypoint=websecure"
 certificatesResolvers:
-  letsencrypt:
+  le:
     acme:
       email: cptmutchell@gmail.com
       storage: /data/acme.json
@@ -44,7 +44,7 @@ ports:
     port: 8443
     protocol: TCP
     tls:
-      certResolver: letsencrypt
+      certResolver: le
 
       enabled: true
 

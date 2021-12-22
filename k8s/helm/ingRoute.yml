@@ -12,7 +12,7 @@ spec:
         - name: history-service
           port: 8083
   tls:
-    certResolver: letsencrypt
+    certResolver: le
     domains:
       - main: "myconverter.woyd.ru"
 ---
@@ -30,7 +30,7 @@ spec:
         - name: auth-service
           port: 8081
   tls:
-    certResolver: letsencrypt
+    certResolver: le
     domains:
       - main: "myconverter.woyd.ru"
 ---
