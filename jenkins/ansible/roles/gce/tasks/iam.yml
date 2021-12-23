@@ -1,0 +1,29 @@
+- name: download requirements
+
+  pip:
+    name: "{{ item }}"
+  loop:
+    - requests
+    - google-auth
+
+- name: create sa
+  gcp_iam_service_account:
+
+    name: "ansible-sa@{{ gcp_project }}.iam.gserviceaccount.com"
+    display_name: sa for jenkins to access gke
+    project: "{{ gcp_project }}"
+    auth_kind: "{{ gcp_cred_kind }}"
+    service_account_file: "{{ gcp_cred_file }}"
+    state: present
+  register: sa
+- name: Bind role to sa
+  shell: "gcloud projects add-iam-policy-binding aerobic-datum-327116 --member='serviceAccount:ansible-sa@{{ gcp_project }}.iam.gserviceaccount.com' --role='roles/container.admin'"
+
+- name: create a sa key
+  gcp_iam_service_account_key:
+    service_account: "{{ sa }}"
+    private_key_type: TYPE_GOOGLE_CREDENTIALS_FILE
+    path: "{{ role_path }}/files/test_account.json"
+    project: "{{ gcp_project }}"
+    auth_kind: "{{ gcp_cred_kind }}"
+    service_account_file: "{{ gcp_cred_file }}"

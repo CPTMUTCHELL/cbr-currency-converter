@@ -1,0 +1,9 @@
+- name: Create role and gce
+  hosts: localhost
+  roles:
+    - gce
+- name: configure jenkins
+  hosts: remote
+  become: true
+  roles:
+    - jenkins

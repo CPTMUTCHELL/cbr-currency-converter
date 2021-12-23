@@ -1,0 +1,2 @@
+- include_tasks: iam.yml
+- include_tasks: gce.yml

@@ -30,11 +30,11 @@ RUN apt-get -y update && \
    containerd.io
 # 998 is docker's gid on the machine
 RUN groupmod -g 998 docker && usermod -aG docker jenkins
-
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
     chmod 700 get_helm.sh && ./get_helm.sh
 RUN apt-get install -y python3.9 && apt install -y ansible && apt install -y nano && \
-    apt -y install python3-pip && apt install libpq-dev python3-dev && pip3 install kubernetes
+    apt -y install python3-pip && apt install libpq-dev python3-dev && pip3 install kubernetes && \
+    ansible-galaxy collection install kubernetes.core
 
 USER jenkins
 
