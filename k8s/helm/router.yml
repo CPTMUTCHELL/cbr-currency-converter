@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  namespace: traefik
+  name: test-redirectscheme
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
