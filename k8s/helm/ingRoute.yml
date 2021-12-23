@@ -1,8 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-#  namespace: traefik
-  name: myconvertertlshistory
+  name: history-tls
 spec:
   entryPoints:
     - websecure
@@ -19,8 +18,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-#  namespace: traefik
-  name: myconvertertlsauth
+  name: auth-tls
 spec:
   entryPoints:
     - websecure
@@ -37,60 +35,15 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-#  namespace: traefik
-  name: myconverternotlsauth
+  name: convert-tls
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
-    - match: Host("myconverter.woyd.ru") && PathPrefix("/auth")
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/convert")
       kind: Rule
       services:
-        - name: auth-service
-          port: 8081
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-#  namespace: traefik
-  name: myconverternotlsauthip
-spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host("34.116.220.96") && PathPrefix("/auth")
-      kind: Rule
-      services:
-        - name: auth-service
-          port: 8081
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: myconverternotlshistory
-#  namespace: traefik
-spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host("myconverter.woyd.ru") && PathPrefix("/history")
-      kind: Rule
-      services:
-        - name: history-service
-          port: 8083
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  namespace: traefik
-  name: dashboard
-spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`myconverter.woyd.ru`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
-      kind: Rule
-      services:
-        - name: api@internal
-          kind: TraefikService
+        - name: convert-service
+          port: 8082
+  tls:
+    certResolver: le
