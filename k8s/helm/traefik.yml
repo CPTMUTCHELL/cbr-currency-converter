@@ -7,8 +7,13 @@ additionalArguments:
   - "--certificatesresolvers.le.acme.httpchallenge=true"
   - "--certificatesresolvers.le.acme.email=cptmutchell@gmail.com"
   - "--certificatesresolvers.le.acme.storage=/data/acme.json"
-  - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+  #- "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+  - "--entrypoints.web.address=:80"
+  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+  - "--entrypoints.websecure.address=:443"
 #certificatesResolvers:
 #  le:
 #    acme:
