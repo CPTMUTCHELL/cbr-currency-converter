@@ -9,9 +9,9 @@ additionalArguments:
   - "--certificatesresolvers.le.acme.storage=/data/acme.json"
   - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
-  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+#  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+#  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+#  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
 #certificatesResolvers:
 #  le:
 #    acme:
