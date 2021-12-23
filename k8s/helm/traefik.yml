@@ -4,7 +4,6 @@ podDisruptionBudget:
 rollingUpdate:
   maxUnavailable: 0
 additionalArguments:
-  - "--certificatesresolvers.le.acme.httpchallenge=true"
   - "--certificatesresolvers.le.acme.email=cptmutchell@gmail.com"
   - "--certificatesresolvers.le.acme.storage=/data/acme.json"
   - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
