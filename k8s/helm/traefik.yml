@@ -11,7 +11,7 @@ additionalArguments:
 
 
 #  - "--entrypoints.web.address=:80"
-#  - "--entrypoints.websecure.address=:443"
+  - "--entrypoints.websecure.address=:443"
 #  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
 #  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
 #  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
