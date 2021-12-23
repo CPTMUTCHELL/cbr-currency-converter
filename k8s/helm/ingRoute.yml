@@ -8,8 +8,6 @@ spec:
   routes:
     - match: Host("myconverter.woyd.ru") && PathPrefix("/history")
       kind: Rule
-      middlewares:
-      - name: test-redirectscheme
       services:
         - name: history-service
           port: 8083
@@ -17,6 +15,24 @@ spec:
     certResolver: le
     domains:
       - main: "myconverter.woyd.ru"
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: history-notls
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/history")
+      kind: Rule
+      middlewares:
+        - name: test-redirectscheme
+      services:
+        - name: history-service
+          port: 8083
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -29,8 +45,7 @@ spec:
   routes:
     - match: Host("myconverter.woyd.ru") && PathPrefix("/auth")
       kind: Rule
-      middlewares:
-      - name: test-redirectscheme
+
       services:
         - name: auth-service
           port: 8081
@@ -42,6 +57,23 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  name: auth-notls
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/auth")
+      kind: Rule
+      middlewares:
+        - name: test-redirectscheme
+      services:
+        - name: auth-service
+          port: 8081
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
   name: convert-tls
 spec:
   entryPoints:
@@ -49,8 +81,6 @@ spec:
   routes:
     - match: Host("myconverter.woyd.ru") && PathPrefix("/convert")
       kind: Rule
-      middlewares:
-      - name: test-redirectscheme
       services:
         - name: convert-service
           port: 8082
@@ -58,3 +88,20 @@ spec:
     certResolver: le
     domains:
       - main: "myconverter.woyd.ru"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: convert-notls
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host("myconverter.woyd.ru") && PathPrefix("/convert")
+      kind: Rule
+      middlewares:
+        - name: test-redirectscheme
+      services:
+        - name: convert-service
+          port: 8082
+
