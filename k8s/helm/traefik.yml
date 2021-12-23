@@ -9,9 +9,13 @@ additionalArguments:
   - "--certificatesresolvers.le.acme.storage=/data/acme.json"
   - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
-#  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-#  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-#  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+  - "--traefik.http.middlewares.traefik-redirectscheme.redirectscheme.permanent=true"
+  - "--traefik.http.middlewares.traefik-redirectscheme.redirectscheme.scheme=https"
+  - "--traefik.http.routers.traefik-secure.entrypoints=websecure"
+  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+  - "--traefik.http.routers.traefik.priority=1"
 #certificatesResolvers:
 #  le:
 #    acme:
