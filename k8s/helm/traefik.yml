@@ -9,34 +9,28 @@ additionalArguments:
   - "--certificatesresolvers.le.acme.storage=/data/acme.json"
   - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.le.acme.tlschallenge=true"
-  - "--entrypoints.web.address=:80"
 
-  - "--entrypoints.websecure.address=:443"
-  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+
+#  - "--entrypoints.web.address=:80"
+#  - "--entrypoints.websecure.address=:443"
+#  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+#  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+#  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
 #  - "--traefik.http.routers.traefik.priority=1"
-#certificatesResolvers:
-#  le:
-#    acme:
-#      caServer: https://acme-v02.api.letsencrypt.org/directory
-#      email: cptmutchell@gmail.com
-#      storage: /data/acme.json
-#      httpChallenge:
-#        entryPoint: web
-http:
-  routers:
-    http-catchall:
-      rule: hostregexp(`{myconverter.woyd.ru:.+}`)
-      entrypoints:
-        - web
-      middlewares:
-        - redirect-to-https
-  middlewares:
-    redirect-to-https:
-      redirectScheme:
-        scheme: https
-        permanent: false
+
+#http:
+#  routers:
+#    http-catchall:
+#      rule: hostregexp(`{myconverter.woyd.ru:.+}`)
+#      entrypoints:
+#        - web
+#      middlewares:
+#        - redirect-to-https
+#  middlewares:
+#    redirect-to-https:
+#      redirectScheme:
+#        scheme: https
+#        permanent: false
 persistence:
   enabled: true
   name: data

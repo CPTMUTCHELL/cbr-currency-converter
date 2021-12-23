@@ -8,6 +8,9 @@ spec:
   routes:
     - match: Host("myconverter.woyd.ru") && PathPrefix("/history")
       kind: Rule
+      middlewares:
+      - name: test-redirectscheme
+        namespace: traefik
       services:
         - name: history-service
           port: 8083
@@ -27,6 +30,9 @@ spec:
   routes:
     - match: Host("myconverter.woyd.ru") && PathPrefix("/auth")
       kind: Rule
+      middlewares:
+      - name: test-redirectscheme
+        namespace: traefik
       services:
         - name: auth-service
           port: 8081
@@ -45,6 +51,9 @@ spec:
   routes:
     - match: Host("myconverter.woyd.ru") && PathPrefix("/convert")
       kind: Rule
+      middlewares:
+      - name: test-redirectscheme
+        namespace: traefik
       services:
         - name: convert-service
           port: 8082
