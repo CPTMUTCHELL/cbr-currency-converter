@@ -10,7 +10,6 @@ spec:
       kind: Rule
       middlewares:
       - name: test-redirectscheme
-        namespace: traefik
       services:
         - name: history-service
           port: 8083
@@ -32,7 +31,6 @@ spec:
       kind: Rule
       middlewares:
       - name: test-redirectscheme
-        namespace: traefik
       services:
         - name: auth-service
           port: 8081
@@ -53,7 +51,6 @@ spec:
       kind: Rule
       middlewares:
       - name: test-redirectscheme
-        namespace: traefik
       services:
         - name: convert-service
           port: 8082
