@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  namespace: traefik
+#  namespace: traefik
   name: myconvertertlshistory
 spec:
   entryPoints:
@@ -20,7 +20,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  namespace: traefik
+#  namespace: traefik
   name: myconvertertlsauth
 spec:
   entryPoints:
@@ -39,7 +39,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  namespace: traefik
+#  namespace: traefik
   name: myconverternotlsauth
 spec:
   entryPoints:
@@ -54,7 +54,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  namespace: traefik
+#  namespace: traefik
   name: myconverternotlsauthip
 spec:
   entryPoints:
@@ -70,7 +70,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: myconverternotlshistory
-  namespace: traefik
+#  namespace: traefik
 spec:
   entryPoints:
     - web
