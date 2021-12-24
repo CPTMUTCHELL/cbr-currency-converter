@@ -6,7 +6,7 @@
       name: traefik
       repo_url: "https://helm.traefik.io/traefik"
   - name: install traefik
-    helm:
+    kubernetes.core.helm:
       name: traefik
       chart_ref: traefik/traefik
       release_namespace: traefik
