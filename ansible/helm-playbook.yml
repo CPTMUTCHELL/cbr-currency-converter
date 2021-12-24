@@ -2,7 +2,7 @@
   hosts: localhost
   tasks:
   - name: add traefik
-    helm_repository:
+    kubernetes.core.helm_repository:
       name: traefik
       repo_url: "https://helm.traefik.io/traefik"
   - name: install traefik
