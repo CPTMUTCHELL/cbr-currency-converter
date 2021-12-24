@@ -1,8 +1,8 @@
 - name: Apply router-middleware
-  kubernetes.core.k8s:
+  k8s:
     state: present
     src: ../k8s/helm/router.yml
 - name: Apply ingressRoutes
-  kubernetes.core.k8s:
+  k8s:
     state: present
     src: ../k8s/helm/ingRoute.yml
