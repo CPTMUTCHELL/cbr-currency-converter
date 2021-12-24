@@ -1,8 +1,11 @@
-- name: Apply router-middleware
-  k8s:
-    state: present
-    src: ../k8s/helm/router.yml
-- name: Apply ingressRoutes
-  k8s:
-    state: present
-    src: ../k8s/helm/ingRoute.yml
+- name: CRD traefik
+  hosts: localhost
+  tasks:
+  - name: Apply router-middleware
+    k8s:
+      state: present
+      src: ../k8s/helm/router.yml
+  - name: Apply ingressRoutes
+    k8s:
+      state: present
+      src: ../k8s/helm/ingRoute.yml
