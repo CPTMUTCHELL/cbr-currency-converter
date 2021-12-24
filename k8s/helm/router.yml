@@ -4,5 +4,5 @@ metadata:
   name: test-redirectscheme
 spec:
   redirectScheme:
-    scheme: https
+    scheme: websecure
     permanent: true

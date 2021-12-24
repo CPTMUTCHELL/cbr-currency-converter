@@ -10,25 +10,6 @@ additionalArguments:
   - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
 
 
-#  - "--entrypoints.web.address=:80"
-#  - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-#  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-#  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-#  - "--traefik.http.routers.traefik.priority=1"
-
-#http:
-#  routers:
-#    http-catchall:
-#      rule: hostregexp(`{myconverter.woyd.ru:.+}`)
-#      entrypoints:
-#        - web
-#      middlewares:
-#        - redirect-to-https
-#  middlewares:
-#    redirect-to-https:
-#      redirectScheme:
-#        scheme: https
-#        permanent: false
 persistence:
   enabled: true
   name: data
