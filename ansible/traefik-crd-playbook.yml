@@ -2,10 +2,10 @@
   hosts: localhost
   tasks:
   - name: Apply router-middleware
-    k8s:
+    kubernetes.core.k8s:
       state: present
       src: ../k8s/helm/router.yml
   - name: Apply ingressRoutes
-    k8s:
+    kubernetes.core.k8s:
       state: present
       src: ../k8s/helm/ingRoute.yml
