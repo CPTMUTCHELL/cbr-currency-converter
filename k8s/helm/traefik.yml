@@ -9,7 +9,13 @@ additionalArguments:
  # - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
   - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
 
-
+initContainers:
+  - name: volume-permissions
+    image: busybox:1.31.1
+    command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+    volumeMounts:
+      - name: data
+        mountPath: /data
 persistence:
   enabled: true
   name: data
