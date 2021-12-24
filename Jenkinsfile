@@ -33,8 +33,9 @@ pipeline {
                     helm repo update
                     helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
                     kubectl delete -f ingRoute.yml --ignore-not-found=true
-                    kubectl apply -f ingRoute.yml
                     kubectl apply -f router.yml
+                    kubectl apply -f ingRoute.yml
+
 
                     """
                 }
