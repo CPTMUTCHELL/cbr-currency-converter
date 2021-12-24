@@ -2,6 +2,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: history-tls
+  namespace: default
 spec:
   entryPoints:
     - websecure
@@ -22,6 +23,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: history-notls
+  namespace: default
 spec:
   entryPoints:
     - web
@@ -39,6 +41,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: auth-tls
+  namespace: default
 spec:
   entryPoints:
     - websecure
@@ -58,6 +61,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: auth-notls
+  namespace: default
 spec:
   entryPoints:
     - web
@@ -75,6 +79,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: convert-tls
+  namespace: default
 spec:
   entryPoints:
     - websecure
@@ -93,6 +98,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: convert-notls
+  namespace: default
 spec:
   entryPoints:
     - web
