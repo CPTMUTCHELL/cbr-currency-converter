@@ -28,14 +28,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                    cd k8s/helm
-                    helm repo add traefik https://helm.traefik.io/traefik
-                    helm repo update
-                    helm upgrade traefik traefik/traefik --install --create-namespace -n traefik --values traefik.yml
-                    kubectl delete -f ingRoute.yml --ignore-not-found=true
-                    kubectl apply -f router.yml
-                    kubectl apply -f ingRoute.yml
-
+                    cd ansible
+                    ansible-playbook helm-playbook.yml
+                    ansible-playbook traefik-crd-playbook.yml
 
                     """
                 }
