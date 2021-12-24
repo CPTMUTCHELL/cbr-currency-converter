@@ -1,5 +1,5 @@
 - name: Add traefik chart repo
   hosts: localhost
-  helm_repository:
+  kubernetes.core.helm_repository:
     name: traefik
     repo_url: "https://helm.traefik.io/traefik"
