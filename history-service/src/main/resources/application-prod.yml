@@ -1,5 +1,5 @@
 spring:
-
+  queue: ${cbr_queue}
   flyway:
     enabled: false
   datasource:

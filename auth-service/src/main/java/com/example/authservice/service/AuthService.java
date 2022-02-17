@@ -1,5 +1,9 @@
 package com.example.authservice.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.authservice.repository.RoleRepo;
 import com.example.authservice.repository.UserRepo;
 import com.example.entity.Role;
@@ -60,4 +64,5 @@ public class AuthService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
+
 }

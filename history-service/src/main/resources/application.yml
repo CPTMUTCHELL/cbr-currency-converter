@@ -1,6 +1,8 @@
 server:
   port: 8083
 spring:
+  queue: cbr_queue
+
   flyway:
     url: jdbc:postgresql://localhost:5432/history_db
     user: postgres

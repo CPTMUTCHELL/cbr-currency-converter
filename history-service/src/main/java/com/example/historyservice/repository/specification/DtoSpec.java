@@ -13,11 +13,11 @@ public class DtoSpec {
 
     public static Specification<PresentationDto> getBaseCurrency(String baseCurrency){
         return (Specification<PresentationDto>) (root, criteriaQuery, criteriaBuilder) ->
-                criteriaBuilder.like(root.get("baseCurrency"),"%"+baseCurrency+"%");
+                criteriaBuilder.like(criteriaBuilder.upper(root.get("baseCurrency")),"%"+baseCurrency.toUpperCase()+"%");
     }
     public static Specification<PresentationDto> getTargetCurrency(String targetCurrency){
         return (Specification<PresentationDto>) (root, criteriaQuery, criteriaBuilder) ->
-                criteriaBuilder.like(root.get("targetCurrency"),"%"+ targetCurrency +"%");
+                criteriaBuilder.like(criteriaBuilder.upper(root.get("targetCurrency")),"%"+ targetCurrency.toUpperCase() +"%");
     }
 
 }

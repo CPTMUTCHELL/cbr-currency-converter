@@ -1,5 +1,6 @@
 package com.example.historyservice.controller;
 
+import com.example.entity.HistoryPage;
 import com.example.entity.PresentationDto;
 import com.example.historyservice.service.HistoryService;
 import com.example.historyservice.repository.specification.DtoSpec;
@@ -21,28 +22,32 @@ import java.util.List;
 public class HistoryController {
     @Autowired
     private HistoryService historyService;
-    @PostMapping("/save")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<PresentationDto> saveToHistory(@RequestBody PresentationDto presentationDto){
-       return new ResponseEntity<>(historyService.saveDto(presentationDto), HttpStatus.CREATED);
-    }
+
+    //replaced with rabbitmq
+//    @PostMapping("/save")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//
+//    public ResponseEntity<PresentationDto> saveToHistory(@RequestBody PresentationDto presentationDto){
+//       return new ResponseEntity<>(historyService.saveDto(presentationDto), HttpStatus.CREATED);
+//    }
 
     @GetMapping("/show")
     @PreAuthorize("hasAuthority('USER')")
-    private ResponseEntity<List<PresentationDto>> showHistory(Model model,
-                               @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
-                               @RequestParam(required = false) String baseCurrency,
-                               @RequestParam(required = false) String targetCurrency){
-        return findPaginated(1,model, "date","desc",date,baseCurrency,targetCurrency);
+    private ResponseEntity<HistoryPage> showHistory(Model model,
+                                                    @RequestParam(required = false,defaultValue = "5") int pageSize,
+                                                    @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
+                                                    @RequestParam(required = false) String baseCurrency,
+                                                    @RequestParam(required = false) String targetCurrency){
+        return findPaginated(1,model,pageSize,  "date","desc",date,baseCurrency,targetCurrency);
     }
     @GetMapping("show/{pageNumber}")
-    public ResponseEntity<List<PresentationDto>> findPaginated(@PathVariable int pageNumber, Model model,
+    public ResponseEntity<HistoryPage> findPaginated(@PathVariable int pageNumber,  Model model,
+                                                               @RequestParam (required = false,defaultValue = "5") int pageSize,
                                                                @RequestParam (required = false,defaultValue = "date") String sortField,
                                                                @RequestParam (required = false,defaultValue = "desc") String dir,
-                                                               LocalDate date,
+                                                               @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
                                                                String baseCurrency, String targetCurrency){
         Specification<PresentationDto> spec=Specification.where(null);
-        int pageSize=4;
         if (date!=null) {
             spec=spec.and(DtoSpec.getDate(date));
         }
@@ -68,7 +73,8 @@ public class HistoryController {
         model.addAttribute("date",date);
         model.addAttribute("dir",dir);
         model.addAttribute("reverseDir", dir.equals("asc")?"desc":"asc");
-        return new ResponseEntity<>(content,HttpStatus.OK);
+
+        return new ResponseEntity<>(new HistoryPage(page.getContent(), page.getTotalPages(), page.getTotalElements()),HttpStatus.OK);
     }
 
 }

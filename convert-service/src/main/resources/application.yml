@@ -15,8 +15,21 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+#  application:
+#    name: converter
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: guest
+#    password: guest
+#    exchange: historyExc
+#    queue: cbr_queue
+#    routing-key: history.*
+
 jwt:
   secret: secret
 
 cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
 history.url: http://localhost:8083
+
+

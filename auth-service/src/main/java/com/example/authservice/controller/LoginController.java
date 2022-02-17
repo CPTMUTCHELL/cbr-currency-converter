@@ -9,14 +9,17 @@ import com.example.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,14 +31,20 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/auth")
 @RestController
 public class LoginController {
+    @Value(("${jwt.secret}"))
+    private  String secret;
+    @Value(("${jwt.refresh.token.expire}"))
+    private  String refreshTokenExpire;
     @Autowired
     private AuthService userService;
     @PostMapping("/registration")
-    public ResponseEntity<User> receiveRegistration(@RequestBody User user) {
+    public ResponseEntity<User> receiveRegistration(@Valid @RequestBody User user) {
         boolean exist = userService.checkUser(user.getUsername());
         System.out.println(user);
         if (exist) {
-            return new ResponseEntity<>(user,HttpStatus.CONFLICT);
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "User with this username already exists!");
+
         }
         else {
             userService.save(user);
@@ -49,21 +58,21 @@ public class LoginController {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             try {
-                String refreshToken = authHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                String token = authHeader.substring("Bearer ".length());
+                Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refreshToken);
+                DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
                 User user = userService.getUser(username);
                 String accessToken = JWT.create().withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(refreshTokenExpire)))
                         .withIssuer(request.getRequestURI())
                         .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
 
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("accessToken", accessToken);
-                tokens.put("refreshToken", refreshToken);
+                tokens.put("refreshToken", token);
 
                 response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
@@ -81,6 +90,11 @@ public class LoginController {
                 new ObjectMapper().writeValue(response.getOutputStream(),error);
             }
         }
+    }
+    @GetMapping("/validate")
+    public boolean validate() {
+
+         return true;
     }
 
 

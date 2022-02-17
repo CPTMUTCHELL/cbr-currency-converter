@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  rabbitmq:
+    build:
+      .
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbitmq
+    volumes:
+      - ./data/:/var/lib/rabbitmq/
+      - ./logs/:/var/log/rabbitmq/
+
+    ports:
+      - 5672:5672
+      - 15672:15672
+

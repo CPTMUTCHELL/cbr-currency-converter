@@ -1,6 +1,7 @@
 package com.example.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -11,7 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty(message = "May not be empty")
+    @Size(min = 5,message = "Username's length must be greater than 5 chars")
     private String username;
+    @Size(min = 5, message = "Password's length must be greater than 5 chars")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name ="user_role",

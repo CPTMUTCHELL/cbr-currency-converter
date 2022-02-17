@@ -4,12 +4,12 @@ import com.example.convertservice.repository.CbrRepo;
 import com.example.entity.PresentationDto;
 import com.example.entity.cbr.Currency;
 import com.example.entity.cbr.ValCurs;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +26,11 @@ import java.util.Set;
 @Service
 
 public class ConvertService {
+//    @Value(("${spring.rabbitmq.exchange}"))
+//    private String exc;
+
+//    @Autowired
+//    private AmqpTemplate rabbitTemplate;
     private CbrRepo cbrRepo;
 //    private DtoRepo dtoRepo;
     private RestTemplate template=new RestTemplate();
@@ -57,7 +62,6 @@ public class ConvertService {
 
         if (dto.getBaseCurrency().equals("RUB")) {
             res = convertFromRubToCurrency(dto.getQuantityToConvert(), target);
-            System.out.println(res);
         } else if (dto.getTargetCurrency().equals("RUB")) {
             res = convertFromCurrencyToRub(dto.getQuantityToConvert(), base);
         } else {
@@ -73,20 +77,19 @@ public class ConvertService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
+//        rabbitTemplate.convertAndSend(exc,"history.",dto);
         ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
-
-        //        saveDto(dto);
-//        return res;
-        return result;
+         return result;
+//        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
-    public List<Currency> getCurrencies() {
+    public List<Currency> getLatestCurrencies() {
         if (cbrRepo.findAll().isEmpty()){
 
          insertIfEmpty();
         }
 
-        return cbrRepo.findAll();
+        return cbrRepo.findTop35ByOrderByDateDesc();
     }
 
     private void save(Currency currency) {
