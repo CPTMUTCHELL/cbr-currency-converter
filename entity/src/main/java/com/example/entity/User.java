@@ -16,10 +16,11 @@ public class User {
     private String username;
     @Size(min = 5, message = "Password's length must be greater than 5 chars")
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(name ="user_role",
             joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
+
     private List<Role> roles;
 
     public int getId() {

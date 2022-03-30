@@ -1,6 +1,8 @@
 package com.example.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 
@@ -9,6 +11,8 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Pattern(regexp="^(ADMIN|USER)$",message="invalid role")
+    @NotNull
     private String name;
 
     public int getId() {

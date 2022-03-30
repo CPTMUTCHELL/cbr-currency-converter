@@ -3,9 +3,9 @@ package com.example.historyservice.service;
 import com.example.entity.PresentationDto;
 import com.example.historyservice.repository.HistoryRepo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+//import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+//import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+//import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-@EnableRabbit
+//@EnableRabbit
 @Slf4j
 public class HistoryService {
 
@@ -26,10 +26,11 @@ public class HistoryService {
         this.historyRepo = historyRepo;
     }
 
-    @RabbitListener(queues = "${spring.queue}")
-        public void saveDto(PresentationDto dto) {
-         historyRepo.save(dto);
+//    @RabbitListener(queues = "${spring.queue}")
+        public PresentationDto saveDto(PresentationDto dto) {
+
         log.info("dto: {} saved ", dto);
+            return historyRepo.save(dto);
 
     }
         public Page<PresentationDto> findPaginated(Specification<PresentationDto> spec,

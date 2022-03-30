@@ -23,4 +23,15 @@ public class ValidationHandler {
         return new ResponseEntity<>(ex,badRequest);
 
     }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<DeletionException> insufficientRights(MethodArgumentNotValidException e) {
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        DeletionException ex = new DeletionException();
+        e.getAllErrors().forEach(error->ex.getErrors().add(error.getDefaultMessage()));
+
+        ex.setHttpStatus(badRequest);
+        ex.setTimestamp(ZonedDateTime.now());
+        return new ResponseEntity<>(ex,badRequest);
+
+    }
 }
