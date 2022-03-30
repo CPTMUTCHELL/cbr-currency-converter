@@ -39,9 +39,9 @@ credentials:
           - usernamePassword:
               description: "github cred"
               id: "github_id"
-              password: "Flyts205060"
+              password: ${GITHUB_PASS}
               scope: GLOBAL
-              username: "CPTMUTCHELL"
+              username: ${GITHUB_USER}
           - usernamePassword:
               description: "dockerhub cred"
               id: "dockerhub_id"
