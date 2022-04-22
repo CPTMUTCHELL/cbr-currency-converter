@@ -14,6 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,8 +39,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class LoginController {
     @Value(("${jwt.secret}"))
     private  String secret;
-    @Value(("${jwt.refresh.token.expire}"))
-    private  String refreshTokenExpire;
+    @Value(("${jwt.auth.token.expire}"))
+    private  String accessTokenExpire;
     @Autowired
     private AuthService userService;
     @PostMapping("/registration")
@@ -65,11 +69,11 @@ public class LoginController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
-                User user = userService.getUser(username);
-                String accessToken = JWT.create().withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(refreshTokenExpire)))
+                UserDetails user = userService.loadUserByUsername(username);
+                String accessToken = JWT.create().withSubject(username)
+                        .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(accessTokenExpire)))
                         .withIssuer(request.getRequestURI())
-                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles",user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                         .sign(algorithm);
 
                 Map<String, String> tokens = new HashMap<>();
@@ -92,11 +96,6 @@ public class LoginController {
                 new ObjectMapper().writeValue(response.getOutputStream(),error);
             }
         }
-    }
-    @GetMapping("/validate")
-    public boolean validate() {
-
-         return true;
     }
 
 }
