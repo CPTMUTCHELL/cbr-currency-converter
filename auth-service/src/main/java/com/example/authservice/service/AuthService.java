@@ -60,7 +60,7 @@ public class AuthService implements UserDetailsService {
     }
     public User save(User user){
         List<Role> roles=new ArrayList<>();
-        roles.add(roleRepo.findById(1).get());
+        roles.add(roleRepo.findById(2).get());
         user.setRoles(roles);
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
