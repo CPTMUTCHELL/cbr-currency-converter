@@ -20,3 +20,5 @@ management:
   endpoint:
     health:
       show-details: always
+
+history.url: ${HISTORY_URL}

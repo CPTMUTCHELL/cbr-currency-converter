@@ -25,7 +25,7 @@ public class HistoryController {
 
     //replaced with rabbitmq
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
 
     public ResponseEntity<PresentationDto> saveToHistory(@RequestBody PresentationDto presentationDto){
        return new ResponseEntity<>(historyService.saveDto(presentationDto), HttpStatus.CREATED);
