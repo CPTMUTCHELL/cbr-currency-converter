@@ -11,7 +11,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Pattern(regexp="^(ADMIN|USER)$",message="invalid role")
+    @Pattern(regexp="^(ADMIN|USER|OWNER|BANNED)$",message="invalid role")
     @NotNull
     private String name;
 
