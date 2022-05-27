@@ -14,7 +14,7 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     environment: *cbr-variables
     ports:
-      - 5432:5432
+      - 5433:5432
     networks:
       - cbr-network-backend
 

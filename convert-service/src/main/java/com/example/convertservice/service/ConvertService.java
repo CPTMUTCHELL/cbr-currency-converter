@@ -78,7 +78,7 @@ public class ConvertService {
         headers.set("Authorization", token);
         HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
 //        rabbitTemplate.convertAndSend(exc,"history.",dto);
-        ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
+        ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/api/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
          return result;
 //        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
