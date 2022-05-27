@@ -22,3 +22,5 @@ docker-compose up --build
 Data will be saved in root directory (./postgres-data). 
 
 wait-for-it.sh is taken from https://github.com/vishnubob/wait-for-it
+
+master branch is old, for microserivce go to k8s branch
