@@ -27,14 +27,7 @@ public class ConverterController {
 
 
     }
-    @GetMapping()
-    public String convert(){
-        List<Currency> names=convertService.getLatestCurrencies();
-        PresentationDto presentationDto=new PresentationDto();
-//        model.addAttribute("currencies",names);
-//        model.addAttribute("presentation",presentationDto);
-        return "converterPage";
-    }
+  
     @PostMapping("/convert")
     public ResponseEntity<PresentationDto> convert(@RequestHeader("Authorization") String token,
                                                    @Valid @RequestBody PresentationDto presentationDto) {
