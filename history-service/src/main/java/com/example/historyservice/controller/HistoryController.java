@@ -32,16 +32,15 @@ public class HistoryController {
     }
 
     @GetMapping("/show")
-    @PreAuthorize("hasAuthority('USER')")
-    private ResponseEntity<HistoryPage> showHistory(Model model,
+    private ResponseEntity<HistoryPage> showHistory(
                                                     @RequestParam(required = false,defaultValue = "5") int pageSize,
                                                     @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
                                                     @RequestParam(required = false) String baseCurrency,
                                                     @RequestParam(required = false) String targetCurrency){
-        return findPaginated(1,model,pageSize,  "date","desc",date,baseCurrency,targetCurrency);
+        return findPaginated(1,pageSize,  "date","desc",date,baseCurrency,targetCurrency);
     }
     @GetMapping("show/{pageNumber}")
-    public ResponseEntity<HistoryPage> findPaginated(@PathVariable int pageNumber,  Model model,
+    public ResponseEntity<HistoryPage> findPaginated(@PathVariable int pageNumber,
                                                                @RequestParam (required = false,defaultValue = "5") int pageSize,
                                                                @RequestParam (required = false,defaultValue = "date") String sortField,
                                                                @RequestParam (required = false,defaultValue = "desc") String dir,
@@ -59,21 +58,7 @@ public class HistoryController {
             spec=spec.and(DtoSpec.getTargetCurrency(targetCurrency));
 
         }
-
-        //model.addAttribute("currenciesList",historyService.getCurrencies());
         Page<PresentationDto> page=historyService.findPaginated(spec,pageNumber,pageSize,sortField,dir);
-        model.addAttribute("baseCurrency",baseCurrency);
-        model.addAttribute("targetCurrency",targetCurrency);
-        List<PresentationDto> content = page.getContent();
-        model.addAttribute("dtoList",content);
-        model.addAttribute("totalPages",page.getTotalPages());
-        model.addAttribute("currentPage",pageNumber);
-        model.addAttribute("totalProducts",page.getTotalElements());
-        model.addAttribute("sortField",sortField);
-        model.addAttribute("date",date);
-        model.addAttribute("dir",dir);
-        model.addAttribute("reverseDir", dir.equals("asc")?"desc":"asc");
-
         return new ResponseEntity<>(new HistoryPage(page.getContent(), page.getTotalPages(), page.getTotalElements()),HttpStatus.OK);
     }
 
