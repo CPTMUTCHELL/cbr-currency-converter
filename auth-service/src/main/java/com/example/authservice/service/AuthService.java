@@ -11,6 +11,7 @@ import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.entity.UserRoleDto;
 import com.example.exception.DeletionException;
+import com.example.filter.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
@@ -58,13 +59,15 @@ public class AuthService implements UserDetailsService {
     public boolean checkUser(String username) {
         return  (userRepository.existsUserByUsername(username)) ;
     }
-    public User save(User user){
+    public User save(UserCredentials user){
+        User userToSave = new User();
+        userToSave.setUsername(user.getUsername());
         List<Role> roles=new ArrayList<>();
         roles.add(roleRepo.findById(3).get()); //USER
-        user.setRoles(roles);
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return user;
+        userToSave.setRoles(roles);
+        userToSave.setPassword(encoder.encode(user.getPassword()));
+        userRepository.save(userToSave);
+        return userToSave;
     }
     private List<?extends GrantedAuthority> mapRolesToAuth(Collection<Role> roles){
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getId()+"-"+role.getName()))
