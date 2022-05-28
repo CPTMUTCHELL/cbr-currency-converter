@@ -21,4 +21,4 @@ The pre-created user is admin:admin.
 You have the next options to start it:
 
 1) Start locally from source code. Before the start you have to create the following databases: auth_db, convert_db, history_db. These are default names.
-After that at root dir `mvn clean install` to install the dependencies and `cd ${service-name} && java -jar ${service-name}-0.0.1-SNAPSHOT.jar` to start a service. When you start all the services proceed to [cbr-currency-converter-ui]([https://github.com/CPTMUTCHELL/cbr-currency-converter](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/tree/master#local))
+After that at root dir `mvn clean install` to install the dependencies and `cd ${service-name} && java -jar ${service-name}-0.0.1-SNAPSHOT.jar` to start a service. When you start all the services proceed to [cbr-currency-converter-ui](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/tree/master#local)
