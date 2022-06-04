@@ -3,27 +3,27 @@ podDisruptionBudget:
   minAvailable: 1
 rollingUpdate:
   maxUnavailable: 0
-additionalArguments:
-  - "--certificatesresolvers.le.acme.email=cptmutchell@gmail.com"
-  - "--certificatesresolvers.le.acme.storage=/data/acme.json"
-  #- "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-  - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+#additionalArguments:
+#  - "--certificatesresolvers.le.acme.email=cptmutchell@gmail.com"
+#  - "--certificatesresolvers.le.acme.storage=/data/acme.json"
+#  #- "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+#  - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
 
-initContainers:
-  - name: volume-permissions
-    image: busybox:1.31.1
-    command: ["sh", "-c", "chmod -Rv 600 /data/*"]
-    volumeMounts:
-      - name: data
-        mountPath: /data
-persistence:
-  enabled: true
-  name: data
-  accessMode: ReadWriteOnce
-  size: 128Mi
-  storageClass: ""
-  path: /data
-  annotations: {}
+#initContainers:
+#  - name: volume-permissions
+#    image: busybox:1.31.1
+#    command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+#    volumeMounts:
+#      - name: data
+#        mountPath: /data
+#persistence:
+#  enabled: true
+#  name: data
+#  accessMode: ReadWriteOnce
+#  size: 128Mi
+#  storageClass: ""
+#  path: /data
+#  annotations: {}
 ports:
   traefik:
     expose: false
@@ -35,17 +35,17 @@ ports:
     exposedPort: 80
     port: 8000
     protocol: TCP
-  websecure:
-    expose: true
-    exposedPort: 443
-    port: 8443
-    protocol: TCP
-    tls:
-      certResolver: le
-      domains:
-        - main: myconverter.woyd.ru
-
-      enabled: true
+#  websecure:
+#    expose: true
+#    exposedPort: 443
+#    port: 8443
+#    protocol: TCP
+#    tls:
+#      certResolver: le
+#      domains:
+#        - main: myconverter.woyd.ru
+#
+#      enabled: true
 
 
 globalArguments: [] # Disable anonymous stat
@@ -55,9 +55,12 @@ pilot:
 ingressRoute:
   dashboard:
     enabled: true
-#ingressClass:
-#  enabled: true
-#  isDefaultClass: true
+    labels:
+
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
 logs:
   general:
     level: DEBUG

@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
@@ -37,7 +39,7 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
 //                .antMatchers("/history/**").hasAuthority("ADMIN")
-                .antMatchers("/history/health/**").permitAll()
+                .antMatchers("/health/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
@@ -55,10 +57,11 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
                 .allowedMethods("*");
     }
     @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/swagger-resources/**",
-                "/swagger-ui.html",
-                "/webjars/**");
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/**/v2/api-docs",
+                "/**/swagger-resources/**",
+                "/**/swagger-ui.html",
+                "/**/webjars/**");
     }
+
 }

@@ -85,6 +85,7 @@ services:
       context: .
       dockerfile: ./auth-service/Dockerfile
     environment:
+      AUTH_PORT: 8081
       <<: *cbr-variables
       POSTGRES_AUTH_DB: 'auth_db'
     container_name: auth-service
@@ -100,9 +101,10 @@ services:
       context: .
       dockerfile: ./convert-service/Dockerfile
     environment:
+      CONVERT_PORT: 8082
       <<: *cbr-variables
       POSTGRES_CONVERT_DB: 'convert_db'
-      HISTORY_URL: 'http://history:8083'
+      HISTORY_URL: 'http://history-service:8083'
     container_name: convert-service
     ports:
       - 8082:8082
@@ -117,6 +119,8 @@ services:
       dockerfile: ./history-service/Dockerfile
     environment:
       <<: *cbr-variables
+      HISTORY_PORT: 8083
+
       POSTGRES_HISTORY_DB: 'history_db'
     container_name: history-service
     ports:

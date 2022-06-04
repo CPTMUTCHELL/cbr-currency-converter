@@ -14,11 +14,15 @@ spring:
       ddl-auto: none
 
 server:
-  port: 8083
+  port: ${HISTORY_PORT}
+  error:
+    include-message: always
 management:
   endpoints:
     web:
-      base-path: /history
+      exposure:
+        include: health
+      base-path: /
   security:
     enabled: false
   health:

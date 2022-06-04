@@ -17,7 +17,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private int id;
     @NotEmpty(message = "May not be empty")
     @Size(min = 5,message = "Username's length must be greater than 5 chars")

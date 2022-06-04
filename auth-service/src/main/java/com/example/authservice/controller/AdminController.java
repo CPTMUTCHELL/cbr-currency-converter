@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@RequestMapping("/auth/admin")
+@RequestMapping("/admin")
 @RestController
 @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
 

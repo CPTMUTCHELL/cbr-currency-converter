@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# wait for postgres to fully start (or initContainer)
+sleep 20
 for db in "$@";
 do
 

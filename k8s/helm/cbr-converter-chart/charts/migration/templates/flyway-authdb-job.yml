@@ -1,6 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  namespace: {{ .Values.global.ns }}
   name: flyway-auhdb-job
 spec:
   template:

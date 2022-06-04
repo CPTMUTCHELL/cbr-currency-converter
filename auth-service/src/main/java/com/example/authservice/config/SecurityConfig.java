@@ -28,6 +28,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -45,11 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthFilter filter = new CustomAuthFilter(authenticationManagerBean(),getProperties());
-       filter.setFilterProcessesUrl("/auth/login");
+       filter.setFilterProcessesUrl("/login");
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/auth/login","/auth/token","/auth/registration","/auth/health/**").permitAll()
+                .antMatchers("/login","/token","/registration","/health/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and()
@@ -86,12 +88,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .allowedOrigins("*")
                 .allowedMethods("*");
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/swagger-resources/**",
-                "/swagger-ui.html",
-                "/webjars/**");
+        web.ignoring().antMatchers("/**/v2/api-docs",
+                "/**/swagger-resources/**",
+                "/**/swagger-ui.html",
+                "/**/webjars/**");
     }
+
+
 
 }

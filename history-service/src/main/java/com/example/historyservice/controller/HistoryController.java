@@ -22,7 +22,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/history")
 public class HistoryController {
     @Autowired
     private HistoryService historyService;

@@ -19,7 +19,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/convert")
 public class ConverterController {
     @Autowired
     private ConvertService convertService;

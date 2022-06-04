@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Values.name }}
+  namespace: {{ .Values.global.ns }}
 spec:
   selector:
     matchLabels:
       app: {{ .Values.name }}
-  serviceName: user-db
+  serviceName: postgres-cbr-db
   template:
 
     metadata:
@@ -19,7 +20,7 @@ spec:
         runAsUser: 999
       containers:
         - name: cbr-converter-db
-          image: postgres
+          image: postgres:13
           ports:
             - containerPort: {{ .Values.port }}
 
@@ -36,9 +37,8 @@ spec:
                   key: POSTGRES_PASSWORD
 
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-user-db-storage
-              subPath: postgres
+            - mountPath: /var/lib/postgresql/data:z
+              name: postgres-cbr-db-storage
           readinessProbe:
             failureThreshold: 5
             exec:
@@ -47,14 +47,16 @@ spec:
               - -c
               - exec pg_isready -U {{ .Values.name }} -p {{ .Values.port }}
       volumes:
-        - name: postgres-user-db-storage
+        - name: postgres-cbr-db-storage
           persistentVolumeClaim:
-            claimName: postgres-user-db-pvc
+            claimName: postgres-cbr-db-pvc
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: cbr-converter
+  namespace: {{ .Values.global.ns }}
 spec:
   selector:
     app: {{ .Values.name }}

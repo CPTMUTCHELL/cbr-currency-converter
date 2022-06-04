@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -41,8 +42,7 @@ public class PresentationDto {
     //for rabbitmq
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonIgnore
-    @ApiModelProperty(notes = "Convert date")
+    @ApiModelProperty(notes = "Convert date",hidden = true)
     private LocalDate date;
 
     @Override

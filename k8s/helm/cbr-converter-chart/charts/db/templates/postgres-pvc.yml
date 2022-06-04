@@ -1,7 +1,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-user-db-pvc
+  name: postgres-cbr-db-pvc
+  namespace: {{ .Values.global.ns }}
+
   labels:
     app: {{ .Values.name }}
 spec:

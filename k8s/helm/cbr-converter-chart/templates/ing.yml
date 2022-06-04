@@ -2,13 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-converter
+  namespace: {{ .Values.global.ns }}
 
 spec:
   rules:
-    - host: myconverter.woyd.ru
+    - host: myconverter
       http:
         paths:
-            - path: /{{ .Values.auth.name}}
+            - path: /backend/auth
               pathType: Prefix
               backend:
                 service:
@@ -16,17 +17,24 @@ spec:
                   port:
                     number: {{.Values.auth.port}}
 
-            - path: /{{.Values.convert.name}}
+            - path: /backend/{{.Values.convert.name}}
               pathType: Prefix
               backend:
                 service:
                   name: {{.Values.convert.name}}-service
                   port:
                     number: {{.Values.convert.port}}
-            - path: /{{.Values.history.name}}
+            - path: /backend/{{.Values.history.name}}
               pathType: Prefix
               backend:
                 service:
                   name: {{.Values.history.name}}-service
                   port:
                     number: {{.Values.history.port}}
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: cbr-ui-service
+                  port:
+                    number: 80

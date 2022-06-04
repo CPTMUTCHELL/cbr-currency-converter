@@ -2,6 +2,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Values.jobName }}
+  namespace: {{ .Values.global.ns }}
+
 spec:
   template:
     metadata:
@@ -15,10 +17,11 @@ spec:
           imagePullPolicy: Always
           env:
             - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_PASSWORD
+              value: postgres
+            - name: PGHOST
+              value: cbr-converter
+            - name: PGUSER
+              value: postgres
           command: ["./create-multiple-databases.sh"]
           args:
             {{  range .Values.createdb }}

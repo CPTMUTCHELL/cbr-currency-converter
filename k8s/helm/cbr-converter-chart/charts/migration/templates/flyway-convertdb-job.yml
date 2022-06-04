@@ -2,6 +2,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: flyway-convertdb-job
+  namespace: {{ .Values.global.ns }}
+
 spec:
   template:
     metadata:

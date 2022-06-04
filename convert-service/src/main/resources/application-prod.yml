@@ -8,10 +8,16 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DB_HOST}:5432/${POSTGRES_CONVERT_DB}
 
+server:
+  port: ${CONVERT_PORT}
+  error:
+    include-message: always
 management:
   endpoints:
     web:
-      base-path: /convert
+      exposure:
+        include: health
+      base-path: /
   security:
     enabled: false
   health:

@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@RequestMapping("/auth")
 @RestController
 public class LoginController {
     @Value(("${jwt.secret}"))
