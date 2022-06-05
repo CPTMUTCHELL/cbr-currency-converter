@@ -24,6 +24,7 @@ metadata:
 data:
   users: |
     YWRtaW46JGFwcjEkUWZKMzMzOUwkdGFGeE5od1EuMGlQSWZQcUVYWnBEMAoK
+#admin:admin
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
