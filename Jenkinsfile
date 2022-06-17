@@ -24,7 +24,6 @@ pipeline {
 //         booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
     }
     stages {
-
         stage("Create db") {
             steps {
                 sh '''
