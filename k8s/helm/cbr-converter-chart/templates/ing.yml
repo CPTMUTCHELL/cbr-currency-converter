@@ -9,7 +9,7 @@ spec:
     - host: myconverter
       http:
         paths:
-            - path: /backend/auth
+            - path: /backend/{{.Values.auth.name}}
               pathType: Prefix
               backend:
                 service:

@@ -17,6 +17,6 @@ services:
       - 50000:50000
     container_name: jenkins
     volumes:
-      - ../jenkins/files:/var/jenkins_home
+      - ./files:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker

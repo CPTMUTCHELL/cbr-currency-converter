@@ -1,0 +1,7 @@
+ns: cbr
+userCN: Mr.Jenkins
+user: jenkins
+home: /home/ubuntu
+kubeconfigPath: "{{home}}/.kube/jenkins_config"
+certPath: /etc/ssl/private
+k3sCertPath: /var/lib/rancher/k3s/server/tls

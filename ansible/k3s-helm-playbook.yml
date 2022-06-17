@@ -1,0 +1,9 @@
+- name: Start role
+  hosts: aws
+  become: yes
+  become_user: root
+  vars:
+    k3s_become: true
+  roles:
+    - k8s_setup
+    - manifest_handler

@@ -1,0 +1,18 @@
+
+- name: Generate key
+  openssl_privatekey:
+    path: "{{certPath}}/{{user}}.pem"
+    size: 2048
+- name: Generate csr
+  openssl_csr:
+    path: "{{certPath}}/{{user}}.csr"
+    privatekey_path: "{{certPath}}/{{user}}.pem"
+    common_name: "{{userCN}}"
+- name: Generate an OpenSSL certificate signed with your own CA certificate
+  community.crypto.x509_certificate:
+    path: "{{certPath}}/{{user}}.crt"
+    csr_path: "{{certPath}}/{{user}}.csr"
+    ownca_path: "{{k3sCertPath}}/client-ca.crt"
+    ownca_privatekey_path: "{{k3sCertPath}}/client-ca.key"
+    provider: ownca
+

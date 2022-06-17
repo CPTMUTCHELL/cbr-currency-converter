@@ -1,0 +1,14 @@
+ns: cbr
+userCN: Mr.Jenkins
+home: /home/ubuntu
+
+manifestCopyFolder: "{{home}}/k8s"
+manifests:
+  - Namespace.yml.j2
+  - traefik.yml.j2
+  - Role.yml.j2
+  - RoleBinding.yml.j2
+  - metallb-values.yml.j2
+  - traefik-dashboard.yaml.j2
+
+dns: 18.196.63.241

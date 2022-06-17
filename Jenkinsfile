@@ -24,18 +24,6 @@ pipeline {
 //         booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
     }
     stages {
-        stage("Traefik") {
-            steps {
-                script {
-                    sh """
-                    cd ansible
-                    ansible-playbook helm-playbook.yml
-                    ansible-playbook traefik-crd-playbook.yml
-
-                    """
-                }
-            }
-        }
 
         stage("Create db") {
             steps {

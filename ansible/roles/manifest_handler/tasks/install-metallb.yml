@@ -1,0 +1,14 @@
+
+- name: add metallb
+  kubernetes.core.helm_repository:
+    name: metallb
+    repo_url: "https://metallb.github.io/metallb"
+- name: install metallb
+  kubernetes.core.helm:
+    kubeconfig: "{{home}}/.kube/config"
+    name: metallb
+    chart_ref: metallb/metallb
+    release_namespace: metallb-system
+    create_namespace: true
+    values_files:
+      - "{{manifestCopyFolder}}/metallb-values.yml.j2"
