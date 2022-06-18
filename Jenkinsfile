@@ -167,7 +167,7 @@ pipeline {
                     } else {
                         sh """
                             cd k8s/helm
-                            helm upgrade --install  cbr ./cbr-converter-chart
+                            helm upgrade --install -n cbr  cbr ./cbr-converter-chart
                         """
                     }
 //                     sh"""

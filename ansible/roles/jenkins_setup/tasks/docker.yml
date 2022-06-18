@@ -46,7 +46,7 @@
     dest: /usr/local/bin/docker-compose
     mode: 'u+x,g+x'
 
-# To avoid
+# To avoid dial unix /var/run/docker.sock: connect: permission denied
 - name: Chmod docker.sock
   file:
     path: /var/run/docker.sock
