@@ -170,12 +170,6 @@ pipeline {
                             helm upgrade --install -n cbr  cbr ./cbr-converter-chart
                         """
                     }
-//                     sh"""
-//                     ansible-playbook create_db.yml --extra-vars "new_db=convert_db"
-//
-//                      ansible-playbook create_db.yml --extra-vars "new_db=auth_db"
-//                     ansible-playbook create_db.yml --extra-vars "new_db=history_db"
-//                     """
                 }
             }
         }

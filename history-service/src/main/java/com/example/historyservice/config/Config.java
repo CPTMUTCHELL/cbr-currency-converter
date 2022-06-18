@@ -45,7 +45,6 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
                 .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
 
-
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
