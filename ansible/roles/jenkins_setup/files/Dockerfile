@@ -37,7 +37,6 @@ USER jenkins
 
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-COPY jenkins_config /var/jenkins_home/.kube/config
 
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/plugins.txt
 COPY jenkins-casc.yaml /usr/local/jenkins-casc.yaml
