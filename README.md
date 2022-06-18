@@ -75,3 +75,9 @@ Of course, ansible won't work if it's not installed on your host machine, so fir
 As all the ansible requirements on your host machine are met, you can install k3s and helm on one of your VMs, running
 `cd ansible && ansible-playbook k3s-helm-playbook.yml -i hosts
 ` 
+
+At [vars.yml](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/k8s/ansible/roles/k8s_setup/vars/main.yml)
+you can specify the variables, like home dir or namespace. 
+
+
+Take a look at [manifest_handler]() role
