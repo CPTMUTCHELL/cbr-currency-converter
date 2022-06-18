@@ -9,5 +9,5 @@
     - Namespace.yml.j2
     - Role.yml.j2
     - RoleBinding.yml.j2
-    - traefik-ns.yml.j2
+
 

@@ -1,5 +1,5 @@
 - name: Start role
-  hosts: aws_jenkins
+  hosts: jenkins
   become: yes
   become_user: root
 

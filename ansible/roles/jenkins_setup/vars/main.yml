@@ -1,4 +1,4 @@
-home: /home/ubuntu
+home: /root
 github_token: !vault |
                         $ANSIBLE_VAULT;1.1;AES256
                         65316338303761373638383832363933663036633732376336343563623662316231313435393066

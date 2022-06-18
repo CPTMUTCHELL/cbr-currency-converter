@@ -1,8 +1,9 @@
 - name: Start role
-  hosts: aws
+  hosts: k8s_cluster
   become: yes
   become_user: root
   vars:
+    # for xanmanning.k3s
     k3s_become: true
   roles:
     - k8s_setup

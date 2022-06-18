@@ -1,6 +1,6 @@
 ns: cbr
 userCN: Mr.Jenkins
-home: /home/ubuntu
+home: /root
 
 manifestCopyFolder: "{{home}}/k8s"
 manifests:
@@ -11,4 +11,4 @@ manifests:
   - metallb-values.yml.j2
   - traefik-dashboard.yaml.j2
 
-dns: 18.196.63.241
+dns: 164.92.149.162

@@ -22,12 +22,15 @@ Swagger is available for each service at ${domain}/backend/${service}/swagger-ui
 
 You have the next options to start it:
 
-1) Start locally from source code. Before the start you have to create the following databases: auth_db, convert_db, history_db. These are default names.
+## Locally
+Start locally from source code. Before the start you have to create the following databases: auth_db, convert_db, history_db. These are default names.
 After that at root dir `mvn clean install` to install the dependencies and `cd ${service-name} && java -jar ${service-name}-0.0.1-SNAPSHOT.jar` to start a service. When you start all the services proceed to [cbr-currency-converter-ui-local](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/blob/master/README.md#local) 
 
-2) Start with docker-compose. It'll do everything instead of you, just `docker-compose up --build` from root dir and procced to [cbr-currency-converter-ui-compose](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/blob/master/README.md#compose)
+## Docker-compose
+Start with docker-compose. It'll do everything instead of you, just `docker-compose up --build` from root dir and procced to [cbr-currency-converter-ui-compose](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/blob/master/README.md#compose)
 
-3) Local k8s cluster. 
+
+## Local k8s cluster. 
 At first, you need to install a k8s cluster, kubectl and helm on your machine. For example, I use k3s:
    `curl -sfL https://get.k3s.io | sh -`
    
@@ -62,4 +65,13 @@ To check whether everything works proceed to [swagger](http://myconverter/backen
 
 If the backend works, proceed to [ui deployment](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui#local-k8s)
 
+## Cloud provider
+I decided not to use a provided cluster, but build it on a bare-metal.
+My recommendations are 4GB RAM and 1 or 2 CPU for the cluster and 2GB RAM and 1 CPU for jenkins
+### Ansible
+For quick infrastructure build I created ansible roles. Tested on ubuntu 20.04 LTS. You have to specify your own VM's public IPs in [hosts](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/k8s/ansible/hosts) and send a public ssh key to each VM.
+Of course, ansible won't work if it's not installed on your host machine, so first attempts will be unsuccessful, just read the errors and install dependencies. :)
 
+As all the ansible requirements on your host machine are met, you can install k3s and helm on one of your VMs, running
+`cd ansible && ansible-playbook k3s-helm-playbook.yml -i hosts
+` 
