@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:lts
 USER root
-RUN apt-get update && apt-get install -y maven && apt-get clean && apt-get install -y nodejs npm
+RUN apt-get update && apt-get install -y maven && apt-get clean
 RUN apt-get -y update && \
    apt-get -y install \
    apt-transport-https \
@@ -11,6 +11,8 @@ RUN apt-get -y update && \
    software-properties-common \
    nano
 
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash \
+    && apt install nodejs -y
 
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 RUN add-apt-repository \

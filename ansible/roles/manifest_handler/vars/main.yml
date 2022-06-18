@@ -11,4 +11,4 @@ manifests:
   - metallb-values.yml.j2
   - traefik-dashboard.yaml.j2
 
-dns: 164.92.149.162
+dns: cbr.cptmutchell.xyz
