@@ -72,6 +72,7 @@ My recommendations are 4GB RAM and 1 or 2 CPU for the cluster and 2GB RAM and 1 
 For quick infrastructure build I created ansible roles. Tested on ubuntu 20.04 LTS. You have to specify your own VM's public IPs in [hosts](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/k8s/ansible/hosts) and send a public ssh key to each VM.
 Of course, ansible won't work if it's not installed on your host machine, so first attempts will be unsuccessful, just read the errors and install dependencies. :)
 
+
 As all the ansible requirements on your host machine are met, you can install k3s and helm on one of your VMs, running
 `cd ansible && ansible-playbook k3s-helm-playbook.yml -i hosts
 ` 
@@ -80,4 +81,6 @@ At [vars.yml](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/k8s/ans
 you can specify the variables, like home dir or namespace. 
 
 
-Take a look at [manifest_handler]() role
+At manifest_handler role we apply the role and roleBinding for jenkins, previously at k8s_setup we generated a separate kubeconfig to be able to limit jenkins.
+To check if everything works you can open traefik dashboard.
+Don't forget vars in manifest_handler. DNS is used in traefik-dashboard.

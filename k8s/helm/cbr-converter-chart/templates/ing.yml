@@ -6,7 +6,7 @@ metadata:
 
 spec:
   rules:
-    - host: 18.196.63.241.nip.io
+    - host: 164.92.149.162.nip.io
       http:
         paths:
             - path: /backend/{{.Values.auth.name}}

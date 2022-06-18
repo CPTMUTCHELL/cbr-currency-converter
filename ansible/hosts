@@ -1,5 +1,5 @@
 
 [k8s_cluster]
-k8s-cluster ansible_host=164.92.149.162 ansible_ssh_private_key_file=/home/alex/.ssh/id_rsa ansible_user=root
+k8s-cluster-instance ansible_host=164.92.149.162 ansible_ssh_private_key_file=/home/alex/.ssh/id_rsa ansible_user=root
 [jenkins]
-jenkins ansible_host=3.69.238.30 ansible_ssh_private_key_file=/home/alex/.ssh/id_rsa ansible_user=ubuntu
+jenkins-instance ansible_host=3.69.238.30 ansible_ssh_private_key_file=/home/alex/.ssh/id_rsa ansible_user=ubuntu
