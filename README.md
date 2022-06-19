@@ -108,3 +108,14 @@ When running the app don't forget to change [ingress host[(https://github.com/CP
 The app is delivered to the cluster by Jenkins, try to run the pipeline. The first start by hand, inside jenkins, the next by push events.
 
 I recommend to monitor your cluster with [Lens](https://k8slens.dev/) . Don't forget to copy cluster's kubeconfig to your host to be able to connect to it with Lens.
+
+## P.S
+
+I had experience with GCP, so you can find some playbooks and files [here](https://github.com/CPTMUTCHELL/cbr-currency-converter/tree/k8s/jenkins)
+
+Also I plan to:
+- [ ] add redis to invalidate JWT tokens when user logs out
+- [ ] add rabbitmq to store convert data in a queue in case history-service is unavailable 
+- [ ] add OAUTH 2.0 and third-party sign in.
+
+
