@@ -16,16 +16,55 @@
   kubernetes.core.helm_repository:
     name: traefik
     repo_url: "https://helm.traefik.io/traefik"
+
 - name: install traefik
-  kubernetes.core.helm:
-    kubeconfig: "{{home}}/.kube/config"
-    name: traefik
-    chart_ref: traefik/traefik
-    release_namespace: traefik
-    state: present
-    create_namespace: true
-    values_files:
-      - "{{manifestCopyFolder}}/traefik.yml.j2"
+  block:
+    - name: install traefik without tls
+
+      kubernetes.core.helm:
+        kubeconfig: "{{home}}/.kube/config"
+        name: traefik
+        chart_ref: traefik/traefik
+        release_namespace: traefik
+        state: present
+        create_namespace: true
+        values_files:
+          - "{{manifestCopyFolder}}/traefik.yml.j2"
+    - name: Apply traefik CRD
+      k8s:
+        kubeconfig: "{{home}}/.kube/config"
+        state: absent
+        src: "{{manifestCopyFolder}}/{{item}}"
+      with_items:
+        - router.yml.j2
+        - ingRoute.yml.j2
+  when: traefik_tls!=True
+
+- name: install traefik
+  block:
+    - name: install traefik with tls
+
+      kubernetes.core.helm:
+        kubeconfig: "{{home}}/.kube/config"
+        name: traefik
+        chart_ref: traefik/traefik
+        release_namespace: traefik
+        state: present
+        create_namespace: true
+        values_files:
+          - "{{manifestCopyFolder}}/traefik-tls.yml.j2"
+    - name: Apply traefik CRD
+      k8s:
+        kubeconfig: "{{home}}/.kube/config"
+        state: present
+        src: "{{manifestCopyFolder}}/{{item}}"
+      with_items:
+        - router.yml.j2
+        - ingRoute.yml.j2
+
+  when: traefik_tls==True
+
+
 - name: Apply dashboard
   k8s:
     kubeconfig: "{{home}}/.kube/config"

@@ -84,3 +84,7 @@ you can specify the variables, like home dir or namespace.
 At manifest_handler role we apply the role and roleBinding for jenkins, previously at k8s_setup we generated a separate kubeconfig to be able to limit jenkins.
 To check if everything works you can open traefik dashboard.
 Don't forget vars in manifest_handler. DNS is used in traefik-dashboard.
+
+
+
+[You'd want to temporary remove ui pod to get the certificate](https://github.com/traefik/traefik/issues/3414)

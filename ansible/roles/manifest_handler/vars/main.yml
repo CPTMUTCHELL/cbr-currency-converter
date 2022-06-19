@@ -1,6 +1,8 @@
 ns: cbr
 userCN: Mr.Jenkins
 home: /root
+# change to False if you don't want tls
+traefik_tls: True
 
 manifestCopyFolder: "{{home}}/k8s"
 manifests:
@@ -10,5 +12,9 @@ manifests:
   - RoleBinding.yml.j2
   - metallb-values.yml.j2
   - traefik-dashboard.yaml.j2
+  - router.yml.j2
+  - ingRoute.yml.j2
+  - traefik-tls.yml.j2
+
 
 dns: cbr.cptmutchell.xyz
