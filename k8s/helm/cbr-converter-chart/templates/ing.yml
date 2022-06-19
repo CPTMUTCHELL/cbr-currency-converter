@@ -38,3 +38,14 @@ spec:
 {{/*                  name: cbr-ui-service*/}}
 {{/*                  port:*/}}
 {{/*                    number: 80*/}}
+
+    - host: cbr-frontend.cptmutchell.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cbr-ui-service
+                port:
+                  number: 80
