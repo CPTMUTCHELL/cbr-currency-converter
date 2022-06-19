@@ -3,8 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-converter
   namespace: {{ .Values.global.ns }}
-  annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: test-redirectscheme@kubernetescrd
+
 spec:
   rules:
     - host: cbr.cptmutchell.xyz
