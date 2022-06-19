@@ -74,10 +74,6 @@ For quick infrastructure build I created ansible roles. Tested on ubuntu 20.04 L
 Of course, ansible won't work if it's not installed on your host machine, so first attempts will be unsuccessful, just read the errors and install dependencies. :)
 
 
-As all the ansible requirements on your host machine are met, you can install k3s and helm on one of your VMs, running
-`cd ansible && ansible-playbook k3s-helm-playbook.yml -i hosts
-` 
-
 #### k8s_setup role
 Is used to install helm and k3s. Openssl crt is generated to create a user to use it in a kubeconfig for jenkins. It is needed to restrict jenkins in a certain kubernetes namespace due to security. The generated kubeconfig goes to **jenkins_setup** role
 
