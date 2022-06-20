@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host("{{dns}}") && PathPrefix("/backend/history")
+    - match: Host(`{{dns}}`) && PathPrefix(`/backend/history`)
       kind: Rule
       services:
         - name: history-service
@@ -28,7 +28,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host("{{dns}}") && PathPrefix("/backend/history")
+    - match: Host(`{{dns}}`) && PathPrefix(`/backend/history`)
       kind: Rule
       middlewares:
         - name: test-redirectscheme
@@ -48,7 +48,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host("{{dns}}") && PathPrefix("/backend/auth")
+    - match: Host(`{{dns}}`) && PathPrefix(`/backend/auth`)
       kind: Rule
 
       services:
@@ -68,7 +68,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host("{{dns}}") && PathPrefix("/backend/auth")
+    - match: Host(`{{dns}}`) && PathPrefix(`/backend/auth`)
       kind: Rule
       middlewares:
         - name: test-redirectscheme
@@ -86,7 +86,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host("{{dns}}") && PathPrefix("/backend/convert")
+    - match: Host(`{{dns}}`) && PathPrefix(`/backend/convert`)
       kind: Rule
       services:
         - name: convert-service
@@ -106,7 +106,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host("{{dns}}") && PathPrefix("/backend/convert")
+    - match: Host(`{{dns}}`) && PathPrefix(`/backend/convert`)
       kind: Rule
       middlewares:
         - name: test-redirectscheme
@@ -126,7 +126,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host("cbr-frontend.cptmutchell.xyz") && PathPrefix("/")
+    - match: Host(`cbr-frontend.cptmutchell.xyz`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: cbr-ui-service
@@ -146,7 +146,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host("cbr-frontend.cptmutchell.xyz") && PathPrefix("/")
+    - match: Host(`cbr-frontend.cptmutchell.xyz`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: test-redirectscheme
