@@ -10,5 +10,7 @@
     chart_ref: metallb/metallb
     release_namespace: metallb-system
     create_namespace: true
+    # since 0.13 CM (metallb-values.yml.j2) doesn't work
+    chart_version: 0.12.1
     values_files:
       - "{{manifestCopyFolder}}/metallb-values.yml.j2"

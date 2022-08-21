@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:2.332.3-lts
 USER root
 RUN apt-get update && apt-get install -y maven && apt-get clean
 RUN apt-get -y update && \

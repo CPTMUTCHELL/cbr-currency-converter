@@ -12,12 +12,15 @@
 - name: Install pip
   apt:
     update_cache: yes
-
+    state: latest
     pkg:
       - python3-pip
 - name: Install docker for module
   pip:
     name: "{{item}}"
+    state: latest
+    extra_args: --upgrade
+    executable: pip3
   with_items:
     - docker
     - docker-compose
