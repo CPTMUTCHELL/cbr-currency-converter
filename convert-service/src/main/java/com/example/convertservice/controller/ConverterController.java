@@ -28,8 +28,6 @@ public class ConverterController {
     @GetMapping("/currencies")
     public List<Currency> getCurrencies(){
         return convertService.getLatestCurrencies();
-
-
     }
 
     @PostMapping("/convert")
