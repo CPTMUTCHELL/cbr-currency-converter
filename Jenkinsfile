@@ -16,6 +16,7 @@ pipeline {
         set = 'helm upgrade --install cbr ./cbr-converter-chart --set '
         pg_user = credentials('pg_user')
         pg_pass = credentials('pg_pass')
+        ns = 'cbr'
     }
     parameters {
         booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -27,12 +28,12 @@ pipeline {
         stage("Create db") {
             steps {
                 sh '''
-                   kubectl delete secret postgres-secret --ignore-not-found
-                   kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg_pass} --from-literal=POSTGRES_USER=${pg_user}
+                   kubectl delete secret -n ${ns} postgres-secret --ignore-not-found
+                   kubectl create secret -n ${ns} generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg_pass} --from-literal=POSTGRES_USER=${pg_user}
                    '''
                 withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                     sh """
-                         kubectl delete job postgres-createdb-job --ignore-not-found=true
+                         kubectl delete job -n ${ns} postgres-createdb-job --ignore-not-found=true
                         bash ./docker.sh postgres-createdb v1
                      """
 
@@ -167,7 +168,7 @@ pipeline {
                     } else {
                         sh """
                             cd k8s/helm
-                            helm upgrade --install -n cbr  cbr ./cbr-converter-chart
+                            helm upgrade --install -n ${ns}  cbr ./cbr-converter-chart
                         """
                     }
                 }

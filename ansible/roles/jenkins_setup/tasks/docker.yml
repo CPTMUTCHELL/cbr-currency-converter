@@ -22,6 +22,7 @@
     extra_args: --upgrade
     executable: pip3
   with_items:
+    - pip
     - docker
     - docker-compose
 
