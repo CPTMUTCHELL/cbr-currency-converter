@@ -2,12 +2,16 @@ package com.example.historyservice.service;
 
 import com.example.entity.PresentationDto;
 import com.example.historyservice.repository.HistoryRepo;
+import com.example.historyservice.service.rabbitmq.RabbitMqListener;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 //import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 //import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-//@EnableRabbit
+@EnableRabbit
 @Slf4j
 public class HistoryService {
 
@@ -26,12 +30,10 @@ public class HistoryService {
         this.historyRepo = historyRepo;
     }
 
-//    @RabbitListener(queues = "${spring.queue}")
-        public PresentationDto saveDto(PresentationDto dto) {
+    public PresentationDto saveDto(PresentationDto dto) {
+        log.info("dto: {} saving ", dto);
 
-        log.info("dto: {} saved ", dto);
-            return historyRepo.save(dto);
-
+        return historyRepo.save(dto);
     }
         public Page<PresentationDto> findPaginated(Specification<PresentationDto> spec,
                                                    int pageNumber, int pageSize,

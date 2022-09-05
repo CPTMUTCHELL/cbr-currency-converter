@@ -26,7 +26,6 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
 
-    //replaced with rabbitmq
     @PostMapping(value = "/save",name = "saveToHistory (used by convert-service)" )
     @ApiIgnore
     @ApiImplicitParams({
