@@ -1,6 +1,6 @@
 global:
-  initDelay: 15
-  period: 20
+  initDelay: 30
+  period: 50
   ns: cbr
 auth:
   tag: v1
