@@ -15,6 +15,11 @@
     state: latest
     pkg:
       - python3-pip
+- name: Install and upgrade pip
+  pip:
+    name: pip
+    extra_args: --upgrade
+    executable: pip3
 - name: Install docker for module
   pip:
     name: "{{item}}"
@@ -22,7 +27,6 @@
     extra_args: --upgrade
     executable: pip3
   with_items:
-    - pip
     - docker
     - docker-compose
 
