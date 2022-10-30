@@ -6,6 +6,7 @@
         <groupId>com.example</groupId>
         <artifactId>converter</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+
     </parent>
     <artifactId>auth-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -22,6 +23,12 @@
             <groupId>com.example</groupId>
             <artifactId>entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion> 
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-amqp</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
         <dependency>
