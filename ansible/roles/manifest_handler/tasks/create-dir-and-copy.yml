@@ -5,7 +5,6 @@
 
 - name: Copy templates
   template:
-
     dest: "{{manifestCopyFolder}}"
     src: "{{item}}"
   with_items:
