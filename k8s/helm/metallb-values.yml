@@ -1,8 +1,0 @@
-#  helm repo add metallb https://metallb.github.io/metallb
-#  helm install -n metallb-system metallb metallb/metallb -f metallb-values.yml
-configInline:
-  address-pools:
-    - name: default
-      protocol: layer2
-      addresses:
-        - 10.128.54.230-10.128.54.239

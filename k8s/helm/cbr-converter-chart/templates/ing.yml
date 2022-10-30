@@ -1,51 +1,47 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-converter
-  namespace: {{ .Values.global.ns }}
+# Replaced with IngressRoute
 
-spec:
-  rules:
-    - host: cbr.cptmutchell.xyz
-      http:
-        paths:
-            - path: /backend/{{.Values.auth.name}}
-              pathType: Prefix
-              backend:
-                service:
-                  name: {{.Values.auth.name}}-service
-                  port:
-                    number: {{.Values.auth.port}}
+{{/*apiVersion: networking.k8s.io/v1*/}}
+{{/*kind: Ingress*/}}
+{{/*metadata:*/}}
+{{/*  name: ingress-converter*/}}
+{{/*  namespace: {{ .Values.global.ns }}*/}}
 
-            - path: /backend/{{.Values.convert.name}}
-              pathType: Prefix
-              backend:
-                service:
-                  name: {{.Values.convert.name}}-service
-                  port:
-                    number: {{.Values.convert.port}}
-            - path: /backend/{{.Values.history.name}}
-              pathType: Prefix
-              backend:
-                service:
-                  name: {{.Values.history.name}}-service
-                  port:
-                    number: {{.Values.history.port}}
-{{/*            - path: /*/}}
+{{/*spec:*/}}
+{{/*  rules:*/}}
+{{/*    - host: cbr.cptmutchell.xyz*/}}
+{{/*      http:*/}}
+{{/*        paths:*/}}
+{{/*            - path: /backend/{{.Values.auth.name}}*/}}
 {{/*              pathType: Prefix*/}}
 {{/*              backend:*/}}
 {{/*                service:*/}}
-{{/*                  name: cbr-ui-service*/}}
+{{/*                  name: {{.Values.auth.name}}-service*/}}
 {{/*                  port:*/}}
-{{/*                    number: 80*/}}
+{{/*                    number: {{.Values.auth.port}}*/}}
 
-    - host: cbr-frontend.cptmutchell.xyz
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: cbr-ui-service
-                port:
-                  number: 80
+{{/*            - path: /backend/{{.Values.convert.name}}*/}}
+{{/*              pathType: Prefix*/}}
+{{/*              backend:*/}}
+{{/*                service:*/}}
+{{/*                  name: {{.Values.convert.name}}-service*/}}
+{{/*                  port:*/}}
+{{/*                    number: {{.Values.convert.port}}*/}}
+{{/*            - path: /backend/{{.Values.history.name}}*/}}
+{{/*              pathType: Prefix*/}}
+{{/*              backend:*/}}
+{{/*                service:*/}}
+{{/*                  name: {{.Values.history.name}}-service*/}}
+{{/*                  port:*/}}
+{{/*                    number: {{.Values.history.port}}*/}}
+
+
+{{/*    - host: cbr-frontend.cptmutchell.xyz*/}}
+{{/*      http:*/}}
+{{/*        paths:*/}}
+{{/*          - path: /*/}}
+{{/*            pathType: Prefix*/}}
+{{/*            backend:*/}}
+{{/*              service:*/}}
+{{/*                name: cbr-ui-service*/}}
+{{/*                port:*/}}
+{{/*                  number: 80*/}}
