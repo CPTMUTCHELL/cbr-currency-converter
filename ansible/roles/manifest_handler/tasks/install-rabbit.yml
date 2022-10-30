@@ -26,7 +26,7 @@
     kubeconfig: "{{home}}/.kube/config"
     name: rabbit
     chart_ref: bitnami/rabbitmq
-    release_namespace: rabbitmq
+    release_namespace: "{{rabbit.ns}}"
     state: present
     create_namespace: true
 

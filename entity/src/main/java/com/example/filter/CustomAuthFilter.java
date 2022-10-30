@@ -36,7 +36,6 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         UserCredentials creds = new ObjectMapper().readValue(request.getInputStream(), UserCredentials.class);
-
 //        String username = request.getParameter("username");
 //        System.out.println(username);
 //        String password = request.getParameter("password");
