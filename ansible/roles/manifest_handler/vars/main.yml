@@ -31,7 +31,7 @@ rabbit:
     3661626331363837390a386661386131653466383236616536616162363062383861386333313730
     6136
   exchanger_name: historyExc
-  routing_key: .history
+  routing_key: history.
   vhost: /
   queue_name: cbr_queue
   ns: rabbitmq
