@@ -5,7 +5,7 @@ services:
       .
     container_name: rabbitmq
     environment:
-      - RABBITMQ_ROUTING_KEY=history.*
+      - RABBITMQ_BINDING_KEY=history.*
       - RABBITMQ_QUEUE=cbr_queue
       - RABBITMQ_EXCHANGE=historyExc
       - RABBITMQ_USER=cbr

@@ -13,6 +13,6 @@ rabbitmqctl add_vhost $RABBITMQ_VHOST ; \
 rabbitmqctl set_permissions -p $RABBITMQ_VHOST $RABBITMQ_USER ".*" ".*" ".*" ; \
 rabbitmqadmin -u $RABBITMQ_USER -p $RABBITMQ_PASSWORD -V $RABBITMQ_VHOST declare exchange name=$RABBITMQ_EXCHANGE type=topic ; \
 rabbitmqadmin -u $RABBITMQ_USER -p $RABBITMQ_PASSWORD -V $RABBITMQ_VHOST declare queue name=$RABBITMQ_QUEUE durable=true ; \
-rabbitmqadmin -u $RABBITMQ_USER -p $RABBITMQ_PASSWORD -V $RABBITMQ_VHOST declare binding source=$RABBITMQ_EXCHANGE destination=$RABBITMQ_QUEUE destination_type=queue routing_key=$RABBITMQ_ROUTING_KEY  ) &
+rabbitmqadmin -u $RABBITMQ_USER -p $RABBITMQ_PASSWORD -V $RABBITMQ_VHOST declare binding source=$RABBITMQ_EXCHANGE destination=$RABBITMQ_QUEUE destination_type=queue routing_key=$RABBITMQ_BINDING_KEY  ) &
 
 rabbitmq-server
