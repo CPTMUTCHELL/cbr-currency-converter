@@ -3,15 +3,15 @@ global:
   period: 20
   ns: cbr
 auth:
-  tag: v1
+  tag: v12
   name: auth
   port: "8081"
 convert:
-  tag: v1
+  tag: v12
   name: convert
   port: "8082"
 history:
-  tag: v1
+  tag: v12
   name: history
   port: "8083"
 db:

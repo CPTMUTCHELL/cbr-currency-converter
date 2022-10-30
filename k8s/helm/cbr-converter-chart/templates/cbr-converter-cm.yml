@@ -15,7 +15,7 @@ data:
   HISTORY_PORT: "8083"
 
   RABBITMQ_ENABLE: "true"
-  RABBITMQ_HOST: 'http://rabbit-rabbitmq.rabbitmq'
+  RABBITMQ_HOST: 'rabbit-rabbitmq.rabbitmq'
   RABBITMQ_PORT: '5672'
   RABBITMQ_USERNAME: 'cbr'
   RABBITMQ_PASSWORD: 'cbr'
