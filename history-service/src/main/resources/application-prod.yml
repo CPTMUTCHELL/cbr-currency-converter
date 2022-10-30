@@ -17,7 +17,7 @@ rabbitmq:
   # false - disable rabbit and use restTemplate
   # true - enable rabbit convertAndSend instead of restTemplate
   enable: ${RABBITMQ_ENABLE}
-  address: ${RABBITMQ_ADDRESS}
+  host: ${RABBITMQ_HOST}
   port: ${RABBITMQ_PORT}
   username: ${RABBITMQ_USERNAME}
   password: ${RABBITMQ_PASSWORD}

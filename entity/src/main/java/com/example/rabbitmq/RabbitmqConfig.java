@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(
-        value="rabbitmq.enable",
+        value = "rabbitmq.enable",
         havingValue = "true"
 )
 public class RabbitmqConfig {
@@ -28,37 +28,42 @@ public class RabbitmqConfig {
     private String queue;
     @Value(("${rabbitmq.routing-key}"))
     private String key;
-        @Value(("${rabbitmq.address}"))
-    private String address;
+
+    @Value(("${rabbitmq.host}"))
+    private String host;
     @Value(("${rabbitmq.username}"))
     private String username;
     @Value(("${rabbitmq.password}"))
     private String password;
     @Value(("${rabbitmq.port}"))
     private String port;
+
     @Bean
     public TopicExchange historyTopic() {
         return new TopicExchange(exc);
     }
+
     @Bean
     public Queue Queue() {
-        return new Queue(queue,true);
+        return new Queue(queue, true);
     }
+
     @Bean
     public Binding bindingQueueToHistoryTopic(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue)
                 .to(exchange)
                 .with(key);
     }
+
     @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
-        @Bean
+    @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses(address);
+        connectionFactory.setHost(host);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
         connectionFactory.setPort(Integer.parseInt(port));
@@ -66,7 +71,7 @@ public class RabbitmqConfig {
     }
 
     @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(){
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         var rabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
         rabbitListenerContainerFactory.setMessageConverter(jsonMessageConverter());
         rabbitListenerContainerFactory.setConnectionFactory(connectionFactory());
@@ -82,7 +87,6 @@ public class RabbitmqConfig {
         rabbitTemplate.setConnectionFactory(connectionFactory());
         return rabbitTemplate;
     }
-
 
 
 }

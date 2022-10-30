@@ -32,8 +32,8 @@ history.url: http://localhost:8083
 rabbitmq:
   # false - disable rabbit and use restTemplate
   # true - enable rabbit convertAndSend instead of restTemplate
-  enable: false
-  address: 127.0.0.1
+  enable: true
+  host: localhost
   port: 5672
   username: cbr
   password: cbr

@@ -19,3 +19,11 @@ services:
       - 5672:5672
       - 15672:15672
 
+    networks:
+      - cbr-rabbit
+
+
+networks:
+  cbr-rabbit:
+    external:
+      name: cbr-network
