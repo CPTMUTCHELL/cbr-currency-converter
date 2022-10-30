@@ -2,3 +2,4 @@
 - include_tasks: k8s-resources.yml
 - include_tasks: install-metallb.yml
 - include_tasks: install-traefik.yml
+- include_tasks: install-rabbit.yml

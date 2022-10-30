@@ -4,35 +4,33 @@ import com.example.convertservice.repository.CbrRepo;
 import com.example.entity.PresentationDto;
 import com.example.entity.cbr.Currency;
 import com.example.entity.cbr.ValCurs;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Service
-
+@Slf4j
 public class ConvertService {
-//    @Value(("${spring.rabbitmq.exchange}"))
-//    private String exc;
+    @Value(("${rabbitmq.exchange}"))
+    private String exc;
 
-//    @Autowired
-//    private AmqpTemplate rabbitTemplate;
+    //Might be null if we don't use rabbit
+    @Autowired(required = false)
+    private AmqpTemplate rabbitTemplate;
+
+    @Value(("${rabbitmq.enable}"))
+    private boolean enableRabbit;
+
     private CbrRepo cbrRepo;
-//    private DtoRepo dtoRepo;
     private RestTemplate template=new RestTemplate();
     @Value(("${cbr.url}"))
     private String URL;
@@ -43,7 +41,6 @@ public class ConvertService {
         this.cbrRepo = cbrRepo;
 
     }
-
 
     private LocalDate getLatestDateFromDb(){
         return cbrRepo.findFirstByOrderByDateDesc().getDate();
@@ -77,10 +74,15 @@ public class ConvertService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
-//        rabbitTemplate.convertAndSend(exc,"history.",dto);
-        ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/backend/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
-         return result;
-//        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        log.info("Sending data: "+ dto);
+        if (enableRabbit) {
+            rabbitTemplate.convertAndSend(exc, "history.", dto);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        }
+        else {
+            ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/backend/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
+            return result;
+        }
     }
 
     public List<Currency> getLatestCurrencies() {

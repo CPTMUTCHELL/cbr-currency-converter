@@ -3,8 +3,6 @@ server:
   servlet:
     context-path: /backend/history
 spring:
-  queue: cbr_queue
-
   flyway:
     url: jdbc:postgresql://localhost:5432/history_db
     user: postgres
@@ -19,5 +17,21 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+  # Disable autoconfiguration to avoid reconnections when we don't use rabbit
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 jwt:
   secret: secret
+
+rabbitmq:
+  # false - disable rabbit and use restTemplate
+  # true - enable rabbit convertAndSend instead of restTemplate
+  enable: true
+  host: localhost
+  port: 5672
+  username: cbr
+  password: cbr
+  exchange: historyExc
+  queue: cbr_queue
+  routing-key: history.*
+

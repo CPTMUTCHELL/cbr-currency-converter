@@ -1,8 +1,8 @@
-FROM rabbitmq:3.8-management-alpine
+FROM rabbitmq:3.10-management-alpine
 
-COPY rabbitmq.config /etc/rabbitmq
-COPY definitions.json /etc/rabbitmq
+# https://stackoverflow.com/questions/30747469/how-to-add-initial-users-when-starting-a-rabbitmq-docker-container
+ENV RABBITMQ_PID_FILE /var/lib/rabbitmq/mnesia/rabbitmq
 
-RUN chown rabbitmq:rabbitmq /etc/rabbitmq/rabbitmq.config /etc/rabbitmq/definitions.json
-RUN rabbitmqctl delete_user guest
-CMD ["rabbitmq-server"]
+COPY init.sh /init.sh
+RUN chmod +x init.sh
+CMD ["./init.sh"]

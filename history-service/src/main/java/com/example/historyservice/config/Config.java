@@ -4,10 +4,15 @@ package com.example.historyservice.config;
 import com.example.filter.CustomAuthorizationFilter;
 //import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 //import org.springframework.amqp.support.converter.MessageConverter;
+
+import com.example.historyservice.service.rabbitmq.RabbitMqListener;
+import com.example.rabbitmq.RabbitmqConfig;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,14 +29,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+//RabbitMq configuration from another module
+@Import(value = {RabbitmqConfig.class})
 public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
     @Value(("${jwt.secret}"))
     private  String secret;
 
-//    @Bean
-//    public MessageConverter jsonMessageConverter() {
-//        return new Jackson2JsonMessageConverter();
-//    }
+    //create RabbitListener on condition
+    @ConditionalOnProperty(
+            value="rabbitmq.enable",
+            havingValue = "true"
+    )
+    @Bean
+    public RabbitMqListener RabbitMqListener() {
+        return new RabbitMqListener();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,6 +64,7 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+
                 .allowedOrigins("*")
                 .allowedMethods("*");
     }
