@@ -33,5 +33,5 @@ rabbitmq:
   password: cbr
   exchange: historyExc
   queue: cbr_queue
-  routing-key: history.*
+  routing-key: history.dto
 

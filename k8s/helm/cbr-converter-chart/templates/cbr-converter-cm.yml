@@ -14,11 +14,11 @@ data:
   CONVERT_PORT: "8082"
   HISTORY_PORT: "8083"
 
-  RABBITMQ_ENABLE: 'true'
+  RABBITMQ_ENABLE: true
   RABBITMQ_HOST: 'http://rabbit-rabbitmq.rabbitmq'
   RABBITMQ_PORT: '5672'
   RABBITMQ_USERNAME: 'cbr'
   RABBITMQ_PASSWORD: 'cbr'
   RABBITMQ_EXCHANGE: 'historyExc'
   RABBITMQ_QUEUE: 'cbr_queue'
-  RABBITMQ_ROUTING_KEY: 'history.*'
+  RABBITMQ_ROUTING_KEY: 'history.dto'

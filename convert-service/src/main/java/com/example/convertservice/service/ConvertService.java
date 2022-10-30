@@ -22,6 +22,8 @@ import java.util.List;
 public class ConvertService {
     @Value(("${rabbitmq.exchange}"))
     private String exc;
+    @Value(("${rabbitmq.routing-key}"))
+    private String routingKey;
 
     //Might be null if we don't use rabbit
     @Autowired(required = false)
@@ -74,12 +76,15 @@ public class ConvertService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<PresentationDto> entityReq = new HttpEntity<>(dto, headers);
-        log.info("Sending data: "+ dto);
         if (enableRabbit) {
-            rabbitTemplate.convertAndSend(exc, "history.", dto);
+            log.info("Sending data "+ dto +" with routing key: "+routingKey);
+
+            rabbitTemplate.convertAndSend(exc, routingKey, dto);
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
         else {
+            log.info("Sending data "+ dto);
+
             ResponseEntity<PresentationDto> result = template.exchange(historyURL+"/backend/history/save", HttpMethod.POST, entityReq, PresentationDto.class);
             return result;
         }

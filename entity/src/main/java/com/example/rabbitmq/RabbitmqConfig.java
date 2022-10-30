@@ -49,13 +49,6 @@ public class RabbitmqConfig {
     }
 
     @Bean
-    public Binding bindingQueueToHistoryTopic(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue)
-                .to(exchange)
-                .with(key);
-    }
-
-    @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }

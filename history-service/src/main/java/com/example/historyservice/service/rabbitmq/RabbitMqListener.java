@@ -22,7 +22,7 @@ public  class RabbitMqListener {
 
     public void saveDtoRabbit(PresentationDto dto) {
         historyRepo.save(dto);
-        log.info("dto: {} saved ", dto);
+        log.info("Rabbit : dto: {} saved ", dto);
 
     }
 
