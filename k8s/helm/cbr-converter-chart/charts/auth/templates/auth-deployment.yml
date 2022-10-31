@@ -31,7 +31,7 @@ spec:
             - configMapRef:
                 name: postgres-config
             - configMapRef:
-                name: cbr-converter-config
+                name: cbr-auth-config
           livenessProbe:
             httpGet:
               path: /backend/{{.Values.name}}/health/livenessState
