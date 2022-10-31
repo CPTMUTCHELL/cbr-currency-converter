@@ -66,7 +66,7 @@ extraSecrets:
             "vhost": "{{rabbit['vhost']}}",
             "destination": "{{rabbit['queue_name']}}",
             "destination_type": "queue",
-            "routing_key": "{{rabbit['routing_key']}}"
+            "routing_key": "{{rabbit['binding_key']}}"
           }
         ]
       }

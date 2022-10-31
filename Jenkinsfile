@@ -83,15 +83,15 @@ pipeline {
         stage("Build images") {
             stages {
                 stage("Auth image build") {
-                    when {
-                        anyOf {
-                            changeset "${auth}/**"
-                            expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
-                            }
-                            expression { return params.AUTH_IMAGE }
-                        }
-                    }
+//                     when {
+//                         anyOf {
+//                             changeset "${auth}/**"
+//                             expression {
+//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
+//                             }
+//                             expression { return params.AUTH_IMAGE }
+//                         }
+//                     }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
@@ -105,16 +105,16 @@ pipeline {
                     }
                 }
                 stage("Convert image build") {
-                    when {
-                        anyOf {
-                            changeset "${convert}/**"
-                            expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
-                            }
-                            expression { return params.CONVERT_IMAGE }
-
-                        }
-                    }
+//                     when {
+//                         anyOf {
+//                             changeset "${convert}/**"
+//                             expression {
+//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
+//                             }
+//                             expression { return params.CONVERT_IMAGE }
+//
+//                         }
+//                     }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
@@ -130,15 +130,15 @@ pipeline {
                     }
                 }
                 stage("History image build") {
-                    when {
-                        anyOf {
-                            changeset "${history}/**"
-                            expression {
-                                sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
-                            }
-                            expression { return params.HISTORY_IMAGE }
-                        }
-                    }
+//                     when {
+//                         anyOf {
+//                             changeset "${history}/**"
+//                             expression {
+//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
+//                             }
+//                             expression { return params.HISTORY_IMAGE }
+//                         }
+//                     }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {

@@ -15,7 +15,7 @@ x-common-rabbit-variables: &rabbit-variables
   RABBITMQ_PASSWORD: 'cbr'
   RABBITMQ_EXCHANGE: 'historyExc'
   RABBITMQ_QUEUE: 'cbr_queue'
-  RABBITMQ_ROUTING_KEY: 'history.*'
+  RABBITMQ_ROUTING_KEY: 'history.dto'
 
 services:
   cbr-converter:
