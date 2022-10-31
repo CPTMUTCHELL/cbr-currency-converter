@@ -4,7 +4,8 @@ server:
   servlet:
     context-path: /backend/auth
 spring:
-
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   flyway:
     url: jdbc:postgresql://localhost:5432/auth_db
     user: postgres
@@ -16,6 +17,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/auth_db
   jpa:
+
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none

@@ -9,7 +9,7 @@ COPY convert-service/pom.xml /usr/convert-service
 COPY history-service/src/ /usr/history-service/src
 COPY history-service/pom.xml /usr/history-service
 
-RUN mvn -f /usr/pom.xml clean package
+RUN --mount=type=cache,target=/root/.m2 mvn -f /usr/pom.xml clean package
 FROM bellsoft/liberica-openjre-alpine:15.0.1-9
 RUN apk add --no-cache bash
 COPY --from=build /usr/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar /usr/auth/auth-service-0.0.1-SNAPSHOT.jar
