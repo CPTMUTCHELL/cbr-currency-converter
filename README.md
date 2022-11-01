@@ -20,11 +20,35 @@ The pre-created user is admin:admin.
 
 Swagger is available for each service at ${domain}/backend/${service}/swagger-ui.html for example: http://myconverter/backend/auth/swagger-ui.html#/ or http://localhost:8082/backend/convert/swagger-ui.html#/
 
+### RabbitMQ.
+
+#### Docker compose and local:
+To enable rabbit, in application.yml set rabbitmq.enable=true in both convert and history services.
+
+To run rabbit run `cd rabbitmq && docker-compose up --build` You can configure init.sh or envs there.
+
+If rabbit is enabled the convert dto data will be transfered via queue, otherwise via rest template.
+
+Management console will be enabled at localhost:15672
+#### Cloud:
+
+If you don't want to use rabbit comment out the [playbook](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/65006b76203b2b8891b93dad14825b42459a56d6/ansible/roles/manifest_handler/tasks/main.yml#L5)
+and set [env in cm to false](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/65006b76203b2b8891b93dad14825b42459a56d6/k8s/helm/cbr-converter-chart/templates/cbr-converter-cm.yml#L17)
+Else prepare [helm values](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/k8s/ansible/roles/manifest_handler/templates/rabbit.yml.j2)
+and don't forget the [router](https://github.com/CPTMUTCHELL/cbr-currency-converter/blob/k8s/ansible/roles/manifest_handler/templates/rabbit-router.yml.j2)
+
+Once deployed the management console is available at https://dns/rabbit/ In my case https://cbr.cptmutchell.xyz/rabbit/
+
+You should notice that I used tls from Traefik, but not from rabbitmq chart.
+
 You have the next options to start it:
 
 ## Locally
 Start locally from source code. Before the start you have to create the following databases: auth_db, convert_db, history_db. These are default names.
 After that at root dir `mvn clean install` to install the dependencies and `cd ${service-name} && java -jar ${service-name}-0.0.1-SNAPSHOT.jar` to start a service. When you start all the services proceed to [cbr-currency-converter-ui-local](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/blob/master/README.md#local) 
+
+
+
 
 ## Docker-compose
 Start with docker-compose. It'll do everything instead of you, just `docker-compose up --build` from root dir and procced to [cbr-currency-converter-ui-compose](https://github.com/CPTMUTCHELL/cbr-currency-converter-ui/blob/master/README.md#compose)
