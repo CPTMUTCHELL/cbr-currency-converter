@@ -1,6 +1,6 @@
 ns: cbr
 userCN: Mr.Jenkins
-home: /home/gcloudtest027
+home: /home/gcloudtest028
 
 # change to False if you don't want tls
 traefik_tls: True
@@ -11,7 +11,7 @@ manifests:
   - traefik.yml.j2
   - Role.yml.j2
   - RoleBinding.yml.j2
-  - metallb-values.yml.j2
+  - metallb-crd.yml.j2
   - traefik-dashboard.yaml.j2
   - router.yml.j2
   - ingRoute.yml.j2
