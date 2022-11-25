@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepo extends JpaRepository<User,Integer> {
-    User findByUsername(String username);
-    boolean existsUserByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

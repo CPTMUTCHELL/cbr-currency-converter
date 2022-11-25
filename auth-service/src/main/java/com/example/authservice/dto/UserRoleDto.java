@@ -1,21 +1,21 @@
-package com.example.entity;
+package com.example.authservice.dto;
 
+import com.example.entity.Role;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter
 @Setter
+@ApiModel(description = "Username with roles")
 public class UserRoleDto {
     @ApiModelProperty(notes = "Username, whose roles you want to change")
     private String username;
-//    this doesn't work
-//    @NotNull
     @NotEmpty(message = "Must be at least one role")
     @ApiModelProperty(notes = "Array of user's roles")
     private List<@Valid Role> roles;

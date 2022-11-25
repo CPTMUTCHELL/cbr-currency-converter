@@ -28,41 +28,38 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (request.getServletPath().equals("/login") || request.getServletPath().equals("/token")
-              ){
-            filterChain.doFilter(request,response);
-        }
-        else {
-            String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-            if (authHeader!=null && authHeader.startsWith("Bearer ")){
-                try {
-                    String token = authHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
-                    JWTVerifier verifier = JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(token);
-                    String username = decodedJWT.getSubject();
-                    String[] roles = Arrays.stream(decodedJWT.getClaim("roles").asArray(String.class)).map(role->role.split("-")[1]).toArray(String[]::new);
-                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    Arrays.stream(roles).forEach(role->{
-                        authorities.add(new SimpleGrantedAuthority(role));
-                    });
-                    UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(username,null,authorities);
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    filterChain.doFilter(request,response);
-                } catch (IllegalArgumentException | JWTVerificationException e) {
-                        e.printStackTrace();
-                        response.setHeader("error",e.getMessage());
-                        response.setStatus(HttpStatus.FORBIDDEN.value());
-                    Map<String,String> error = new HashMap<>();
-                    error.put("error_message",e.getMessage());
 
+        if (request.getServletPath().equals("/login")) filterChain.doFilter(request,response);
+
+        else {
+            var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                try {
+                    var token = authHeader.substring("Bearer " .length());
+                    var algorithm = Algorithm.HMAC256(secret.getBytes());
+                    var verifier = JWT.require(algorithm).build();
+                    var decodedJWT = verifier.verify(token);
+                    var username = decodedJWT.getSubject();
+                    var roles = Arrays.stream(decodedJWT.getClaim("roles").asArray(String.class))
+                            .map(role->role.split("-")[1]).toArray(String[]::new);
+                    var authorities = new ArrayList<SimpleGrantedAuthority>();
+                    Arrays.stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+                    var authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    filterChain.doFilter(request, response);
+                } catch (IllegalArgumentException | JWTVerificationException e) {
+                    e.printStackTrace();
+                    response.setStatus(HttpStatus.FORBIDDEN.value());
+                    var error = new HashMap<>();
+                    error.put("message", e.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
-                    new ObjectMapper().writeValue(response.getOutputStream(),error);
+                    //set response body
+                    response.getWriter().write(new ObjectMapper().writeValueAsString(error));
+                    response.getWriter().flush();
                 }
 
             }
-            else    filterChain.doFilter(request,response);
+            else filterChain.doFilter(request, response);
         }
     }
 }

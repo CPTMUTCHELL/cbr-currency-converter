@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@PreAuthorize("not hasAuthority('REFRESH')")
+
 public class HistoryController {
     @Autowired
     private HistoryService historyService;

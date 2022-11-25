@@ -19,12 +19,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(hidden = true)
     private int id;
-    @NotEmpty(message = "May not be empty")
-    @Size(min = 5,message = "Username's length must be greater than 5 chars")
     @ApiModelProperty(notes = "Name of the role",example = "USER",allowableValues = "ADMIN, USER, OWNER, BANNED")
-
     private String username;
-    @Size(min = 5, message = "Password's length must be greater than 5 chars")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(name ="user_role",
