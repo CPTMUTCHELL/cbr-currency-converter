@@ -1,6 +1,6 @@
 package com.example.entity.cbr;
-import com.example.entity.cbr.xmlAdapter.LocalDateXmlAdapter;
 
+import com.example.entity.cbr.xmlAdapter.LocalDateXmlAdapter;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -25,7 +25,6 @@ public class ValCurs {
     public String getName() {
         return name;
     }
-
     @Override
     public String toString() {
         return "ValCurs{" +
