@@ -3,13 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.example</groupId>
+        <groupId>cbr</groupId>
         <artifactId>converter</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
+
     <artifactId>convert-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>convert-service</name>
+
     <properties>
         <java.version>${java.version}</java.version>
     </properties>
@@ -27,9 +29,9 @@
 
 
         <dependency>
-        <groupId>com.example</groupId>
+        <groupId>cbr</groupId>
         <artifactId>entity</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+            <version>${revision}</version>
     </dependency>
 
     </dependencies>
