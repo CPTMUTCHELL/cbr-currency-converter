@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.jobName }}
+  namespace: {{ .Values.global.ns }}
+
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.jobName }}
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: {{ .Values.jobName }}
+          image: {{ .Values.image }}:v1
+          imagePullPolicy: Always
+          env:
+            - name: PGPASSWORD
+              value: postgres
+            - name: PGHOST
+              value: cbr-converter
+            - name: PGUSER
+              value: postgres
+          command: ["./create-multiple-databases.sh"]
+          args:
+            {{  range .Values.createdb }}
+            - {{ . }}
+          {{ end }}

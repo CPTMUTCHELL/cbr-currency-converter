@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: {{ .Values.global.ns }}
+
+data:
+  POSTGRES_USER: {{ .Values.name }}
+  POSTGRES_AUTH_DB: auth_db
+  POSTGRES_CONVERT_DB: convert_db
+  POSTGRES_HISTORY_DB: history_db
+  DB_HOST: cbr-converter

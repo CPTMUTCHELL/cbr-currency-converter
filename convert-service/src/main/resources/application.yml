@@ -1,0 +1,44 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /backend/convert
+spring:
+  flyway:
+    url: jdbc:postgresql://localhost:5432/convert_db
+    user: postgres
+    password: postgres
+    locations: classpath:convertdb
+  datasource:
+    password: postgres
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/convert_db
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+  application:
+    name: converter
+    # Disable autoconfiguration to avoid reconnections when we don't use rabbit
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
+jwt:
+  secret: secret
+cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
+history.url: http://localhost:8083
+
+
+rabbitmq:
+  # false - disable rabbit and use restTemplate
+  # true - enable rabbit convertAndSend instead of restTemplate
+  enable: false
+  host: localhost
+  port: 5672
+  username: cbr
+  password: cbr
+  exchange: historyExc
+  queue: cbr_queue
+  routing-key: history.dto
+
+

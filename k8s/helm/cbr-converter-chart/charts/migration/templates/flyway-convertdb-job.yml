@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-convertdb-job
+  namespace: {{ .Values.global.ns }}
+
+spec:
+  template:
+    metadata:
+      labels:
+          app: {{ .Values.name }}
+    spec:
+      restartPolicy: {{ .Values.restart }}
+      containers:
+        - name: {{ .Values.name }}-convertdb
+          image: {{ .Values.convert.image }}:v1
+          imagePullPolicy: Always
+          env:
+            - name: FLYWAY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: FLYWAY_URL
+              value: jdbc:postgresql://cbr-converter:5432/{{ (split "-" .Values.convert.image )._1 | replace "db" "_db" }}
+
+          command: ["flyway", "migrate"]

@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-cbr-db-pvc
+  namespace: {{ .Values.global.ns }}
+
+  labels:
+    app: {{ .Values.name }}
+spec:
+  resources:
+    requests:
+      storage: 100Mi
+  accessModes:
+    - ReadWriteOnce

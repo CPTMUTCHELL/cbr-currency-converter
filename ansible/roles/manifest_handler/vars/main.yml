@@ -1,0 +1,40 @@
+ns: cbr
+userCN: Mr.Jenkins
+home: /home/gcloudtest028
+
+# change to False if you don't want tls
+traefik_tls: True
+
+manifestCopyFolder: "{{home}}/k8s"
+manifests:
+  - Namespace.yml.j2
+  - traefik.yml.j2
+  - Role.yml.j2
+  - RoleBinding.yml.j2
+  - metallb-crd.yml.j2
+  - traefik-dashboard.yaml.j2
+  - router.yml.j2
+  - ingRoute.yml.j2
+  - traefik-tls.yml.j2
+
+
+dns: cbr.cptmutchell.xyz
+
+rabbit:
+  prefix: /rabbit
+  username: cbr
+  password: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    39303232303239616432303933393664353737353037373830353063356638376663303166623534
+    6231613964393337633365313130656264613762396231350a623063336439653839386331376438
+    32303063363437336637396530613961316465353662313239363137613339303930316630663036
+    3661626331363837390a386661386131653466383236616536616162363062383861386333313730
+    6136
+  exchanger_name: historyExc
+  binding_key: history.*
+  vhost: /
+  queue_name: cbr_queue
+  ns: rabbitmq
+  manifests:
+    - rabbit.yml.j2
+    - rabbit-router.yml.j2

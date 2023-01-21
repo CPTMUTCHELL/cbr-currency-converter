@@ -1,0 +1,8 @@
+#  helm repo add metallb https://metallb.github.io/metallb
+#  helm install -n metallb-system metallb metallb/metallb -f metallb-values.yml.j2
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+        - "{{ansible_host}}/32"

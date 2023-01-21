@@ -1,30 +1,147 @@
-version: '3.1'
-services:
-  flyway:
-    container_name: flyway
-    build:
-      context: .
-      dockerfile: ./flyway/Dockerfile
-    #Copy is used instead
-#    volumes:
-#      - ./src/main/resources/db:/flyway/sql
-    depends_on:
-      - db
+version: '3.7'
 
-  converter:
-    container_name: converter
-    build:
-      ./
-    ports:
-    - 8080:8080
-    depends_on:
-      - flyway
-    command: bash -c "./wait-for-it.sh db:5432 -t 0 && java -jar /usr/app/converter-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker"
-  db:
-    build:
-      ./postgres
-    ports:
-      - 5432:5432
+x-common-variables: &db-variables
+  POSTGRES_USER: 'postgres'
+  POSTGRES_PASSWORD: 'postgres'
+  FLYWAY_USER: 'postgres'
+  FLYWAY_PASSWORD: 'postgres'
+  DB_HOST: 'cbr-converter'
+
+x-common-rabbit-variables: &rabbit-variables
+  RABBITMQ_ENABLE: 'true'
+  RABBITMQ_HOST: 'rabbitmq'
+  RABBITMQ_PORT: '5672'
+  RABBITMQ_USERNAME: 'cbr'
+  RABBITMQ_PASSWORD: 'cbr'
+  RABBITMQ_EXCHANGE: 'historyExc'
+  RABBITMQ_QUEUE: 'cbr_queue'
+  RABBITMQ_ROUTING_KEY: 'history.dto'
+
+services:
+  cbr-converter:
+    image: postgres
     container_name: db
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
+    environment: *db-variables
+    ports:
+      - 5433:5432
+    networks:
+      - cbr-network-backend
+
+  postgres-create-db:
+    build:
+      context: .
+      dockerfile: postgres-createdb/Dockerfile
+    container_name:  postgres-create-db-job
+    environment:
+      - PGPASSWORD=postgres
+      - PGHOST=cbr-converter
+      - PGUSER=postgres
+    command: >
+      sh -c "./create-multiple-databases.sh auth_db convert_db history_db"
+    depends_on:
+      - cbr-converter
+    networks:
+      - cbr-network-backend
+    restart: unless-stopped
+
+  flyway-auth:
+    build:
+      context: .
+      dockerfile: auth-service/flyway/Dockerfile
+    container_name: flyway-authdb
+    environment:
+      <<: *db-variables
+      FLYWAY_URL: 'jdbc:postgresql://cbr-converter:5432/auth_db'
+    command: ["migrate"]
+    networks:
+      - cbr-network-backend
+    depends_on:
+      - cbr-converter
+    restart: on-failure
+
+  flyway-convert:
+    build:
+      context: .
+      dockerfile: convert-service/flyway/Dockerfile
+    container_name: flyway-convertdb
+    environment:
+      <<: *db-variables
+      FLYWAY_URL: 'jdbc:postgresql://cbr-converter:5432/convert_db'
+    command: [ "migrate" ]
+    networks:
+      - cbr-network-backend
+    depends_on:
+      - cbr-converter
+    restart: on-failure
+
+  flyway-history:
+    build:
+      context: .
+      dockerfile: history-service/flyway/Dockerfile
+    container_name: flyway-historydb
+    environment:
+      <<: *db-variables
+      FLYWAY_URL: 'jdbc:postgresql://cbr-converter:5432/history_db'
+    command: [ "migrate" ]
+    networks:
+      - cbr-network-backend
+    depends_on:
+      - cbr-converter
+    restart: on-failure
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./auth-service/Dockerfile
+    environment:
+      AUTH_PORT: 8081
+      <<: *db-variables
+      POSTGRES_AUTH_DB: 'auth_db'
+    container_name: auth-service
+    ports:
+      - 8081:8081
+    depends_on:
+      - cbr-converter
+    networks:
+      - cbr-network-backend
+
+  convert:
+    build:
+      context: .
+      dockerfile: ./convert-service/Dockerfile
+    environment:
+      CONVERT_PORT: 8082
+      <<: *db-variables
+      <<: *rabbit-variables
+      POSTGRES_CONVERT_DB: 'convert_db'
+      HISTORY_URL: 'http://history-service:8083'
+    container_name: convert-service
+    ports:
+      - 8082:8082
+    depends_on:
+      - cbr-converter
+    networks:
+      - cbr-network-backend
+
+  history:
+    build:
+      context: .
+      dockerfile: ./history-service/Dockerfile
+    environment:
+      <<: *db-variables
+      <<: *rabbit-variables
+      HISTORY_PORT: 8083
+      POSTGRES_HISTORY_DB: 'history_db'
+    container_name: history-service
+    ports:
+      - 8083:8083
+    depends_on:
+      - cbr-converter
+    networks:
+      - cbr-network-backend
+
+networks:
+  cbr-network-backend:
+    name: cbr-network

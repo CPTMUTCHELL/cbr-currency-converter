@@ -1,0 +1,45 @@
+spring:
+  queue: ${cbr_queue}
+  flyway:
+    enabled: false
+  datasource:
+    password: ${POSTGRES_PASSWORD}
+    username: ${POSTGRES_USER}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:5432/${POSTGRES_HISTORY_DB}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+
+rabbitmq:
+  # false - disable rabbit and use restTemplate
+  # true - enable rabbit convertAndSend instead of restTemplate
+  enable: ${RABBITMQ_ENABLE}
+  host: ${RABBITMQ_HOST}
+  port: ${RABBITMQ_PORT}
+  username: ${RABBITMQ_USERNAME}
+  password: ${RABBITMQ_PASSWORD}
+  exchange: ${RABBITMQ_EXCHANGE}
+  queue: ${RABBITMQ_QUEUE}
+  routing-key: ${RABBITMQ_ROUTING_KEY}
+
+server:
+  port: ${HISTORY_PORT}
+  error:
+    include-message: always
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /
+  security:
+    enabled: false
+  health:
+    db:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always

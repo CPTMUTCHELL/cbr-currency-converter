@@ -1,0 +1,10 @@
+restart: OnFailure
+name: flyway
+history:
+  image: cptmutchell/flyway-historydb
+
+convert:
+  image: cptmutchell/flyway-convertdb
+
+auth:
+  image: cptmutchell/flyway-authdb

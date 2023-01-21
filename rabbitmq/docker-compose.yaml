@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  rabbitmq:
+    build:
+      .
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_BINDING_KEY=history.*
+      - RABBITMQ_QUEUE=cbr_queue
+      - RABBITMQ_EXCHANGE=historyExc
+      - RABBITMQ_USER=cbr
+      - RABBITMQ_PASSWORD=cbr
+      - RABBITMQ_VHOST=/
+    volumes:
+      - ./data/:/var/lib/rabbitmq/
+      - ./logs/:/var/log/rabbitmq/
+
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+    networks:
+      - cbr-rabbit
+
+
+networks:
+  cbr-rabbit:
+    external:
+      name: cbr-network

@@ -1,0 +1,22 @@
+global:
+  initDelay: 40
+  period: 20
+  ns: cbr
+auth:
+  tag: v1
+  name: auth
+  port: "8081"
+convert:
+  tag: v1
+  name: convert
+  port: "8082"
+history:
+  tag: v1
+  name: history
+  port: "8083"
+db:
+  tag: v1
+  createdb:
+    - auth_db
+    - convert_db
+    - history_db

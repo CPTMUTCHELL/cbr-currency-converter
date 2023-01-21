@@ -1,0 +1,35 @@
+emailVerification:
+  link: ${VERIFICATION_LINK}
+  expiration: ${VERIFICATION_LINK_EXPIRATION} #in minutes
+
+spring:
+  flyway:
+    enabled: false
+  mail:
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
+  datasource:
+    password: ${POSTGRES_PASSWORD}
+    username: ${POSTGRES_USER}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:5432/${POSTGRES_AUTH_DB}
+
+server:
+  port: ${AUTH_PORT}
+  #fix for containers ResponseStatusException msg doesn't show up
+  error:
+    include-message: always
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /
+  security:
+    enabled: false
+  health:
+    db:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always

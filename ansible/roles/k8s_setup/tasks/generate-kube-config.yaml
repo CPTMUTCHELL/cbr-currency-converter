@@ -1,0 +1,15 @@
+
+- name: Create config
+  file:
+    path: "{{kubeconfigPath}}"
+    state: touch
+    mode: 0600
+  # Decided to use handler
+  notify: config created
+# Could be done with sync, but I'm lazy :(
+- name: Fetch config to jenkins
+  fetch:
+    dest: ./roles/jenkins_setup/files/
+    src: "{{kubeconfigPath}}"
+    flat: yes
+
