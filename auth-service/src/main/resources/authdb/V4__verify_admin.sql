@@ -1,0 +1,1 @@
+update users set  verified  = true where username='admin';
