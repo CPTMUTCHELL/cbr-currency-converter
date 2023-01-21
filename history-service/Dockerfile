@@ -17,6 +17,6 @@ FROM bellsoft/liberica-openjre-alpine:15.0.1-9
 RUN apk add --no-cache bash
 RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
 USER appuser
-COPY --from=build /usr/history-service/target/history-service-0.0.1-SNAPSHOT.jar /usr/history/history-service-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","/usr/history/history-service-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+COPY --from=build /usr/history-service/target/history-service.jar /usr/history/history-service.jar
+CMD ["java","-jar","/usr/history/history-service.jar","--spring.profiles.active=prod"]
 

@@ -12,5 +12,5 @@ COPY history-service/pom.xml /usr/history-service
 RUN --mount=type=cache,target=/root/.m2 mvn -f /usr/pom.xml clean package
 FROM bellsoft/liberica-openjre-alpine:15.0.1-9
 RUN apk add --no-cache bash
-COPY --from=build /usr/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar /usr/auth/auth-service-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","/usr/auth/auth-service-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+COPY --from=build /usr/auth-service/target/auth-service.jar /usr/auth/auth-service.jar
+CMD ["java","-jar","/usr/auth/auth-service.jar","--spring.profiles.active=prod"]
