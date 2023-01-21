@@ -1,8 +1,9 @@
 package com.example.authservice.config;
 
-import com.example.authservice.util.JwtUtil;
 import com.example.authservice.dto.UserCredentialsDto;
+import com.example.authservice.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        var creds = new ObjectMapper().readValue(request.getInputStream(), UserCredentialsDto.class);
+
+        var creds = new ObjectMapper().registerModule(new KotlinModule()).readValue(request.getInputStream(), UserCredentialsDto.class);
         var authenticationToken = new UsernamePasswordAuthenticationToken(creds.getUsername(),creds.getPassword());
         return manager.authenticate(authenticationToken);
 
@@ -40,8 +42,9 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
         var tokens = jwtUtil.generateJwt(authResult);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
-
     }
+
+
 
     @Override
     @Autowired

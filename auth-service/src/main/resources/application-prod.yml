@@ -1,7 +1,13 @@
+emailVerification:
+  link: ${VERIFICATION_LINK}
+  expiration: ${VERIFICATION_LINK_EXPIRATION} #in minutes
 
 spring:
   flyway:
     enabled: false
+  mail:
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
   datasource:
     password: ${POSTGRES_PASSWORD}
     username: ${POSTGRES_USER}

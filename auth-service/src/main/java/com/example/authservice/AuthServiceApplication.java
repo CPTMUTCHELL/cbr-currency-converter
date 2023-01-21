@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -19,9 +18,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 //to use custom handler
 @ComponentScan(value = {"com.example.exception"})
 @EnableSwagger2
+@EnableScheduling
 public class AuthServiceApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(AuthServiceApplication.class, args);
     }
     @Bean

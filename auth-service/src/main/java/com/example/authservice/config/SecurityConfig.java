@@ -2,7 +2,6 @@ package com.example.authservice.config;
 
 
 import com.example.authservice.service.AuthService;
-
 import com.example.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -39,15 +38,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     protected void configure(HttpSecurity http) throws Exception {
         var filter = customAuthFilter();
        filter.setFilterProcessesUrl("/login");
+       filter.setAuthenticationFailureHandler(authenticationFailureHandler());
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/login","/token","/registration","/health/**").permitAll()
-
+                .antMatchers("/login","/token","/registration","/verification","/health/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(filter)
-                .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new CustomAuthorizationFilter(secret), CustomAuthFilter.class);
         http.cors();
     }
     @Bean
@@ -73,7 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         return super.authenticationManagerBean();
     }
 
-
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -88,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 "/**/swagger-ui.html",
                 "/**/webjars/**");
     }
+
 
 
 

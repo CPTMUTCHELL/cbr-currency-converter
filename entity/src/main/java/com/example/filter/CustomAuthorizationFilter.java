@@ -1,10 +1,8 @@
 package com.example.filter;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +17,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     var decodedJWT = verifier.verify(token);
                     var username = decodedJWT.getSubject();
                     var roles = Arrays.stream(decodedJWT.getClaim("roles").asArray(String.class))
-                            .map(role->role.split("-")[1]).toArray(String[]::new);
+                            .map(role->role.split("-")[1].trim()).toArray(String[]::new);
                     var authorities = new ArrayList<SimpleGrantedAuthority>();
                     Arrays.stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
                     var authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);

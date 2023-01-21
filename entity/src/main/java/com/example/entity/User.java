@@ -1,12 +1,10 @@
 package com.example.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -28,5 +26,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     @ApiModelProperty(notes = "User's roles")
     private List<Role> roles;
+    @ApiModelProperty(notes = "User's email", example = "ololosnhka@gmail.com")
+    private String email;
+    @ApiModelProperty(notes = "Is email verified")
+    private boolean verified;
 
 }

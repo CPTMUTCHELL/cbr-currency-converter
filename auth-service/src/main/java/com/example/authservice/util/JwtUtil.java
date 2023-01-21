@@ -24,7 +24,7 @@ public class JwtUtil {
     @Value(("${jwt.refresh.token.expire}"))
     private  String refreshExpire;
     @Autowired
-    private  AuthService userService;
+    private AuthService userService;
     public Token generateJwt(Authentication authResult){
         var username =  authResult.getName();
         var algorithm = Algorithm.HMAC256(secret.getBytes());
