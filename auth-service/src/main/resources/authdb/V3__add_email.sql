@@ -1,0 +1,2 @@
+alter table users add column email varchar, add column verified bool default false;
+create table verification_tokens (id serial primary key , value text, expiry_date timestamp, user_id int references users(id) on DELETE cascade);
