@@ -1,7 +1,7 @@
 ns: cbr
 userCN: Mr.Jenkins
 user: jenkins
-home: /home/gcloudtest027
+home: /home/gcloudtest028
 kubeconfigPath: "{{home}}/.kube/jenkins_config"
 certPath: /etc/ssl/private
 k3sCertPath: /var/lib/rancher/k3s/server/tls
