@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 //to scan all controllers
-@ComponentScan(basePackages="cbr.")
+@ComponentScan(basePackages="cbr")
 @Slf4j
 public class ValidationHandler {
 
