@@ -10,7 +10,7 @@ data:
   JWT_REFRESH_TOKEN_EXPIRE: "36000000"
   DB_HOST: cbr-converter
   AUTH_PORT: "8081"
-  VERIFICATION_LINK: https://cbr-frontend.cptmutchell.xyz/?token=
+  VERIFICATION_LINK: https://cbr.cptmutchell.xyz/?token=
   VERIFICATION_LINK_EXPIRATION: "1440"  #in minutes
   # Or use Secret
   GMAIL_USERNAME: cbrconverter@gmail.com
