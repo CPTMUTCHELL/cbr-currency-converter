@@ -1,0 +1,25 @@
+auth:
+  enablePostgresUser: true
+  postgresPassword: "postgres"
+
+fullnameOverride: "cbr-db"
+primary:
+  persistence:
+    size: 100Mi
+  extraEnvVars:
+     - name: PGPASSWORD
+       value: "postgres"
+     - name: PGUSER
+       value: "postgres"
+
+  initdb:
+    scripts:
+      my_init_script.sh: |
+          #!/bin/sh
+          dbs=("auth_db" "convert_db" "history_db")
+        
+          for db in ${dbs[@]};
+          do
+          echo $db
+          psql --host 127.0.0.1 -tc "SELECT 1 FROM pg_database WHERE datname = '$db'" | grep -q 1 || psql -c "CREATE DATABASE $db"
+          done

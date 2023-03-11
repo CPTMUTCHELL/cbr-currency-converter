@@ -1,17 +1,7 @@
 apiVersion: v2
 name: cbr-converter-chart
 description: A Helm chart for Kubernetes
-dependencies:
-  - name: auth
-    version: 0.1.0
-  - name: convert
-    version: 0.1.0
-  - name: history
-    version: 0.1.0
-  - name: db
-    version: 0.1.0
-  - name: migration
-    version: 0.1.0
+
 
 # A chart can be either an 'application' or a 'library' chart.
 #
