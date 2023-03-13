@@ -1,9 +1,0 @@
----
-plugin: gcp_compute
-projects:
-  - aerobic-datum-327116
-auth_kind: serviceaccount
-service_account_file: ~/ansible/roles/gce/files/admin1-sa.json
-filters: []
-groups:
-  remote: "'label' in (labels|list)"

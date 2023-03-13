@@ -1,9 +1,0 @@
-gcp_project: aerobic-datum-327116
-gcp_cred_kind: serviceaccount
-gcp_cred_file: "{{ role_path }}/files/admin1-sa.json"
-zone: "europe-central2-a"
-region: "europe-central2"
-machine_type: "e2-small-2"
-source_image: "projects/debian-cloud/global/images/family/debian-10"
-
-ansible_ssh_private_key_file: "~/.ssh/jenkins_rsa

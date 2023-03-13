@@ -1,7 +1,3 @@
-global:
-  initDelay: 40
-  period: 20
-
 
 deployments:
   - name: auth
@@ -28,6 +24,9 @@ deployments:
         port: 8081
       initialDelaySeconds: 20
       periodSeconds: 40
+    ingress:
+      dns: cbr.cptmutchell.xyz
+      prefix: /backend/auth
 
   - name: convert
     ns: cbr
@@ -54,12 +53,14 @@ deployments:
         port: 8082
       initialDelaySeconds: 20
       periodSeconds: 40
-
+    ingress:
+      dns: cbr.cptmutchell.xyz
+      prefix: /backend/convert
   - name: history
     ns: cbr
     replicas: 1
     image: cptmutchell/history-service
-    tag: v1
+    tag: v1 # {"$imagepolicy": "flux-system:podinfo"}
     port: 8083
     secretEnvs:
       - envName: POSTGRES_PASSWORD
@@ -80,7 +81,9 @@ deployments:
         port: 8083
       initialDelaySeconds: 20
       periodSeconds: 40
-
+    ingress:
+      dns: cbr.cptmutchell.xyz
+      prefix: /backend/history
 jobs:
   - name: flyway-auth-db
     ns: cbr
@@ -93,6 +96,9 @@ jobs:
     envs:
       FLYWAY_USER: postgres
       FLYWAY_URL: jdbc:postgresql://cbr-db:5432/auth_db
+    #command: = echo "hello && echo "world" (example)
+     # - echo "hello"
+     # - echo "world"
     command:
       - flyway migrate
 

@@ -1,6 +1,6 @@
 {{- range $deployment := .Values.deployments -}}
 {{- with $ -}}
-{{$podData := dict "parent" $deployment "initDelay" $.Values.global.initDelay "period" $.Values.global.period }}
+{{$podData := dict "parent" $deployment }}
 ---
 apiVersion: apps/v1
 kind: Deployment
