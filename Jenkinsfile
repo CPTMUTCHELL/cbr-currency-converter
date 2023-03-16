@@ -24,22 +24,7 @@ pipeline {
         booleanParam(name: 'BUULD_ALL', defaultValue: false, description: 'Build all services')
     }
     stages {
-        stage("Create db") {
-            steps {
-                sh '''
-                   kubectl delete secret -n ${ns} postgres-secret --ignore-not-found
-                   kubectl create secret -n ${ns} generic postgres-secret --from-literal=POSTGRES_PASSWORD=${pg_pass} --from-literal=POSTGRES_USER=${pg_user}
-                   '''
-                withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
-                    sh """
-                         kubectl delete job -n ${ns} postgres-createdb-job --ignore-not-found=true
-                        bash ./docker.sh postgres-createdb v1
-                     """
 
-                }
-
-            }
-        }
         stage("Deploy migrations") {
             parallel {
                 stage("Auth db migration") {
