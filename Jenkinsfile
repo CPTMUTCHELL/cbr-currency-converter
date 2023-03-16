@@ -43,44 +43,7 @@ pipeline {
 
             }
         }
-        stage("Deploy migrations") {
-            parallel {
-                stage("Auth db migration") {
 
-                    steps {
-                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
-                            sh """
-                           bash ./docker.sh flyway-authdb v1 ${auth}/flyway
-                           """
-                        }
-
-                    }
-                }
-                stage("Convert db migration") {
-
-                    steps {
-                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
-                            sh """
-                             bash ./docker.sh flyway-convertdb v1 ${convert}/flyway
-                            """
-
-                        }
-
-                    }
-                }
-                stage("History db migration") {
-
-                    steps {
-                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
-                            sh """
-                               bash ./docker.sh flyway-historydb v1 ${history}/flyway
-
-                               """
-                        }
-                    }
-                }
-            }
-        }
 
         stage("Build images") {
             stages {
