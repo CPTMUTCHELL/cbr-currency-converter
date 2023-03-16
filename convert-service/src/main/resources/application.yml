@@ -23,7 +23,6 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 
-
 cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
 history.url: http://localhost:8083
 
