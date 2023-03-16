@@ -28,7 +28,7 @@ pipeline {
         stage("Deploy migrations") {
             parallel {
                 stage("Auth db migration") {
-                    when {changeset "${auth}/src/main/resources/authdb**" }
+                    when {changeset "${auth}/src/main/resources/authdb/**" }
                     steps {
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
@@ -39,7 +39,7 @@ pipeline {
                     }
                 }
                 stage("Convert db migration") {
-                    when {changeset "${convert}/src/main/resources/convertdb**" }
+                    when {changeset "${convert}/src/main/resources/convertdb/**" }
 
                     steps {
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
@@ -52,7 +52,7 @@ pipeline {
                     }
                 }
                 stage("History db migration") {
-                    when {changeset "${history}/src/main/resources/historydb**" }
+                    when {changeset "${history}/src/main/resources/historydb/**" }
                     steps {
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
