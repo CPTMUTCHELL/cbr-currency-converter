@@ -17,6 +17,8 @@ pipeline {
         pg_user = credentials('pg_user')
         pg_pass = credentials('pg_pass')
         ns = 'cbr'
+        def BUILDVERSION = sh(script: "echo `date +%Y%m%d%H%M%S`", returnStdout: true).trim()
+
     }
     parameters {
         booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
@@ -83,20 +85,18 @@ pipeline {
         stage("Build images") {
             stages {
                 stage("Auth image build") {
-//                     when {
-//                         anyOf {
-//                             changeset "${auth}/**"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${auth}/.*"') == 0
-//                             }
-//                             expression { return params.AUTH_IMAGE }
-//                         }
-//                     }
+                     when {
+                         anyOf {
+                             changeset "${auth}/**"
+                             changeset "pom.xml"
+                             expression { return params.AUTH_IMAGE }
+                         }
+                     }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
-                             bash ./docker.sh ${auth} v${BUILD_NUMBER}
+                             bash ./docker.sh ${auth} v${BUILDVERSION}
                              """
                         }
                         script {
@@ -105,23 +105,21 @@ pipeline {
                     }
                 }
                 stage("Convert image build") {
-//                     when {
-//                         anyOf {
-//                             changeset "${convert}/**"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${convert}/.*"') == 0
-//                             }
-//                             expression { return params.CONVERT_IMAGE }
-//
-//                         }
-//                     }
+                     when {
+                         anyOf {
+                             changeset "${convert}/**"
+                             changeset "pom.xml"
+                             expression { return params.CONVERT_IMAGE }
+
+                         }
+                     }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
 
 
-                             bash ./docker.sh ${convert} v${BUILD_NUMBER}
+                             bash ./docker.sh ${convert} v${BUILDVERSION}
                              """
                         }
                         script {
@@ -130,21 +128,20 @@ pipeline {
                     }
                 }
                 stage("History image build") {
-//                     when {
-//                         anyOf {
-//                             changeset "${history}/**"
-//                             expression {
-//                                 sh(returnStatus: true, script: 'git diff  origin/k8s --name-only | grep --quiet "^${history}/.*"') == 0
-//                             }
-//                             expression { return params.HISTORY_IMAGE }
-//                         }
-//                     }
+                     when {
+                         anyOf {
+                             changeset "${history}/**"
+                             changeset "pom.xml"
+
+                             expression { return params.HISTORY_IMAGE }
+                         }
+                     }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
 
-                             bash ./docker.sh ${history} v${BUILD_NUMBER}
+                             bash ./docker.sh ${history} v${BUILDVERSION}
                              """
                         }
                         script {
@@ -156,24 +153,7 @@ pipeline {
         }
 
 
-        stage("Helm") {
-            steps {
-                script {
-                    if (set =~ '--set [A-Za-z]') {
-                        set = set.substring(0, set.length() - 1);
-                        sh """
-                        cd k8s/helm
-                        eval ${set}
-                        """
-                    } else {
-                        sh """
-                            cd k8s/helm
-                            helm upgrade --install -n ${ns}  cbr ./cbr-converter-chart
-                        """
-                    }
-                }
-            }
-        }
+
     }
 }
 
