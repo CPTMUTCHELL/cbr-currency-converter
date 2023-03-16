@@ -26,7 +26,6 @@ spring:
 cbr.url: http://www.cbr.ru/scripts/XML_daily.asp
 history.url: http://localhost:8083
 
-
 rabbitmq:
   # false - disable rabbit and use restTemplate
   # true - enable rabbit convertAndSend instead of restTemplate
