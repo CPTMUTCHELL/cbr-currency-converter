@@ -14,7 +14,7 @@ pipeline {
         BUILD_VERSION = sh(script: "echo `date +%Y%m%d%H%M%S`", returnStdout: true).trim()
     }
     parameters {
-        booleanParam(name: 'BUULD_ALL', defaultValue: false, description: 'Build all services')
+        booleanParam(name: 'BUILD_ALL', defaultValue: false, description: 'Build all services')
     }
     stages {
 
