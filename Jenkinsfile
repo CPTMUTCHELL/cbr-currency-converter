@@ -17,14 +17,11 @@ pipeline {
         pg_user = credentials('pg_user')
         pg_pass = credentials('pg_pass')
         ns = 'cbr'
-        def BUILDVERSION = sh(script: "echo `date +%Y%m%d%H%M%S`", returnStdout: true).trim()
+        BUILD_VERSION = sh(script: "echo `date +%Y%m%d%H%M%S`", returnStdout: true).trim()
 
     }
     parameters {
-        booleanParam(name: 'AUTH_IMAGE', defaultValue: false, description: 'Build auth service docker image')
-        booleanParam(name: 'CONVERT_IMAGE', defaultValue: false, description: 'Build convert service docker image')
-        booleanParam(name: 'HISTORY_IMAGE', defaultValue: false, description: 'Build history service docker image')
-//         booleanParam(name: 'ALL', defaultValue: false, description: 'Run all stages')
+        booleanParam(name: 'BUULD_ALL', defaultValue: false, description: 'Build all services')
     }
     stages {
         stage("Create db") {
@@ -43,23 +40,61 @@ pipeline {
 
             }
         }
+        stage("Deploy migrations") {
+            parallel {
+                stage("Auth db migration") {
+                    when {changeset "${auth}/src/main/resources/authdb**" }
+                    steps {
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
+                           bash ./docker.sh flyway-authdb v1 ${auth}/flyway
+                           """
+                        }
 
+                    }
+                }
+                stage("Convert db migration") {
+                    when {changeset "${convert}/src/main/resources/convertdb**" }
+
+                    steps {
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
+                             bash ./docker.sh flyway-convertdb v1 ${convert}/flyway
+                            """
+
+                        }
+
+                    }
+                }
+                stage("History db migration") {
+                    when {changeset "${history}/src/main/resources/historydb**" }
+                    steps {
+                        withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
+                            sh """
+                               bash ./docker.sh flyway-historydb v1 ${history}/flyway
+
+                               """
+                        }
+                    }
+                }
+            }
+        }
 
         stage("Build images") {
             stages {
                 stage("Auth image build") {
-                     when {
-                         anyOf {
-                             changeset "${auth}/**"
-                             changeset "pom.xml"
-                             expression { return params.AUTH_IMAGE }
-                         }
-                     }
+                    when {
+                        anyOf {
+                            changeset "${auth}/**"
+                            changeset "pom.xml"
+                            expression { return params.BUILD_ALL }
+                        }
+                    }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
-                             bash ./docker.sh ${auth} v${BUILDVERSION}
+                             bash ./docker.sh ${auth} v${BUILD_VERSION}
                              """
                         }
                         script {
@@ -68,21 +103,21 @@ pipeline {
                     }
                 }
                 stage("Convert image build") {
-                     when {
-                         anyOf {
-                             changeset "${convert}/**"
-                             changeset "pom.xml"
-                             expression { return params.CONVERT_IMAGE }
+                    when {
+                        anyOf {
+                            changeset "${convert}/**"
+                            changeset "pom.xml"
+                            expression { return params.BUILD_ALL }
 
-                         }
-                     }
+                        }
+                    }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
 
 
-                             bash ./docker.sh ${convert} v${BUILDVERSION}
+                             bash ./docker.sh ${convert} v${BUILD_VERSION}
                              """
                         }
                         script {
@@ -91,20 +126,20 @@ pipeline {
                     }
                 }
                 stage("History image build") {
-                     when {
-                         anyOf {
-                             changeset "${history}/**"
-                             changeset "pom.xml"
+                    when {
+                        anyOf {
+                            changeset "${history}/**"
+                            changeset "pom.xml"
 
-                             expression { return params.HISTORY_IMAGE }
-                         }
-                     }
+                            expression { return params.BUILD_ALL }
+                        }
+                    }
                     steps {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
 
-                             bash ./docker.sh ${history} v${BUILDVERSION}
+                             bash ./docker.sh ${history} v${BUILD_VERSION}
                              """
                         }
                         script {
@@ -114,7 +149,6 @@ pipeline {
                 }
             }
         }
-
 
 
     }
