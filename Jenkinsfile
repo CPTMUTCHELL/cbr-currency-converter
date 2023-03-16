@@ -102,11 +102,11 @@ pipeline {
                             sh """
 
 
-                             bash ./docker.sh ${convert} v${BUILD_VERSION}
+                             bash ./docker.sh ${convert} ${BUILD_VERSION}
                              """
                         }
                         script {
-                            set = set + 'convert.tag=v${BUILD_NUMBER},'
+                            set = set + 'convert.tag=v$ {BUILD_NUMBER},'
                         }
                     }
                 }
@@ -124,7 +124,7 @@ pipeline {
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
 
-                             bash ./docker.sh ${history} v${BUILD_VERSION}
+                             bash ./docker.sh ${history} ${BUILD_VERSION}
                              """
                         }
                         script {
