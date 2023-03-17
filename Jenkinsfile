@@ -17,7 +17,8 @@ pipeline {
         pg_user = credentials('pg_user')
         pg_pass = credentials('pg_pass')
         ns = 'cbr'
-        BUILD_VERSION = "${GIT_BRANCH.split("/")[1]}"+"-"+"${GIT_COMMIT[0..7]}"+"-"+""+sh(script: "echo `date +%F.%H%M%S`", returnStdout: true).trim()
+        GIT = "${GIT_BRANCH.split("/")[1]}"+"-"+"${GIT_COMMIT[0..7]}"+"-"
+        BUILD_VERSION = ${GIT}+sh(script: "echo `date +%F.%H%M%S`", returnStdout: true).trim()
 
     }
     parameters {
