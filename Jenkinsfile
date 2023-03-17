@@ -11,7 +11,7 @@ pipeline {
         auth = 'auth-service'
         history = 'history-service'
         convert = 'convert-service'
-        BUILD_VERSION = "${GIT_BRANCH.split("/")[1]}"+"-"+"${GIT_COMMIT[0..7]}"+"-"
+        BUILD_VERSION = "${GIT_BRANCH.split("/")[1]}"+"-"+"${GIT_COMMIT[0..6]}"+"-"
         BUILD_VERSION1 = sh(script: "echo \$(date +%Y%m%d%H%M%S)", returnStdout: true).trim()
     }
     parameters {
