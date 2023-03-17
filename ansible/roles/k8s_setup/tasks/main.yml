@@ -1,5 +1,0 @@
-- include_tasks: Install-packages.yml
-- include_tasks: k3s-helm-install.yml
-- include_tasks: ca-playbook.yml
-- include_tasks: generate-kube-config.yaml
-

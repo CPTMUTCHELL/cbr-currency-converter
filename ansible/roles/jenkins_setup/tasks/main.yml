@@ -1,5 +1,0 @@
-- include_tasks: docker.yml
-- include_tasks: jenkins-start.yml
-- include_tasks: github-webhook.yml
-
-
