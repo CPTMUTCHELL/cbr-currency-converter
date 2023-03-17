@@ -11,7 +11,8 @@ pipeline {
         auth = 'auth-service'
         history = 'history-service'
         convert = 'convert-service'
-        BUILD_VERSION = sh(script: "echo `date +%Y%m%d%H%M%S`", returnStdout: true).trim()
+        BUILD_VERSION = "${GIT_BRANCH.split("/")[1]}"+"-"+"${GIT_COMMIT[0..7]}"+"-"
+        BUILD_VERSION1 = sh(script: "echo \$(date +%F.%H%M%S)", returnStdout: true).trim()
     }
     parameters {
         booleanParam(name: 'BUILD_ALL', defaultValue: false, description: 'Build all services')
@@ -72,7 +73,7 @@ pipeline {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
-                             bash ./docker.sh ${auth} v${BUILD_VERSION}
+                             bash ./docker.sh ${auth} ${BUILD_VERSION}${BUILD_VERSION1}
                              """
                         }
 
@@ -91,7 +92,7 @@ pipeline {
 
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
-                             bash ./docker.sh ${convert} ${BUILD_VERSION}
+                             bash ./docker.sh ${convert} ${BUILD_VERSION}${BUILD_VERSION1}
                              """
                         }
 
@@ -111,7 +112,7 @@ pipeline {
                         withDockerRegistry(credentialsId: registryCredential, url: 'https://index.docker.io/v1/') {
                             sh """
 
-                             bash ./docker.sh ${history} ${BUILD_VERSION}
+                             bash ./docker.sh ${history} ${BUILD_VERSION}${BUILD_VERSION1}
                              """
                         }
                     }
