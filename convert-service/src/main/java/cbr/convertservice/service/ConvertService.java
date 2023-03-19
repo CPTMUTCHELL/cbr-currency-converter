@@ -96,7 +96,7 @@ public class ConvertService {
          insertIfEmpty();
         }
 
-        return cbrRepo.findTop35ByOrderByDateDesc();
+        return cbrRepo.findTop44ByOrderByDateDesc();
     }
 
     private void save(Currency currency) {
