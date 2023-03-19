@@ -8,7 +8,7 @@ x-common-variables: &db-variables
   DB_HOST: 'cbr-converter'
 
 x-common-rabbit-variables: &rabbit-variables
-  RABBITMQ_ENABLE: 'true'
+  RABBITMQ_ENABLE: 'false'
   RABBITMQ_HOST: 'rabbitmq'
   RABBITMQ_PORT: '5672'
   RABBITMQ_USERNAME: 'cbr'
@@ -99,6 +99,10 @@ services:
       AUTH_PORT: 8081
       <<: *db-variables
       POSTGRES_AUTH_DB: 'auth_db'
+      VERIFICATION_LINK_EXPIRATION: '1440'
+      GMAIL_USERNAME: cbrconverter@gmail.com
+      GMAIL_PASSWORD: rqhylbwsgkenzevl
+      VERIFICATION_LINK: http://localhost:3000/?token=
     container_name: auth-service
     ports:
       - 8081:8081
