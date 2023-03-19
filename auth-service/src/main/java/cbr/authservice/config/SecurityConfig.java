@@ -28,8 +28,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
-
-
     @Autowired
     private AuthService userService;
     @Value(("${jwt.secret}"))
