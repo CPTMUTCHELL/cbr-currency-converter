@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/login","/token","/registration","/verification","/health/**").permitAll()
+                .antMatchers("/login","/token","/registration","/verification","/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(filter)

@@ -16,16 +16,18 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
-      base-path: /
-  security:
-    enabled: false
+        include: health,prometheus,metrics
   health:
     db:
       enabled: true
+
   endpoint:
     health:
       show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
 
 history.url: ${HISTORY_URL}
 rabbitmq:

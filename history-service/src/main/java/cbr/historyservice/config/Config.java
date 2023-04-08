@@ -45,7 +45,7 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
 //                .antMatchers("/history/**").hasAuthority("ADMIN")
-                .antMatchers("/health/**").permitAll()
+                .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
