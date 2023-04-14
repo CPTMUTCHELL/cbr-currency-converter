@@ -42,12 +42,17 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", example = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2xBIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTY2NTg1MjYwOX0.vRM86NrkT0qJZfA5sP_cdzbrXS8vla2s6afymwXipZk"),
     })
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<User> deleteUser(
-            @ApiParam(name = "User's id", value = "Deletes user by it's id", required = true)
-            @PathVariable int id) throws CustomException {
-        userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @ApiOperation(value = "Delete users by ids. Returns not deleted users")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK",response = UserRoleDto.class),
+            @ApiResponse(code = 500, message = "Internal error")
+    }
+    )
+    @DeleteMapping("/users")
+    public ResponseEntity<List<UserRoleDto>> deleteUsers(
+            @RequestBody List<Integer> ids) {
+
+        return new ResponseEntity<>( userService.deleteUsersByIds(ids),HttpStatus.OK);
     }
     @PutMapping("/roles")
     @ApiImplicitParams({

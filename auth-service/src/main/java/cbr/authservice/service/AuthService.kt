@@ -102,20 +102,32 @@ class AuthService @Autowired @Lazy constructor(
     fun findAll(): List<User> = userRepository.findAll()
 
 
-    @Throws(CustomException::class)
-    fun deleteUserById(id: Int) {
+    fun deleteUsersByIds(ids: List<Int>):List<UserRoleDto> {
+        val notDeletedUsers = ArrayList<UserRoleDto>()
+        ids.forEach { el->deleteUserById(el,notDeletedUsers) }
+        return notDeletedUsers
+    }
+
+    private fun deleteUserById(id: Int, notDeletedUsers:ArrayList<UserRoleDto>) : Boolean {
         val userToDelete: Optional<User> = userRepository.findById(id)
         if (userToDelete.isPresent) {
+            val user = userToDelete.get()
             val authentication = SecurityContextHolder.getContext().authentication
             val minRoleIdOfUser = getMinRoleIdOfUser(getUser(authentication.name))
-            val minRoleIdOfUserToDelete = getMinRoleIdOfUser(userToDelete.get())
-            if (minRoleIdOfUser < minRoleIdOfUserToDelete)
-                userRepository.delete(userToDelete.get())
-            else {
-                val msg = "insufficient rights to remove ${userToDelete.get().username}"
-                throw CustomException(msg, HttpStatus.UNAUTHORIZED, ErrorResponse(msg))
+            val minRoleIdOfUserToDelete = getMinRoleIdOfUser(user)
+            if (minRoleIdOfUser < minRoleIdOfUserToDelete){
+                userRepository.delete(user)
+                return true
             }
+            else {
+                val dto  =UserRoleDto()
+                dto.username= user.username
+                dto.roles=user.roles
+                notDeletedUsers.add(dto)
+            }
+
         }
+        return false
     }
 
     @Throws(CustomException::class)
